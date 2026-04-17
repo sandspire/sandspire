@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scattered Tablet Mockups</title>
+    <style>
+      :root {
+        --bg: #0e0e0e;
+        --panel: #151515;
+        --text: #f6f6f6;
+        --muted: #c9c9c9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at 20% 10%, #1c1c1c, var(--bg) 45%);
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+
+      .card {
+        width: min(1240px, 96vw);
+        min-height: 720px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        background: linear-gradient(145deg, #181818, #111);
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.4s ease;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+      }
+
+      .copy {
+        width: 32%;
+        padding: 52px 40px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .eyebrow {
+        color: #ff5c00;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 14px 0 8px;
+        font-size: clamp(2rem, 3.3vw, 3.5rem);
+        line-height: 0.95;
+      }
+
+      .sub {
+        margin: 0;
+        color: #f0f0f0;
+        font-size: clamp(1rem, 1.8vw, 1.8rem);
+        line-height: 1.15;
+        font-weight: 700;
+      }
+
+      .fan {
+        position: absolute;
+        inset: 0 0 0 30%;
+        overflow: visible;
+      }
+
+      .fan-inner {
+        position: absolute;
+        inset: 0;
+        transform: perspective(800px) rotateY(-5deg) rotateZ(-22deg);
+        transform-origin: 48% 56%;
+      }
+
+      .mockup {
+        --tx: 0px;
+        --ty: 0px;
+        position: absolute;
+        width: 220px;
+        height: 148px;
+        border-radius: 12px;
+        border: 8px solid #fff;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        background: #121212;
+        transform: translate(var(--tx), var(--ty)) translateZ(0);
+        transition: transform 0.42s ease;
+      }
+
+      .card:hover .mockup {
+        transform: translate(var(--tx), calc(var(--ty) - 8px)) translateZ(0);
+      }
+
+      .mockup:nth-child(1) {
+        transition-delay: 0s;
+      }
+      .mockup:nth-child(2) {
+        transition-delay: 0.05s;
+      }
+      .mockup:nth-child(3) {
+        transition-delay: 0.1s;
+      }
+      .mockup:nth-child(4) {
+        transition-delay: 0.15s;
+      }
+      .mockup:nth-child(5) {
+        transition-delay: 0.2s;
+      }
+      .mockup:nth-child(6) {
+        transition-delay: 0.25s;
+      }
+      .mockup:nth-child(7) {
+        transition-delay: 0.3s;
+      }
+
+      .site {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        font-weight: 700;
+      }
+
+      .site .top {
+        height: 22px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .site .hero {
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1.05;
+      }
+
+      .a {
+        --tx: 90px;
+        --ty: 350px;
+        border-color: #f5a623;
+        z-index: 2;
+      }
+      .a .site {
+        background: linear-gradient(160deg, #0d0d0d, #222);
+      }
+      .a .top {
+        color: #f5a623;
+      }
+      .a .hero {
+        color: #fff;
+      }
+
+      .b {
+        --tx: 180px;
+        --ty: 300px;
+        border-color: #4a7c59;
+        z-index: 3;
+      }
+      .b .site {
+        background: linear-gradient(150deg, #2e5d3a, #1f3e29);
+      }
+      .b .menu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 8px;
+      }
+      .b .menu div {
+        height: 44px;
+        border-radius: 8px;
+        background: linear-gradient(130deg, #b18f5a, #f2d4a2);
+      }
+
+      .c {
+        --tx: 270px;
+        --ty: 250px;
+        border-color: #2c5f8a;
+        z-index: 4;
+      }
+      .c .site {
+        background: linear-gradient(170deg, #f8f8f8, #ececec);
+        color: #222;
+      }
+      .c .top {
+        color: #2c5f8a;
+      }
+      .c .hero {
+        background: linear-gradient(140deg, #f5b9a5, #f0d4c2);
+        margin: 6px 8px;
+        border-radius: 10px;
+        font-size: 13px;
+      }
+
+      .d {
+        --tx: 360px;
+        --ty: 200px;
+        border-color: #c0392b;
+        z-index: 5;
+      }
+      .d .site {
+        background: #101010;
+      }
+      .d .hero {
+        color: #f8dc58;
+        font-size: 24px;
+      }
+
+      .e {
+        --tx: 450px;
+        --ty: 150px;
+        border-color: #e8d5a3;
+        z-index: 6;
+      }
+      .e .site {
+        background: linear-gradient(165deg, #5a2f1a, #a25d2f 45%, #291c14);
+      }
+      .e .hero {
+        color: #f6e8d0;
+      }
+
+      .f {
+        --tx: 540px;
+        --ty: 100px;
+        border-color: #8b4513;
+        z-index: 7;
+      }
+      .f .site {
+        background: linear-gradient(145deg, #cb2d3e, #ef5a8a 45%, #5a2540);
+      }
+      .f .hero {
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .g {
+        --tx: 640px;
+        --ty: 60px;
+        border-color: #2a2a2a;
+        z-index: 1;
+        width: 200px;
+        height: 130px;
+        opacity: 0.92;
+      }
+      .g .site {
+        background: linear-gradient(130deg, #0f0f0f, #2a2a2a);
+      }
+      .g .hero {
+        color: #f2f2f2;
+        font-size: 18px;
+      }
+
+      @media (max-width: 980px) {
+        .card {
+          min-height: 920px;
+        }
+        .copy {
+          width: 100%;
+          padding-bottom: 16px;
+        }
+        .fan {
+          inset: 250px 0 0 0;
+        }
+        .fan-inner {
+          transform: perspective(800px) rotateY(-4deg) rotateZ(-16deg) scale(0.9);
+          transform-origin: 50% 60%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="card" aria-label="Agency services scattered tablet mockups">
+      <div class="copy">
+        <div class="eyebrow">Agency Services</div>
+        <h1>What we do</h1>
+        <p class="sub">See real results you can measure</p>
+      </div>
+
+      <div class="fan">
+        <div class="fan-inner">
+          <article class="mockup a">
+            <div class="site">
+              <div class="top">Studio / Clay / Journal</div>
+              <div class="hero">Making<br />Complex.<br />Simple.</div>
+            </div>
+          </article>
+
+          <article class="mockup b">
+            <div class="site">
+              <div class="top">Menu / Plates / Chef</div>
+              <div class="menu">
+                <div></div><div></div><div></div><div></div><div></div><div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="mockup c">
+            <div class="site">
+              <div class="top">Coastal / Dining / Story</div>
+              <div class="hero">Minimal salmon tasting pages with clean editorial rhythm.</div>
+            </div>
+          </article>
+
+          <article class="mockup d">
+            <div class="site">
+              <div class="top">Tokyo / Night / Menu</div>
+              <div class="hero">Seriously Fun<br />Ramen&amp;Rolls.</div>
+            </div>
+          </article>
+
+          <article class="mockup e">
+            <div class="site">
+              <div class="top">Reserve / Signature / Kitchen</div>
+              <div class="hero">Restaurant hero blocks with rich food-led art direction.</div>
+            </div>
+          </article>
+
+          <article class="mockup f">
+            <div class="site">
+              <div class="top">Campaign / Identity / Launch</div>
+              <div class="hero">Bold color systems and typography-first storytelling.</div>
+            </div>
+          </article>
+
+          <article class="mockup g">
+            <div class="site">
+              <div class="top">Studio / Works / Contact</div>
+              <div class="hero">Film. Aest. Produ.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

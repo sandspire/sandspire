@@ -1,10 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf9;
-  --foreground: #1c1917;
-  --muted: #78716c;
-  --accent: #dc2626;
+  /* Sandspire branding guideline tokens */
+  --background: #faf3e8;
+  --foreground: #0d0d0d;
+  --muted: #999999;
+  --accent: #ff5e00;
+  --accent-secondary: #f7941d;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 }
 
 @theme inline {
@@ -12,20 +21,47 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #fafaf9;
+    --background: #0d0d0d;
+    --foreground: #faf3e8;
     --muted: #a8a29e;
-    --accent: #f87171;
+    --accent: #ff5e00;
+    --accent-secondary: #f7941d;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 57px));
+  }
+}
+
+.logo-marquee-track {
+  animation: logo-marquee 28s linear infinite;
 }

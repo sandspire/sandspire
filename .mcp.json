@@ -4,6 +4,14 @@
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
     },
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "figma-desktop": {
+      "type": "http",
+      "url": "http://127.0.0.1:3845/mcp"
+    },
     "sanity": {
       "type": "http",
       "url": "https://mcp.sanity.io"
