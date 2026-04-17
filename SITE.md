@@ -20,6 +20,23 @@
 - `AgentationProvider` - included by the app layout.
 
 ## Recent Changes
+- 2026-04-17: Updated `/work/slrp` result row so the left image now stretches to match the right image height (`h-full`) while preserving the current width split.
+- 2026-04-17: Made the right image in the `/work/slrp` result row wider again by changing the column split from `0.38/0.62` to `0.3/0.7`.
+- 2026-04-17: Increased the size of the two `/work/slrp` result images by expanding their row container max width from `560px` to `860px`.
+- 2026-04-17: Fixed root hydration mismatch warning by adding `suppressHydrationWarning` to the `<html>` element in `app/layout.tsx`, preventing client-side attribute injection differences from triggering runtime overlay errors.
+- 2026-04-17: Rebalanced the `/work/slrp` result image row to a wider right column (`0.38fr / 0.62fr`) so the right image takes more horizontal space while keeping the existing row height behavior and spacing.
+- 2026-04-17: Increased the `/work/slrp` “SLRP result detail one” image height to match the left result image while keeping the same column width.
+- 2026-04-17: Adjusted `/work/slrp` result image row sizing: reduced both result images to a smaller centered two-column block and added rounded corners to the “SLRP result detail one” image.
+- 2026-04-17: Removed the `/work/slrp` result metric number/text block entirely and simplified the section to title + editorial paragraph + two equal-height result images (`slrpBento5` and `slrpBento4`).
+- 2026-04-17: Updated `/work/slrp` visuals per latest QA: added left/right stroke on the portrait image, removed the metric card article wrappers in the result stats, and changed result row images to `slrpBento5` (hero) and `slrpBento4` (detail).
+- 2026-04-17: Applied another `/work/slrp` image-role pass: swapped portrait/supporting placements in the asymmetrical grid, moved the portrait asset to result level 1, and removed rounded corners from the result image row wrappers.
+- 2026-04-17: Applied `/work/slrp` polish updates: removed the top hero media drop shadow, switched the link glyph from a diagonal arrow to a short right arrow, removed rounding from the three result metric cards, and reassigned result/portrait image assets based on the latest content feedback.
+- 2026-04-17: Updated `/work/slrp` content structure again per QA: swapped visual roles in the asymmetrical image grid (portrait now dominant, supporting image reduced), rebuilt “The result” into a two-column heading/text layout, removed the extra “result detail two” image, and kept the remaining result images side by side underneath.
+- 2026-04-17: Redesigned `/work/slrp` case-study content into a cleaner editorial layout: light beige canvas, flat two-column challenge/solution typography, structured asymmetrical image grid, rebuilt centered results block, and removed the extra dark gallery section to reduce visual noise.
+- 2026-04-17: Centered the top `/work/slrp` split project grid and removed negative side offsets so the block no longer leaves redundant right-side space.
+- 2026-04-17: Updated `/work/slrp` hero intro per feedback: removed the standalone top title/description and external tag strip, then moved the project title and `Branding`/`Web Development` tags into the right project info panel.
+- 2026-04-17: Tweaked `/work/slrp` top project frame again: made the media frame much smaller in the split layout, kept rounded top corners (including top-right), and increased the SLRP header image negative bottom margin for a tighter crop.
+- 2026-04-17: Updated `/work/slrp` hero media to use `slrp_header.png` and increased the image negative bottom margin for a tighter flush fit in the top project card.
 - 2026-04-17: Applied `/work/slrp` spacing cleanup from QA: removed the right intro info panel border, removed bottom padding in the first bordered section, removed bottom padding from the left intro media card, and added negative bottom margin to the main SLRP image for a flush edge.
 - 2026-04-17: Corrected both `/work` wrapper closing tags together (header inner `</div>` and first content `</section>`) to fully resolve the repeated parse errors around lines 91 and 122.
 - 2026-04-17: Fixed another JSX mismatch in `/work` by changing the closing tag after the category pills from `</div>` to `</section>`, resolving the line-122 parse error.

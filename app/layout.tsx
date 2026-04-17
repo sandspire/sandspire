@@ -26,7 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${alexandria.variable} ${plusJakartaSans.variable}`}>
+    <html
+      lang="en"
+      className={`${alexandria.variable} ${plusJakartaSans.variable}`}
+      suppressHydrationWarning
+    >
       <body className="font-[family-name:var(--font-body)] antialiased">
         {children}
         <AgentationProvider />
