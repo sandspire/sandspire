@@ -20,6 +20,16 @@
 - `AgentationProvider` - included by the app layout.
 
 ## Recent Changes
+- 2026-04-17: Made the `/work/slrp` case-study section smaller again: reduced section vertical padding and container widths, tightened image block max widths/gaps, and lowered supporting/portrait image minimum heights for a more compact composition.
+- 2026-04-17: Adjusted `/work/slrp` asymmetrical image block alignment for tablet/desktop feedback: shifted the grid left (`ml-0 mr-auto`), increased inter-column spacing (`48px→64px`), and added slight left inset on the portrait column.
+- 2026-04-17: Scaled the `/work/slrp` image section down further per follow-up: reduced section/container widths and padding again, tightened the column gap slightly, and lowered image minimum heights (portrait `680→600`, supporting `280→240`).
+- 2026-04-17: Refined `/work/slrp` image section spacing and scale: increased left/right column separation to a wider editorial gap (`56px` on desktop), reduced overall section/container width and padding, and scaled image heights down (portrait `780→680`, supporting `320→280`) while preserving alignment and aspect behavior.
+- 2026-04-17: Changed `/work/slrp` portrait side borders to render outside the frame by replacing `border-x` with left/right hard box-shadows (`±128px`) so image width stays intact.
+- 2026-04-17: Increased the `/work/slrp` portrait visual side-only black borders by another 4x, from `32px` to `128px`.
+- 2026-04-17: Increased the `/work/slrp` portrait visual side-only black borders from `8px` to `32px` (4x thicker) while keeping top/bottom borderless.
+- 2026-04-17: Updated the `/work/slrp` portrait visual frame with thick black left/right-only borders (`8px`) while keeping top and bottom edges borderless.
+- 2026-04-17: Added consistent glass-style image framing across all `/work/slrp` visuals (translucent borders, subtle inner highlight, soft shadow, and slight backdrop blur) for a unified polished look.
+- 2026-04-17: Fixed homepage image sources: Web Design bento now loads marquee assets from `public/images/bento/`, and the “Crafting legacy for teams that scale” case rows now use `3fils_img`, `brixjourney_img`, and `slrp_img` from `public/images/projects/...`.
 - 2026-04-17: Updated `/work/slrp` result row so the left image now stretches to match the right image height (`h-full`) while preserving the current width split.
 - 2026-04-17: Made the right image in the `/work/slrp` result row wider again by changing the column split from `0.38/0.62` to `0.3/0.7`.
 - 2026-04-17: Increased the size of the two `/work/slrp` result images by expanding their row container max width from `560px` to `860px`.

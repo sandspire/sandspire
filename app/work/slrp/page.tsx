@@ -56,7 +56,7 @@ export default function SlrpWorkPage() {
         <section className="border-b border-white/10 pb-0 pt-14">
           <div className="mx-auto w-full max-w-[1220px] px-6 lg:px-10">
             <div className="mx-auto mt-12 grid w-full max-w-[995px] gap-0 lg:grid-cols-[0.73fr_330px] lg:items-stretch lg:justify-center">
-              <article className="overflow-hidden rounded-t-[20px] rounded-b-none border border-white/20 bg-[#181818] px-3 pb-0 pt-3">
+              <article className="overflow-hidden rounded-t-[20px] rounded-b-none border border-white/30 bg-white/10 px-3 pb-0 pt-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_30px_rgba(0,0,0,0.16)] backdrop-blur-[2px]">
                 <img
                   src="/images/projects/slrp/slrp_header.png"
                   alt="SLRP website visual"
@@ -117,9 +117,9 @@ export default function SlrpWorkPage() {
           </div>
         </section>
 
-        <section className="bg-[#EAE3D9] py-[120px] text-[#171513]">
-          <div className="mx-auto w-full max-w-[1160px] px-6 lg:px-10">
-            <div className="grid gap-[120px]">
+        <section className="bg-[#EAE3D9] py-[72px] text-[#171513]">
+          <div className="mx-auto w-full max-w-[940px] px-4 lg:px-6">
+            <div className="grid gap-[96px]">
               <div className="grid gap-8 md:grid-cols-[260px_minmax(0,70ch)] md:justify-between">
                 <h2 className="font-[family-name:var(--font-display)] text-[44px] font-light leading-[1.03] tracking-[-0.02em]">
                   The challenge
@@ -142,28 +142,28 @@ export default function SlrpWorkPage() {
                 </div>
               </div>
 
-              <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr]">
-                <div className="grid gap-8">
-                  <div className="overflow-hidden rounded-[14px]">
+              <div className="ml-0 mr-auto grid w-full max-w-[820px] gap-6 md:grid-cols-[0.8fr_1.2fr] md:items-stretch md:gap-[52px]">
+                <div className="grid gap-5">
+                  <div className="overflow-hidden rounded-[14px] border border-white/30 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_rgba(0,0,0,0.12)] backdrop-blur-[2px]">
                     <img
                       src="/images/projects/slrp/slrpBento1.png"
                       alt="SLRP dominant visual"
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <div className="overflow-hidden rounded-[14px]">
+                  <div className="overflow-hidden rounded-[14px] border border-white/30 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_rgba(0,0,0,0.12)] backdrop-blur-[2px]">
                     <img
                       src="/images/projects/slrp/slrpBento3.png"
                       alt="SLRP supporting visual"
-                      className="h-full min-h-[320px] w-full object-cover"
+                      className="h-full min-h-[210px] w-full object-cover"
                     />
                   </div>
                 </div>
-                <div className="overflow-hidden rounded-[14px] border-x border-[#D5CBBF]">
+                <div className="overflow-hidden rounded-[14px] bg-white/10 shadow-[128px_0_0_0_#000,-128px_0_0_0_#000,inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_rgba(0,0,0,0.12)] backdrop-blur-[2px] md:pl-2">
                   <img
                     src="/images/projects/slrp/slrpBento2.png"
                     alt="SLRP portrait visual"
-                    className="h-full min-h-[780px] w-full object-cover"
+                    className="h-full min-h-[520px] w-full object-cover"
                   />
                 </div>
               </div>
@@ -181,15 +181,15 @@ export default function SlrpWorkPage() {
                   </div>
                 </div>
 
-                <div className="mx-auto grid w-full max-w-[860px] gap-6 md:grid-cols-[0.3fr_0.7fr] md:items-stretch">
-                  <article className="overflow-hidden">
+                <div className="mx-auto grid w-full max-w-[720px] gap-5 md:grid-cols-[0.3fr_0.7fr] md:items-stretch">
+                  <article className="overflow-hidden rounded-[14px] border border-white/30 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_rgba(0,0,0,0.12)] backdrop-blur-[2px]">
                     <img
                       src="/images/projects/slrp/slrpBento5.png"
                       alt="SLRP result hero visual"
                       className="h-full w-full object-cover"
                     />
                   </article>
-                  <article className="overflow-hidden rounded-[14px]">
+                  <article className="overflow-hidden rounded-[14px] border border-white/30 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_rgba(0,0,0,0.12)] backdrop-blur-[2px]">
                     <img
                       src="/images/projects/slrp/slrpBento4.png"
                       alt="SLRP result detail one"

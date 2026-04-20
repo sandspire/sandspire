@@ -2,14 +2,14 @@ import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 
 export function ServicesBento() {
   const brandStrategyImages = [
-    "/images/Frame%201618872692-1.svg",
-    "/images/Frame%201618872694-1.svg",
-    "/images/Frame%201618872695-1.svg",
-    "/images/Frame%201618872693-1.svg",
-    "/images/Frame%201618872692.svg",
-    "/images/Frame%201618872694.svg",
-    "/images/Frame%201618872695.svg",
-    "/images/Frame%201618872693.svg",
+    "/images/bento/Frame%201618872692-1.svg",
+    "/images/bento/Frame%201618872694-1.svg",
+    "/images/bento/Frame%201618872695-1.svg",
+    "/images/bento/Frame%201618872693-1.svg",
+    "/images/bento/Frame%201618872692.svg",
+    "/images/bento/Frame%201618872694.svg",
+    "/images/bento/Frame%201618872695.svg",
+    "/images/bento/Frame%201618872693.svg",
   ];
 
   return (

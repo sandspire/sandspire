@@ -3,17 +3,17 @@ export function CaseStudies() {
     {
       title: "3 Fils",
       description: "Award-winning Asian restaurant.",
-      imageSrc: "/images/3fils_img.png",
+      imageSrc: "/images/projects/3fils/3fils_img.png",
     },
     {
-      title: "Brix",
+      title: "Brix Journey",
       description: "Cafe with a curated dessert dining experience.",
-      imageSrc: "/images/brix_img.png",
+      imageSrc: "/images/projects/brixjourney/brixjourney_img.png",
     },
     {
       title: "Slrp",
       description: "Japanese restaurant combining quality ingredients with a casual dining experience.",
-      imageSrc: "/images/slrp_img.png",
+      imageSrc: "/images/projects/slrp/slrp_img.png",
     },
   ];
 
