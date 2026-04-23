@@ -24,48 +24,56 @@ function getPillStyle(label: string) {
 const projects = [
   {
     title: "3 Fils",
+    slug: "3-fils",
     description: "Award-winning Asian restaurant.",
     imageSrc: "/images/projects/3fils/3fils_img.png",
     tags: ["Branding", "Web Development"],
   },
   {
     title: "Brix Journey",
+    slug: "brix-journey",
     description: "A premium dining journey and digital booking flow.",
     imageSrc: "/images/projects/brixjourney/brixjourney_img.png",
     tags: ["Branding", "Web Development"],
   },
   {
     title: "Slrp",
+    slug: "slrp",
     description: "Japanese concept with a bold modern identity.",
     imageSrc: "/images/projects/slrp/slrp_img.png",
     tags: ["Branding", "Web Development"],
   },
   {
     title: "Bordo Mavi",
+    slug: "bordo-mavi",
     description: "Mediterranean experience with immersive storytelling.",
     imageSrc: "/images/projects/bordomavi/bordomavi_img.png",
     tags: ["Branding", "Social Media"],
   },
   {
     title: "Brix Cafe",
+    slug: "brix-cafe",
     description: "Cafe identity, website, and campaign launch assets.",
     imageSrc: "/images/projects/brixcafe/brixcafe_img.png",
     tags: ["Branding", "Web Development"],
   },
   {
     title: "Konbini",
+    slug: "konbini",
     description: "Retail-inspired visual system and conversion pages.",
     imageSrc: "/images/projects/konbini/konbini_img.png",
     tags: ["Branding", "Web Development"],
   },
   {
     title: "Kanji",
+    slug: "kanji",
     description: "Editorial-inspired food brand with campaign rollout.",
     imageSrc: "/images/projects/kanji/kanji_img.png",
     tags: ["Branding"],
   },
   {
     title: "Brix",
+    slug: "brix",
     description: "Refined dessert-led brand and website refresh.",
     imageSrc: "/images/projects/brixcafe/brix_img.png",
     tags: ["Web Development"],
@@ -147,7 +155,7 @@ export default function WorkPage() {
                 </div>
 
                 <a
-                  href={project.title === "Slrp" ? "/work/slrp" : "/work/slrp"}
+                  href={`/work/${project.slug}`}
                   className="text-[12px] font-medium text-[#A9A095] underline underline-offset-4 hover:text-[#FAF3E8]"
                 >
                   View Project

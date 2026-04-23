@@ -1,0 +1,272 @@
+import { ContactFAQ } from "@/components/sandspire/ContactFAQ";
+import { SandspireHeader } from "@/components/sandspire/SandspireHeader";
+import { SiteFooter } from "@/components/sandspire/SiteFooter";
+
+const pillShadowByLabel: Record<string, string> = {
+  Branding: "0 0 5.14px rgba(247, 148, 29, 0.25)",
+  "Social Media": "0 0 5.14px rgba(247, 148, 29, 0.25)",
+  "Web Development": "0 0 5.14px rgba(247, 76, 29, 0.25)",
+};
+
+function pillShadow(label: string) {
+  return pillShadowByLabel[label] ?? pillShadowByLabel.Branding;
+}
+
+function TagPill({ label }: { label: string }) {
+  return (
+    <span
+      className="inline-flex h-8 items-center justify-center rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0]"
+      style={{ boxShadow: pillShadow(label) }}
+    >
+      {label}
+    </span>
+  );
+}
+
+function ExternalLinkGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="10"
+      height="10"
+      viewBox="0 0 10 10"
+      fill="none"
+      aria-hidden
+    >
+      <path
+        d="M8.5 5.5V8.5H1.5V1.5H4.5M6.5 1.5H8.5V3.5M4 6L8.5 1.5"
+        stroke="currentColor"
+        strokeWidth="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export type CaseStudyTemplateProps = {
+  serviceTags: string[];
+  fieldLabel: string;
+  industry: string;
+  locationLabel: string;
+  location: string;
+  about: string;
+  projectUrl: string;
+  ctaLabel: string;
+  challengeTitle: string;
+  challengeBody: string;
+  solutionTitle: string;
+  solutionBody: string;
+  resultTitle: string;
+  invertLogo: boolean;
+  heroSrc: string;
+  heroAlt: string;
+  logoSrc: string | null;
+  logoAlt: string;
+  wordmarkTitle: string;
+  galleryStackTopSrc: string;
+  galleryStackTopAlt: string;
+  galleryStackBottomSrc: string;
+  galleryStackBottomAlt: string;
+  galleryHeroTallSrc: string;
+  galleryHeroTallAlt: string;
+  resultWideSrc: string;
+  resultWideAlt: string;
+  resultTallSrc: string;
+  resultTallAlt: string;
+};
+
+export function CaseStudyTemplate({
+  serviceTags,
+  fieldLabel,
+  industry,
+  locationLabel,
+  location,
+  about,
+  projectUrl,
+  ctaLabel,
+  challengeTitle,
+  challengeBody,
+  solutionTitle,
+  solutionBody,
+  resultTitle,
+  invertLogo,
+  heroSrc,
+  heroAlt,
+  logoSrc,
+  logoAlt,
+  wordmarkTitle,
+  galleryStackTopSrc,
+  galleryStackTopAlt,
+  galleryStackBottomSrc,
+  galleryStackBottomAlt,
+  galleryHeroTallSrc,
+  galleryHeroTallAlt,
+  resultWideSrc,
+  resultWideAlt,
+  resultTallSrc,
+  resultTallAlt,
+}: CaseStudyTemplateProps) {
+  return (
+    <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
+      <SandspireHeader />
+
+      <main>
+        <section className="relative overflow-hidden border-b border-white/10">
+          <div className="pointer-events-none absolute inset-0 -z-10 rounded-b-[20px] bg-[#0d0d0d] md:mx-auto md:max-w-[1279px]">
+            <div
+              className="absolute -left-[20%] -top-[40%] h-[140%] w-[140%] opacity-[0.14] mix-blend-lighten"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 1px 1px, rgba(250,243,232,0.55) 1px, transparent 0)",
+                backgroundSize: "5px 5px",
+              }}
+            />
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[1220px] px-6 pb-0 pt-8 md:pt-12 lg:px-10">
+            <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-10 lg:flex-row lg:justify-center lg:gap-[72px] xl:gap-[100px]">
+              <div className="w-full max-w-[418px] shrink-0 rounded-t-[28px] bg-[rgba(217,217,217,0.2)] px-2 pb-0 pt-1">
+                <div className="relative aspect-[410/368] w-full overflow-hidden rounded-t-[24px]">
+                  <img
+                    src={heroSrc}
+                    alt={heroAlt}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="flex w-full max-w-[260px] flex-col gap-[22px] lg:shrink-0">
+                {logoSrc ? (
+                  <img
+                    src={logoSrc}
+                    alt={logoAlt}
+                    className={`h-[30px] w-auto max-w-[140px] object-contain object-left ${invertLogo ? "brightness-0 invert" : ""}`}
+                  />
+                ) : (
+                  <p className="font-[family-name:var(--font-display)] text-[26px] font-light leading-tight tracking-[-0.04em] text-[#e6ddd0]">
+                    {wordmarkTitle}
+                  </p>
+                )}
+                <div className="flex flex-wrap gap-2.5">
+                  {serviceTags.map((category) => (
+                    <TagPill key={category} label={category} />
+                  ))}
+                </div>
+                <div className="space-y-3.5 font-[family-name:var(--font-display)] text-[12.5px] font-light leading-[1.2]">
+                  <div>
+                    <p className="tracking-[-0.87px] text-[#818181]">
+                      {fieldLabel}
+                    </p>
+                    <p className="mt-2.5 tracking-[-0.5px] text-[#e6ddd0]">
+                      {industry}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="tracking-[-0.87px] text-[#818181]">
+                      {locationLabel}
+                    </p>
+                    <p className="mt-2.5 tracking-[-0.5px] text-[#e6ddd0]">
+                      {location}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="tracking-[-0.87px] text-[#818181]">About</p>
+                    <p className="mt-2.5 max-w-[249px] tracking-[-0.5px] text-[#e6ddd0]">
+                      {about}
+                    </p>
+                  </div>
+                </div>
+                <a
+                  href={projectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-8 w-fit items-center justify-center gap-2.5 rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0] transition hover:bg-[rgba(27,27,27,0.35)]"
+                  style={{ boxShadow: pillShadowByLabel["Web Development"] }}
+                >
+                  {ctaLabel}
+                  <ExternalLinkGlyph className="text-[#e6ddd0]" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#faf3e8] py-16 text-black md:py-[72px]">
+          <div className="mx-auto w-full max-w-[1220px] px-6 lg:px-10">
+            <div className="mx-auto flex w-full max-w-[773px] flex-col gap-[72px] md:gap-[88px]">
+              <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
+                <h2 className="shrink-0 font-[family-name:var(--font-display)] text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:text-[36px] md:leading-[45px]">
+                  {challengeTitle}
+                </h2>
+                <p className="max-w-[397px] text-[17px] leading-[1.67] text-[#171513] md:text-[18px] md:leading-[30px]">
+                  {challengeBody}
+                </p>
+              </div>
+
+              <div className="flex w-full flex-col gap-5 md:flex-row md:items-stretch md:gap-[21px]">
+                <div className="flex w-full flex-col gap-6 md:w-[255px] md:shrink-0">
+                  <div className="relative h-[164px] w-full overflow-hidden rounded-[14px] md:w-[255px]">
+                    <img
+                      src={galleryStackTopSrc}
+                      alt={galleryStackTopAlt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="relative h-[280px] w-full overflow-hidden rounded-[14px] md:h-[358px] md:w-[255px]">
+                    <img
+                      src={galleryStackBottomSrc}
+                      alt={galleryStackBottomAlt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="relative min-h-[360px] flex-1 overflow-hidden rounded-[14px] md:h-[547px] md:max-w-[498px]">
+                  <img
+                    src={galleryHeroTallSrc}
+                    alt={galleryHeroTallAlt}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
+                <h2 className="shrink-0 font-[family-name:var(--font-display)] text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:w-[232px] md:text-[36px] md:leading-[45px]">
+                  {solutionTitle}
+                </h2>
+                <p className="max-w-[397px] text-[17px] leading-[1.67] text-[#171513] md:text-[18px] md:leading-[30px]">
+                  {solutionBody}
+                </p>
+              </div>
+
+              <div className="flex w-full max-w-[774px] flex-col items-center gap-6">
+                <h2 className="w-full text-center font-[family-name:var(--font-display)] text-[32px] font-light tracking-[-1.13px] md:text-[36px] md:leading-[45px]">
+                  {resultTitle}
+                </h2>
+                <div className="flex w-full flex-col gap-4 md:flex-row md:items-start md:gap-[18px]">
+                  <div className="relative aspect-[502/353] w-full overflow-hidden rounded-[14px] md:aspect-auto md:h-[353px] md:w-[502px] md:max-w-[min(502px,100%)] md:shrink-0">
+                    <img
+                      src={resultWideSrc}
+                      alt={resultWideAlt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="relative mx-auto aspect-[254/345] w-full max-w-[254px] overflow-hidden rounded-[14px] md:mx-0 md:aspect-auto md:h-[345px] md:w-[254px] md:shrink-0">
+                    <img
+                      src={resultTallSrc}
+                      alt={resultTallAlt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <ContactFAQ />
+      <SiteFooter />
+    </div>
+  );
+}

@@ -12,21 +12,28 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:webpack": "next dev --webpack",
     "build": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "seed:sanity-case-studies": "npx tsx scripts/seed-case-studies.ts"
   },
   "dependencies": {
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^5.22.0",
     "agentation": "^3.0.1",
     "clsx": "^2.1.1",
     "motion": "^12.38.0",
     "next": "^16.2.3",
+    "next-sanity": "^12.3.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "sanity": "^5.22.0",
+    "styled-components": "^6.4.1",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {

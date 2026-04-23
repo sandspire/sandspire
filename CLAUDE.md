@@ -17,6 +17,11 @@ You are running inside the **Ship Studio app**, which handles the development en
 **If the user says they can't see their site or the preview isn't working:**
 > "Try clicking the **Projects** button in the top right corner to go back to the project list, then reopen your project. This restarts the preview."
 
+**If Turbopack panics** (missing `.sst` files under `.next/dev/cache/turbopack`, `Failed to write page endpoint /_app`):
+1. Stop all `next dev` processes (and any duplicate preview).
+2. Delete the cache: `rm -rf .next`
+3. Run `npm run dev` again. If it keeps happening, use **`npm run dev:webpack`** (webpack dev server instead of Turbopack).
+
 ---
 
 ## FIRST: Check for Onboarding

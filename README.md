@@ -14,7 +14,7 @@ Sandspire is a custom marketing website for a creative studio focused on brand s
 
 - `/` - Homepage
 - `/work` - Portfolio overview
-- `/work/slrp` - Detailed case study page
+- `/work/[slug]` - Case study pages (e.g. `/work/slrp`, `/work/3-fils`) — see `lib/caseStudyProjectDefaults.ts`
 - `/about` - Studio overview
 - `/contact` - Contact page and FAQ
 

@@ -15,14 +15,45 @@
 - Homepage (`/`) - Hero video, logo marquee, who we are, services bento, case studies, contact + FAQ, footer.
 - About (`/about`) - General about the studio (cream page, same typography and header as other inner pages).
 - Contact (`/contact`) - Full contact + FAQ block on a dedicated dark page with the shared top bar.
-- Work (`/work`) - Portfolio listing page with filters and project cards.
-- Work Project (`/work/slrp`) - Detailed SLRP case-study page with intro, challenge/solution/result storytelling, image galleries, and contact/footer sections.
+- Work (`/work`) - Portfolio listing; each card links to **`/work/{slug}`** (eight case studies: `3-fils`, `brix-journey`, `slrp`, `bordo-mavi`, `brix-cafe`, `konbini`, `kanji`, `brix`).
+- Case study pages (`/work/[slug]`) - Shared layout (Figma-style SLRP template): dark hero, optional Sanity copy/images, cream challenge/solution/result sections; defaults live in **`lib/caseStudyProjectDefaults.ts`**. SLRP keeps the full multi-image set; other projects reuse their card image in every slot until you upload assets in Sanity.
 
 ## Components
 - `AgentationProvider` - included by the app layout.
 - `ScrollReveal` - optional scroll-into-view fade-up for section content; respects reduced-motion preferences.
 
+## Sanity CMS (editable content)
+The site is wired for [Sanity](https://www.sanity.io/) with **Studio inside Next.js** at **`/studio`** (after env vars are set). Cloud project: open your [Sanity project getting started](https://www.sanity.io/organizations/osc7f1ee7/project/1fmk53vd/getting-started) (or **Sanity Manage** → **API**) to confirm **Project ID** and **dataset** (usually `production`).
+
+**Local setup**
+1. Copy **`.env.example`** to **`.env.local`** in the project root (same folder as `package.json`).
+2. Set **`NEXT_PUBLIC_SANITY_PROJECT_ID`** and **`NEXT_PUBLIC_SANITY_DATASET`** if they differ from the example file.
+3. Run **`npm run dev`** and open **`http://localhost:3000/studio`**, sign in with the same Sanity account, and create a **Homepage** document when prompted.
+4. In Sanity **Manage** → **API** → **CORS origins**, add `http://localhost:3000` (and your production URL when you deploy) so the browser can talk to the API.
+
+**Deploy:** Add the same `NEXT_PUBLIC_SANITY_*` variables to your host (e.g. Cloudflare **`.dev.vars`** / dashboard env) so builds don’t fail; the Studio bundle reads these at build time.
+
+**Code:** Client in `sanity/lib/client.ts`, config in `sanity.config.ts`, schemas in `sanity/schemaTypes/` (starter **Homepage** type with optional hero fields — homepage UI still uses static copy until you add GROQ fetches).
+
+### Case study in Sanity (all work projects)
+Each URL **`/work/{slug}`** loads a **`caseStudy`** document with the same **slug**. If the document is missing or a field is empty, the site uses **`lib/caseStudyProjectDefaults.ts`** for that slug.
+
+**Seed all eight documents at once (recommended):**
+1. In [Sanity Manage](https://www.sanity.io/manage) → your project → **API** → **Tokens**, create an **Editor** token.
+2. In the project root, set **`SANITY_API_WRITE_TOKEN`** (and keep `NEXT_PUBLIC_SANITY_*` loaded from `.env.local`).
+3. Run **`npm run seed:sanity-case-studies`**. This upserts documents with IDs `caseStudy-3-fils`, `caseStudy-slrp`, etc., filled with the same text as the code defaults (replace placeholder `https://example.com` URLs in Studio when you have real links).
+
+**Or create one by hand in Studio:** **Create** → **Case study** → **Slug** must match the route (e.g. `slrp`, `3-fils`, `brix-journey`). **Publish**, then reload the page ( **`revalidate = 60`** ).
+
+**Adding a new project later:** Add an entry to **`CASE_STUDY_PROJECTS`** in `lib/caseStudyProjectDefaults.ts`, add a card on **`/work`**, and re-run the seed (or create the doc in Studio).
+
 ## Recent Changes
+- 2026-04-23: **Work case studies:** Eight routes **`/work/{slug}`** share **`CaseStudyTemplate`** with defaults in **`lib/caseStudyProjectDefaults.ts`**; **`npm run seed:sanity-case-studies`** upserts matching **`caseStudy`** documents. Work listing **View Project** links go to each slug ( **`/work/slrp`** unchanged).
+- 2026-04-23: **Dev:** If Turbopack crashes with missing cache files under `.next`, delete **`.next`** and run **`npm run dev`** again; **`npm run dev:webpack`** uses webpack instead of Turbopack as a fallback.
+- 2026-04-23: **Sanity case study:** **`caseStudy`** document type; pages load from Sanity with code fallbacks; GROQ in **`sanity/lib/queries/caseStudy.ts`**; ISR **`revalidate = 60`**.
+- 2026-04-23: **Sanity:** Documented linking the repo to the Sanity cloud project; added **`.env.example`** (with `!.env.example` in gitignore so it can be committed), and a starter **`homepage`** schema so `/studio` has a first content type. The embedded Studio was already at `/studio`.
+- 2026-04-23: **SLRP page polish:** Cream block uses the same outer width and horizontal padding as the rest of the site (`max-w-[1220px]`, `px-6` / `lg:px-10`) with the case-study column centered inside; removed the image-row drop shadow; hero inner container no longer has bottom padding; “Visit Website” points to `https://www.slrpramen.com/`.
+- 2026-04-23: **SLRP page (`/work/slrp`):** Reworked to match Figma node **164-4853** — hero uses a subtle dot grid on charcoal, rounded tablet frame for `slrp_header`, inverted SLRP logo for contrast, Alexandria-style pills and metadata labels, external-link “Visit Website” control; middle gallery is `slrpBento3` over `slrpBento1` with a full-height `slrpBento2` beside them; “The result” is centered with a simple two-image row (`slrpBento4` + `slrpBento5`). Challenge/solution copy stays substantive single paragraphs.
 - 2026-04-23: **Cloudflare build:** the standard production build now produces the OpenNext worker bundle (not only a plain Next.js build), so the step that runs after the build on Cloudflare can find the worker and static assets. This avoids failed or stuck deploys when only `next build` had run before.
 - 2026-04-23: **Cloudflare deploy fix:** the project package name is aligned with the Cloudflare Worker name (`main-website`) and OpenNext/Wrangler config is committed so production deploys no longer fail on a worker self-reference mismatch.
 - 2026-04-23: **Scroll experience:** in-page anchor jumps use smooth scrolling when the visitor has not asked for reduced motion. Major blocks **fade and lift into view** as you scroll (hero copy + logo strip, who-we-are columns, services bento, work rows, contact vs FAQ, footer, about page sections, and work listing cards) via a shared `ScrollReveal` component; motion is disabled when `prefers-reduced-motion` is on.
