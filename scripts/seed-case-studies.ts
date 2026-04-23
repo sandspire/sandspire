@@ -45,6 +45,8 @@ async function main() {
       _type: "caseStudy" as const,
       internalTitle: p.internalTitle,
       slug: { _type: "slug" as const, current: p.slug },
+      heroImagePath: p.images.hero,
+      clientLogoPath: p.clientLogoPath,
       serviceTags: p.serviceTags,
       fieldLabel: p.fieldLabel,
       industry: p.industry,
@@ -58,6 +60,11 @@ async function main() {
       solutionTitle: p.solutionTitle,
       solutionBody: p.solutionBody,
       resultTitle: p.resultTitle,
+      galleryStackTopPath: p.images.galleryStackTop,
+      galleryStackBottomPath: p.images.galleryStackBottom,
+      galleryHeroTallPath: p.images.galleryHeroTall,
+      resultImageWidePath: p.images.resultWide,
+      resultImageTallPath: p.images.resultTall,
       invertClientLogo: p.invertClientLogo,
     };
 

@@ -1,4 +1,13 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
+
+const publicPathDescription =
+  'Optional `/public` asset path, for example `/images/projects/slrp/slrp_header.png`.';
+
+function validatePublicPath(value: unknown) {
+  if (!value) return true;
+  if (typeof value !== "string") return "Public asset paths must be strings";
+  return value.startsWith("/") ? true : "Public asset paths must start with /";
+}
 
 /**
  * One document per case-study page (e.g. slug "slrp" → /work/slrp).
@@ -32,11 +41,26 @@ export const caseStudy = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "heroImagePath",
+      title: "Hero image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
+    }),
+    defineField({
       name: "clientLogo",
       title: "Client logo",
       type: "image",
       description: "Optional. Prefer PNG/SVG on transparent background.",
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "clientLogoPath",
+      title: "Client logo path",
+      type: "string",
+      description:
+        "Optional `/public` logo path when the asset already lives in the Next.js app.",
+      validation: (Rule) => Rule.custom(validatePublicPath),
     }),
     defineField({
       name: "invertClientLogo",
@@ -50,7 +74,7 @@ export const caseStudy = defineType({
       name: "serviceTags",
       title: "Service tags (pills)",
       type: "array",
-      of: [{ type: "string" }],
+      of: [defineArrayMember({ type: "string" })],
       options: { layout: "tags" },
       validation: (Rule) => Rule.min(1).max(8),
       initialValue: ["Branding", "Web Development"],
@@ -137,10 +161,24 @@ export const caseStudy = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "galleryStackTopPath",
+      title: "Gallery — small top image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
+    }),
+    defineField({
       name: "galleryStackBottom",
       title: "Gallery — small bottom image (left column)",
       type: "image",
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "galleryStackBottomPath",
+      title: "Gallery — small bottom image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
     }),
     defineField({
       name: "galleryHeroTall",
@@ -149,16 +187,37 @@ export const caseStudy = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "galleryHeroTallPath",
+      title: "Gallery — tall image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
+    }),
+    defineField({
       name: "resultImageWide",
       title: "Result — wide image",
       type: "image",
       options: { hotspot: true },
     }),
     defineField({
+      name: "resultImageWidePath",
+      title: "Result — wide image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
+    }),
+    defineField({
       name: "resultImageTall",
       title: "Result — narrow image",
       type: "image",
       options: { hotspot: true },
+    }),
+    defineField({
+      name: "resultImageTallPath",
+      title: "Result — narrow image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
     }),
   ],
   preview: {

@@ -71,13 +71,6 @@ const projects = [
     imageSrc: "/images/projects/kanji/kanji_img.png",
     tags: ["Branding"],
   },
-  {
-    title: "Brix",
-    slug: "brix",
-    description: "Refined dessert-led brand and website refresh.",
-    imageSrc: "/images/projects/brixcafe/brix_img.png",
-    tags: ["Web Development"],
-  },
 ];
 
 export default function WorkPage() {

@@ -44,6 +44,18 @@ function ExternalLinkGlyph({ className }: { className?: string }) {
   );
 }
 
+function hasUsableProjectUrl(projectUrl: string) {
+  try {
+    const url = new URL(projectUrl);
+    return (
+      (url.protocol === "http:" || url.protocol === "https:") &&
+      url.hostname !== "example.com"
+    );
+  } catch {
+    return false;
+  }
+}
+
 export type CaseStudyTemplateProps = {
   serviceTags: string[];
   fieldLabel: string;
@@ -66,7 +78,7 @@ export type CaseStudyTemplateProps = {
   wordmarkTitle: string;
   galleryStackTopSrc: string;
   galleryStackTopAlt: string;
-  galleryStackBottomSrc: string;
+  galleryStackBottomSrc: string | null;
   galleryStackBottomAlt: string;
   galleryHeroTallSrc: string;
   galleryHeroTallAlt: string;
@@ -107,6 +119,9 @@ export function CaseStudyTemplate({
   resultTallSrc,
   resultTallAlt,
 }: CaseStudyTemplateProps) {
+  const showVisitButton = hasUsableProjectUrl(projectUrl);
+  const hasSecondGalleryImage = Boolean(galleryStackBottomSrc);
+
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
       <SandspireHeader />
@@ -177,16 +192,18 @@ export function CaseStudyTemplate({
                     </p>
                   </div>
                 </div>
-                <a
-                  href={projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-8 w-fit items-center justify-center gap-2.5 rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0] transition hover:bg-[rgba(27,27,27,0.35)]"
-                  style={{ boxShadow: pillShadowByLabel["Web Development"] }}
-                >
-                  {ctaLabel}
-                  <ExternalLinkGlyph className="text-[#e6ddd0]" />
-                </a>
+                {showVisitButton ? (
+                  <a
+                    href={projectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-8 w-fit items-center justify-center gap-2.5 rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0] transition hover:bg-[rgba(27,27,27,0.35)]"
+                    style={{ boxShadow: pillShadowByLabel["Web Development"] }}
+                  >
+                    {ctaLabel}
+                    <ExternalLinkGlyph className="text-[#e6ddd0]" />
+                  </a>
+                ) : null}
               </div>
             </div>
           </div>
@@ -205,21 +222,27 @@ export function CaseStudyTemplate({
               </div>
 
               <div className="flex w-full flex-col gap-5 md:flex-row md:items-stretch md:gap-[21px]">
-                <div className="flex w-full flex-col gap-6 md:w-[255px] md:shrink-0">
-                  <div className="relative h-[164px] w-full overflow-hidden rounded-[14px] md:w-[255px]">
+                <div
+                  className={`flex w-full flex-col md:w-[255px] md:shrink-0 ${hasSecondGalleryImage ? "gap-6" : "gap-0"}`}
+                >
+                  <div
+                    className={`relative w-full overflow-hidden rounded-[14px] md:w-[255px] ${hasSecondGalleryImage ? "h-[164px]" : "h-[280px] md:h-[358px]"}`}
+                  >
                     <img
                       src={galleryStackTopSrc}
                       alt={galleryStackTopAlt}
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                   </div>
-                  <div className="relative h-[280px] w-full overflow-hidden rounded-[14px] md:h-[358px] md:w-[255px]">
-                    <img
-                      src={galleryStackBottomSrc}
-                      alt={galleryStackBottomAlt}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  </div>
+                  {hasSecondGalleryImage ? (
+                    <div className="relative h-[280px] w-full overflow-hidden rounded-[14px] md:h-[358px] md:w-[255px]">
+                      <img
+                        src={galleryStackBottomSrc!}
+                        alt={galleryStackBottomAlt}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <div className="relative min-h-[360px] flex-1 overflow-hidden rounded-[14px] md:h-[547px] md:max-w-[498px]">
                   <img

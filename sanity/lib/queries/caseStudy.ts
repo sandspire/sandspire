@@ -1,4 +1,5 @@
 import type { SanityImageSource } from "@sanity/image-url";
+import { defineQuery } from "next-sanity";
 
 import { client } from "../client";
 
@@ -6,7 +7,9 @@ const caseStudyProjection = `{
   internalTitle,
   "slug": slug.current,
   heroImage,
+  heroImagePath,
   clientLogo,
+  clientLogoPath,
   invertClientLogo,
   serviceTags,
   fieldLabel,
@@ -22,17 +25,28 @@ const caseStudyProjection = `{
   solutionBody,
   resultTitle,
   galleryStackTop,
+  galleryStackTopPath,
   galleryStackBottom,
+  galleryStackBottomPath,
   galleryHeroTall,
+  galleryHeroTallPath,
   resultImageWide,
-  resultImageTall
+  resultImageWidePath,
+  resultImageTall,
+  resultImageTallPath
 }`;
+
+export const CASE_STUDY_BY_SLUG_QUERY = defineQuery(
+  `*[_type == "caseStudy" && slug.current == $slug][0] ${caseStudyProjection}`,
+);
 
 export type CaseStudyDocument = {
   internalTitle?: string;
   slug?: string;
   heroImage?: SanityImageSource;
+  heroImagePath?: string | null;
   clientLogo?: SanityImageSource;
+  clientLogoPath?: string | null;
   invertClientLogo?: boolean | null;
   serviceTags?: string[] | null;
   fieldLabel?: string | null;
@@ -48,17 +62,22 @@ export type CaseStudyDocument = {
   solutionBody?: string | null;
   resultTitle?: string | null;
   galleryStackTop?: SanityImageSource;
+  galleryStackTopPath?: string | null;
   galleryStackBottom?: SanityImageSource;
+  galleryStackBottomPath?: string | null;
   galleryHeroTall?: SanityImageSource;
+  galleryHeroTallPath?: string | null;
   resultImageWide?: SanityImageSource;
+  resultImageWidePath?: string | null;
   resultImageTall?: SanityImageSource;
+  resultImageTallPath?: string | null;
 } | null;
 
 export async function getCaseStudyBySlug(
   slug: string,
 ): Promise<CaseStudyDocument> {
   return client.fetch(
-    `*[_type == "caseStudy" && slug.current == $slug][0] ${caseStudyProjection}`,
+    CASE_STUDY_BY_SLUG_QUERY,
     { slug },
     { next: { tags: [`caseStudy:${slug}`] } },
   );

@@ -6,7 +6,7 @@
 export type CaseStudyImageSet = {
   hero: string;
   galleryStackTop: string;
-  galleryStackBottom: string;
+  galleryStackBottom: string | null;
   galleryHeroTall: string;
   resultWide: string;
   resultTall: string;
@@ -43,26 +43,37 @@ export type CaseStudyProjectDefaults = {
   };
 };
 
-function repeatCardImage(
-  path: string,
+function projectImagePath(folder: string, file: string) {
+  return `/images/projects/${folder}/${file}`;
+}
+
+function usePublicProjectAssets(
+  folder: string,
   name: string,
+  files: {
+    header: string;
+    phone: string;
+    accent: string;
+    website: string;
+    card: string;
+  },
 ): { images: CaseStudyImageSet; alts: CaseStudyProjectDefaults["alts"] } {
   return {
     images: {
-      hero: path,
-      galleryStackTop: path,
-      galleryStackBottom: path,
-      galleryHeroTall: path,
-      resultWide: path,
-      resultTall: path,
+      hero: projectImagePath(folder, files.header),
+      galleryStackTop: projectImagePath(folder, files.phone),
+      galleryStackBottom: null,
+      galleryHeroTall: projectImagePath(folder, files.website),
+      resultWide: projectImagePath(folder, files.card),
+      resultTall: projectImagePath(folder, files.accent),
     },
     alts: {
-      hero: `${name} project`,
-      galleryStackTop: `${name} detail`,
-      galleryStackBottom: `${name} brand`,
-      galleryHeroTall: `${name} showcase`,
-      resultWide: `${name} results`,
-      resultTall: `${name} lifestyle`,
+      hero: `${name} header preview`,
+      galleryStackTop: `${name} phone mockup`,
+      galleryStackBottom: `${name} accent composition`,
+      galleryHeroTall: `${name} website showcase`,
+      resultWide: `${name} case study cover`,
+      resultTall: `${name} brand detail`,
       clientLogo: name,
     },
   };
@@ -99,9 +110,16 @@ const UAE = "United Arab Emirates";
 
 export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
   (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/3fils/3fils_img.png",
+    const { images, alts } = usePublicProjectAssets(
+      "3fils",
       "3 Fils",
+      {
+        header: "3Fils Header.png",
+        phone: "3Fils Phone.png",
+        accent: "3Fils Accent.png",
+        website: "3Fils Website.png",
+        card: "3fils_img.png",
+      },
     );
     return {
       slug: "3-fils",
@@ -112,7 +130,7 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
       locationLabel: "Company Location",
       location: UAE,
       about: "Award-winning Asian restaurant with a loyal following and a menu built for sharing.",
-      projectUrl: "https://example.com",
+      projectUrl: "https://www.3fils.com/",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
       challengeBody: bodyChallenge("3 Fils"),
@@ -126,9 +144,16 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
     };
   })(),
   (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/brixjourney/brixjourney_img.png",
+    const { images, alts } = usePublicProjectAssets(
+      "brixjourney",
       "Brix Journey",
+      {
+        header: "Brix Journey Header.png",
+        phone: "Brix Journey Phone.png",
+        accent: "Brix Journey Accent.png",
+        website: "Brix Journey Website.png",
+        card: "brixjourney_img.png",
+      },
     );
     return {
       slug: "brix-journey",
@@ -140,7 +165,7 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
       location: UAE,
       about:
         "A premium dining journey and digital booking flow for guests who expect polish at every step.",
-      projectUrl: "https://example.com",
+      projectUrl: "https://www.brixjourney.com/",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
       challengeBody: bodyChallenge("Brix Journey"),
@@ -176,9 +201,16 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
     alts: SLRP_ALTS,
   },
   (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/bordomavi/bordomavi_img.png",
+    const { images, alts } = usePublicProjectAssets(
+      "bordomavi",
       "Bordo Mavi",
+      {
+        header: "Bordomavi Header.png",
+        phone: "Bordomavi Phone Mockup.png",
+        accent: "Bordomavi Accent.png",
+        website: "Bordomavi Website.png",
+        card: "bordomavi_img.png",
+      },
     );
     return {
       slug: "bordo-mavi",
@@ -190,7 +222,7 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
       location: UAE,
       about:
         "Mediterranean experience with immersive storytelling across social and digital touchpoints.",
-      projectUrl: "https://example.com",
+      projectUrl: "https://www.bordomavidubai.com/",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
       challengeBody: bodyChallenge("Bordo Mavi"),
@@ -204,9 +236,16 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
     };
   })(),
   (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/brixcafe/brixcafe_img.png",
+    const { images, alts } = usePublicProjectAssets(
+      "brixcafe",
       "Brix Cafe",
+      {
+        header: "Brix Cafe Header.png",
+        phone: "Brix Cafe Phone.png",
+        accent: "Brix Cafe Accent.png",
+        website: "Brix Cafe Website.png",
+        card: "brixcafe_img.png",
+      },
     );
     return {
       slug: "brix-cafe",
@@ -218,12 +257,12 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
       location: UAE,
       about:
         "Cafe identity, website, and campaign launch assets for a dessert-led neighborhood favorite.",
-      projectUrl: "https://example.com",
+      projectUrl: "https://www.brixtable.com/cafe",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
       challengeBody: bodyChallenge("Brix Cafe"),
       solutionTitle: "The solution",
-      solutionBody: bodySolution("Brix Cafe"),
+      solutionBody: bodySolution(),
       resultTitle: "The result",
       invertClientLogo: false,
       clientLogoPath: null,
@@ -232,9 +271,16 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
     };
   })(),
   (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/konbini/konbini_img.png",
+    const { images, alts } = usePublicProjectAssets(
+      "konbini",
       "Konbini",
+      {
+        header: "Konbini Header.png",
+        phone: "Konbini Phone.png",
+        accent: "Konbini Accent.png",
+        website: "Konbini Website.png",
+        card: "konbini_img.png",
+      },
     );
     return {
       slug: "konbini",
@@ -246,12 +292,12 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
       location: UAE,
       about:
         "Retail-inspired visual system and conversion pages built for quick decisions.",
-      projectUrl: "https://example.com",
+      projectUrl: "https://www.3fils.com/the-concepts/kombini",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
       challengeBody: bodyChallenge("Konbini"),
       solutionTitle: "The solution",
-      solutionBody: bodySolution("Konbini"),
+      solutionBody: bodySolution(),
       resultTitle: "The result",
       invertClientLogo: true,
       clientLogoPath: "/logos/konbini.svg",
@@ -260,9 +306,16 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
     };
   })(),
   (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/kanji/kanji_img.png",
+    const { images, alts } = usePublicProjectAssets(
+      "kanji",
       "Kanji",
+      {
+        header: "Kanji Header.png",
+        phone: "Kanji Phone.png",
+        accent: "Kanji Accent.png",
+        website: "Kanji Website.png",
+        card: "kanji_img.png",
+      },
     );
     return {
       slug: "kanji",
@@ -274,43 +327,15 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
       location: UAE,
       about:
         "Editorial-inspired food brand with a focused campaign rollout and distinctive art direction.",
-      projectUrl: "https://example.com",
-      ctaLabel: "Visit Website",
+      projectUrl: "https://www.instagram.com/eatkanji/",
+      ctaLabel: "Visit Instagram",
       challengeTitle: "The challenge",
       challengeBody: bodyChallenge("Kanji"),
       solutionTitle: "The solution",
-      solutionBody: bodySolution("Kanji"),
+      solutionBody: bodySolution(),
       resultTitle: "The result",
       invertClientLogo: true,
       clientLogoPath: "/logos/kanji.svg",
-      images,
-      alts,
-    };
-  })(),
-  (() => {
-    const { images, alts } = repeatCardImage(
-      "/images/projects/brixcafe/brix_img.png",
-      "Brix",
-    );
-    return {
-      slug: "brix",
-      internalTitle: "Brix",
-      serviceTags: ["Web Development"],
-      fieldLabel: "Field",
-      industry: "Hospitality",
-      locationLabel: "Company Location",
-      location: UAE,
-      about:
-        "Refined dessert-led brand and website refresh with a calmer, editorial pace.",
-      projectUrl: "https://example.com",
-      ctaLabel: "Visit Website",
-      challengeTitle: "The challenge",
-      challengeBody: bodyChallenge("Brix"),
-      solutionTitle: "The solution",
-      solutionBody: bodySolution("Brix"),
-      resultTitle: "The result",
-      invertClientLogo: true,
-      clientLogoPath: "/logos/brix.svg",
       images,
       alts,
     };
