@@ -2,6 +2,14 @@
   "name": "main-website",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanspire/sanspire.git"
+  },
+  "homepage": "https://github.com/sanspire/sanspire",
+  "bugs": {
+    "url": "https://github.com/sanspire/sanspire/issues"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "opennextjs-cloudflare build",
