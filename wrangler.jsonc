@@ -17,7 +17,7 @@
 	"services": [
 		{
 			"binding": "WORKER_SELF_REFERENCE",
-			"service": "main-website"
+			"service": "sandspire"
 		}
 	],
 	"images": {

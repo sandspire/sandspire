@@ -1,5 +1,4 @@
 import type { SanityImageSource } from "@sanity/image-url";
-import { defineQuery } from "next-sanity";
 import { cache } from "react";
 
 import { client } from "../client";
@@ -37,9 +36,8 @@ const caseStudyProjection = `{
   resultImageTallPath
 }`;
 
-export const CASE_STUDY_BY_SLUG_QUERY = defineQuery(
-  `*[_type == "caseStudy" && slug.current == $slug][0] ${caseStudyProjection}`,
-);
+export const CASE_STUDY_BY_SLUG_QUERY =
+  `*[_type == "caseStudy" && slug.current == $slug][0] ${caseStudyProjection}`;
 
 export type CaseStudyDocument = {
   internalTitle?: string;
