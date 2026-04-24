@@ -1,9 +1,12 @@
 // Cloudflare Workers / CI: you must run an OpenNext build before deploy.
 // • Two-step (recommended): Build command = "npm run build", Deploy = "npx wrangler deploy"
 // • Or one command: "npm run deploy" (or "npm run cf:workers") = build + deploy, no extra step
+//
+// Entry is `cf-worker-sentry.ts`: it re-exports OpenNext and wraps the default handler with
+// `@sentry/cloudflare` `withSentry` (see that file + `compatibility_flags` includes `nodejs_compat`).
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"main": ".open-next/worker.js",
+	"main": "cf-worker-sentry.ts",
 	"name": "sandspire",
 	"compatibility_date": "2026-04-23",
 	"compatibility_flags": [

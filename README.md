@@ -26,6 +26,7 @@ Sandspire is a custom marketing website for a creative studio focused on brand s
 - Tailwind CSS 4
 - Motion
 - OpenNext for Cloudflare deployment
+- Sentry for errors and performance: **`@sentry/nextjs`** in the app (set `NEXT_PUBLIC_SENTRY_DSN` / `SENTRY_DSN` — see [Next.js on Sentry](https://docs.sentry.io/platforms/javascript/guides/nextjs/)) and **`@sentry/cloudflare`** in **`cf-worker-sentry.ts`** (Worker env: same DSN; see [Sentry for Cloudflare Workers](https://docs.sentry.io/platforms/javascript/guides/cloudflare/))
 
 ## Cloudflare (Workers Builds / `wrangler deploy`)
 
@@ -33,6 +34,8 @@ If the deploy log says *Could not find compiled Open Next config, did you run th
 
 - **If your host has separate “Build” and “Deploy” steps:** set **Build** to `npm run build` and **Deploy** to `npx wrangler deploy` (or to `npx opennextjs-cloudflare deploy` after the same build).
 - **If you only have one deploy command:** set it to **`npm run deploy`** (same as **`npm run cf:workers`**) so OpenNext build runs before deploy.
+
+**Sentry on the Worker:** `wrangler.jsonc` **`main`** is **`cf-worker-sentry.ts`**, which wraps OpenNext’s **`.open-next/worker.js`** with **`@sentry/cloudflare` `withSentry`**. Set **`SENTRY_DSN`** or **`NEXT_PUBLIC_SENTRY_DSN`** on the Worker in the Cloudflare dashboard. **`nodejs_compat`** is already in **`compatibility_flags`** (needed for `AsyncLocalStorage`).
 
 ## Local Development
 
