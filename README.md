@@ -37,6 +37,10 @@ If the deploy log says *Could not find compiled Open Next config, did you run th
 
 **Sentry on the Worker:** `wrangler.jsonc` **`main`** is **`cf-worker-sentry.ts`**, which wraps OpenNext’s **`.open-next/worker.js`** with **`@sentry/cloudflare` `withSentry`**. Set **`SENTRY_DSN`** or **`NEXT_PUBLIC_SENTRY_DSN`** on the Worker in the Cloudflare dashboard. **`nodejs_compat`** is already in **`compatibility_flags`** (needed for `AsyncLocalStorage`).
 
+**Free Workers plan (3 MB gzip):** production **`next build`** (used by OpenNext) leaves **`@sentry/nextjs` `withSentryConfig` off** so the server bundle stays small; **`next dev`** still enables it. Set **`OPENNEXT_WITH_SENTRY=1`** (or run **`npm run build:with-sentry`**) for a full production bundle with `@sentry/nextjs` (e.g. paid 10 MB). The Worker entry **`cf-worker-sentry.ts`** can still send events with **`@sentry/cloudflare`** if a DSN is set.
+
+**Vercel OG (WASM):** production builds use **`npx next build --webpack`** with a **`NormalModuleReplacementPlugin`** so **`next/dist/compiled/@vercel/og`** is replaced by a tiny stub — that avoids `resvg` / `yoga` in the worker.
+
 ## Local Development
 
 1. Install dependencies:
