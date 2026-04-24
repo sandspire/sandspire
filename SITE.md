@@ -26,7 +26,7 @@
 The site is wired for [Sanity](https://www.sanity.io/). **The live site does not ship the full Studio UI** (that bundle is too large for Cloudflare’s server limits). **Edit content** in [Sanity Manage](https://www.sanity.io/manage), or run the full **Studio** on your computer: in the project folder use **`npx sanity dev`**, then open the URL it prints (the config is still at **`/studio`**). On the **public site**, **`/studio`** is a small page with the same links and instructions.
 
 **Local setup**
-1. Copy **`.env.example`** to **`.env.local`** in the project root (same folder as `package.json`).
+1. Copy **`.env.example`** to **`.env.local`** in the project root (same folder as `package.json`) for **`npm run dev`**. For **`npx sanity dev`**, the CLI usually reads **`.env`** (not `.env.local`); either copy the same vars into **`.env`** or rely on **defaults in `sanity/env.ts`** (same IDs as the example) so Studio starts without an extra file.
 2. Set **`NEXT_PUBLIC_SANITY_PROJECT_ID`** and **`NEXT_PUBLIC_SANITY_DATASET`** if they differ from the example file.
 3. For the **full** editing UI locally, run **`npx sanity dev`** and open the local Studio URL; sign in with the same Sanity account. To create a **Homepage** document, use the **Structure** or **Create** flow in that Studio.
 4. In Sanity **Manage** → **API** → **CORS origins**, add `http://localhost:3000` (and your production URL when you deploy) so the browser can talk to the API.
@@ -40,7 +40,7 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 
 **Seed all eight documents at once (recommended):**
 1. In [Sanity Manage](https://www.sanity.io/manage) → your project → **API** → **Tokens**, create an **Editor** token.
-2. In the project root, set **`SANITY_API_WRITE_TOKEN`** (and keep `NEXT_PUBLIC_SANITY_*` loaded from `.env.local`).
+2. In the project root, set **`SANITY_API_WRITE_TOKEN`** in **`.env`** or **`.env.local`**. (Optional: add `NEXT_PUBLIC_SANITY_*` from **`.env.example`** if you use a different project or dataset; otherwise the same defaults as **`sanity/env.ts`** are used.) The seed script loads those files with **`dotenv`**.
 3. Run **`npm run seed:sanity-work-projects`** (or **`npm run seed:sanity-case-studies`**, same script). This upserts documents with IDs `workProject-{slug}`, filled with the same text as the code defaults (replace placeholder `https://example.com` URLs in Studio when you have real links).
 
 **Or create one by hand in Studio:** **Create** → **Work project** → **Slug** must match the route (e.g. `slrp`, `3-fils`, `brix-journey`). **Publish**, then reload the page ( **`revalidate = 60`** ).
@@ -48,6 +48,7 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 **Adding a new project later:** Add an entry to **`WORK_PROJECTS`** in `lib/workProjectDefaults.ts` if you want a code fallback, or create only a **Work project** in Sanity (or both). The **`/work`** listing is driven from Sanity; re-run the seed if you use it to sync from code defaults.
 
 ## Recent Changes
+- 2026-04-24: **Sanity seed + `.env`:** The work-project seed script now loads **`.env`** and **`.env.local`** and uses the same project/dataset/API defaults as **`sanity/env.ts`**, so **`SANITY_API_WRITE_TOKEN`** alone is enough for **`npm run seed:sanity-work-projects`** when you point at the default project.
 - 2026-04-23: **Contact form:** **WhatsApp number** (required, text label only). **Message is optional** (up to 2,000 characters). **Client + API validation**; **`noValidate`** so fields aren’t red until **after a failed submit**; then invalid fields get a **rose border** and short inline errors. **POST `/api/contact`**; optional Resend / webhook in `.env`.
 - 2026-04-23: **`/work` filters:** Pills are **case-insensitive** vs project tags, sync with the URL as **`/work?category=…`**, and the bar scrolls horizontally on small screens. Empty filters show a short message. **Coming soon** page at **`/coming-soon`**; contact social icons and footer **Social** list link there until profiles launch (includes **X/Twitter** icon in the contact block).
 - 2026-04-23: **Home services bento (mobile + polish):** Removed the **orange accent lines** under card titles, added spacing between **Web Design** text and image, a bit more **section top padding** on small screens, and the **Social** video is **shorter and wider** on mobile. **Homepage** cream band and **#work** use **tighter top rounding** on mobile than desktop.

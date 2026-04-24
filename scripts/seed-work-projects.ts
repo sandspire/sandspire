@@ -2,28 +2,32 @@
  * Creates or replaces all work project documents from lib/workProjectDefaults.ts.
  *
  * Usage (from repo root):
- *   export SANITY_API_WRITE_TOKEN="your_token_with_editor_rights"
- *   npx tsx scripts/seed-work-projects.ts
+ *   Set SANITY_API_WRITE_TOKEN in .env or .env.local (see .env.example), then:
+ *   npm run seed:sanity-work-projects
  *
  * Token: https://www.sanity.io/manage → Project → API → Tokens (Editor).
- * Also load NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET
- * (e.g. `export $(grep -v '^#' .env.local | xargs)`).
+ * Project / dataset / API version default the same as `sanity/env.ts` if
+ * NEXT_PUBLIC_SANITY_* is unset.
  */
 
 import { createClient } from "@sanity/client";
+import { config } from "dotenv";
+import { resolve } from "node:path";
 
 import { WORK_PROJECTS } from "../lib/workProjectDefaults";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
-const token = process.env.SANITY_API_WRITE_TOKEN;
+config({ path: resolve(process.cwd(), ".env") });
+config({ path: resolve(process.cwd(), ".env.local"), override: true });
 
-if (!projectId || !dataset) {
-  console.error(
-    "Missing NEXT_PUBLIC_SANITY_PROJECT_ID or NEXT_PUBLIC_SANITY_DATASET",
-  );
-  process.exit(1);
-}
+const DEFAULT_PROJECT_ID = "1fmk53vd";
+const DEFAULT_DATASET = "production";
+
+const projectId =
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || DEFAULT_PROJECT_ID;
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || DEFAULT_DATASET;
+const apiVersion =
+  process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-23";
+const token = process.env.SANITY_API_WRITE_TOKEN;
 
 if (!token) {
   console.error("Missing SANITY_API_WRITE_TOKEN (Editor token)");
@@ -33,7 +37,7 @@ if (!token) {
 const client = createClient({
   projectId,
   dataset,
-  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-23",
+  apiVersion,
   token,
   useCdn: false,
 });

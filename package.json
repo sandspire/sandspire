@@ -24,13 +24,13 @@
     "seed:sanity-case-studies": "npx tsx scripts/seed-work-projects.ts"
   },
   "dependencies": {
+    "@sanity/client": "^7.21.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.22.0",
     "agentation": "^3.0.1",
     "clsx": "^2.1.1",
     "motion": "^12.38.0",
     "next": "^16.2.3",
-    "@sanity/client": "^7.21.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sanity": "^5.22.0",
@@ -48,6 +48,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "^16.2.3",
     "tailwindcss": "^4",
