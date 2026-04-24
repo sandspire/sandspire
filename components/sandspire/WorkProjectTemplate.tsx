@@ -56,7 +56,7 @@ function hasUsableProjectUrl(projectUrl: string) {
   }
 }
 
-export type CaseStudyTemplateProps = {
+export type WorkProjectTemplateProps = {
   serviceTags: string[];
   fieldLabel: string;
   industry: string;
@@ -85,7 +85,7 @@ export type CaseStudyTemplateProps = {
   resultTallAlt: string;
 };
 
-export function CaseStudyTemplate({
+export function WorkProjectTemplate({
   serviceTags,
   fieldLabel,
   industry,
@@ -112,7 +112,7 @@ export function CaseStudyTemplate({
   galleryHeroTallAlt,
   resultTallSrc,
   resultTallAlt,
-}: CaseStudyTemplateProps) {
+}: WorkProjectTemplateProps) {
   const showVisitButton = hasUsableProjectUrl(projectUrl);
   const hasSecondGalleryImage = Boolean(galleryStackBottomSrc);
 

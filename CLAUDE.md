@@ -25,7 +25,7 @@ You are running inside the **Ship Studio app**, which handles the development en
 **If the site never finishes loading** (browser spinner forever, or only one port responds):
 1. You may have **two** `next dev` instances or a **stuck** one. Stop every dev server (`lsof -i :3000` then `kill <PID>`, or quit Ship Studio preview and reopen).
 2. Remove **`rm -rf .next`** and start a **single** `npm run dev` (or `npm run dev:webpack`).
-3. Case study pages call Sanity; if the API hangs, the app **falls back to code defaults after ~12s** (see `sanity/lib/queries/caseStudy.ts`). Check `NEXT_PUBLIC_SANITY_*` in `.env.local` if timeouts appear in the terminal.
+3. Work project pages (`/work/[slug]`) call Sanity; if the API hangs, the app **falls back to code defaults after ~12s** (see `sanity/lib/queries/workProject.ts`). Check `NEXT_PUBLIC_SANITY_*` in `.env.local` if timeouts appear in the terminal.
 
 ---
 

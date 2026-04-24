@@ -10,12 +10,12 @@ function validatePublicPath(value: unknown) {
 }
 
 /**
- * One document per case-study page (e.g. slug "slrp" → /work/slrp).
- * Images are optional: when empty, the site uses built-in SLRP assets.
+ * One document per /work/[slug] page (e.g. slug "slrp" → /work/slrp).
+ * (Renamed from an earlier "case study" type; true case studies may be modeled separately later.)
  */
-export const caseStudy = defineType({
-  name: "caseStudy",
-  title: "Case study",
+export const workProject = defineType({
+  name: "workProject",
+  title: "Work project",
   type: "document",
   fields: [
     defineField({
@@ -32,6 +32,50 @@ export const caseStudy = defineType({
       description: 'Must match the URL segment (e.g. "slrp" for /work/slrp).',
       options: { source: "internalTitle", maxLength: 96 },
       validation: (Rule) => Rule.required(),
+    }),
+
+    defineField({
+      name: "workIndexOrder",
+      title: "Order on /work",
+      type: "number",
+      description: "Lower numbers appear first on the work listing. Default 0.",
+      initialValue: 0,
+    }),
+    defineField({
+      name: "showOnWorkIndex",
+      title: "Show on /work",
+      type: "boolean",
+      initialValue: true,
+      description:
+        "If off, this project is hidden from the work grid (the /work/slug page can still work).",
+    }),
+    defineField({
+      name: "listingTitle",
+      title: "Work listing — title",
+      type: "string",
+      description: "Optional. Card title; defaults to internal title if empty.",
+    }),
+    defineField({
+      name: "listingSummary",
+      title: "Work listing — short description",
+      type: "text",
+      rows: 2,
+      description:
+        "Card blurb on /work. If empty, the first line of the about paragraph is used when possible.",
+    }),
+    defineField({
+      name: "listingImage",
+      title: "Work listing — card image",
+      type: "image",
+      options: { hotspot: true },
+      description: "Optional. Falls back to the hero image or site defaults when empty.",
+    }),
+    defineField({
+      name: "listingImagePath",
+      title: "Work listing — card image path",
+      type: "string",
+      description: publicPathDescription,
+      validation: (Rule) => Rule.custom(validatePublicPath),
     }),
 
     defineField({
@@ -223,7 +267,7 @@ export const caseStudy = defineType({
   preview: {
     select: { title: "internalTitle", slug: "slug.current" },
     prepare({ title, slug }) {
-      return { title: title || "Case study", subtitle: slug ? `/${slug}` : "" };
+      return { title: title || "Work project", subtitle: slug ? `/${slug}` : "" };
     },
   },
 });

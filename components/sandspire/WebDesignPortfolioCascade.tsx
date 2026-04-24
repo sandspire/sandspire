@@ -13,11 +13,9 @@ type Props = {
   pauseOnHover?: boolean;
 };
 
-const TILE_W = 352;
-const TILE_H = 248;
-
 /**
  * 3D Marquee — horizontal scrolling rows with strong isometric tilt.
+ * On small viewports, tiles and overall scale are reduced; the frame uses full width (no side inset).
  */
 export function WebDesignPortfolioCascade({
   images,
@@ -37,7 +35,7 @@ export function WebDesignPortfolioCascade({
         transform: "rotateX(32deg) rotateY(-10deg) rotateZ(-10deg)",
         transformStyle: "preserve-3d",
       }}
-      className="flex w-max flex-col gap-6 py-2"
+      className="flex w-max max-md:gap-4 flex-col gap-6 py-1 max-md:py-0.5 md:py-2"
     >
       {rowArrays.map((rowImages, rowIdx) => {
         const reverse = rowIdx % 2 === 1;
@@ -47,7 +45,7 @@ export function WebDesignPortfolioCascade({
           <div
             key={rowIdx}
             className={cn(
-              "flex w-max flex-shrink-0 gap-6",
+              "flex w-max flex-shrink-0 gap-3 md:gap-6",
               pauseOnHover && "hover:[animation-play-state:paused]",
               reverse ? "animate-marquee-reverse" : "animate-marquee",
             )}
@@ -55,8 +53,7 @@ export function WebDesignPortfolioCascade({
             {loopImages.map((src, i) => (
               <div
                 key={`${src}-${i}`}
-                className="box-border flex-shrink-0 overflow-hidden rounded-xl border-[3px] border-solid border-white/25 shadow-[0_8px_22px_rgba(0,0,0,0.38),0_3px_8px_rgba(0,0,0,0.22)]"
-                style={{ width: TILE_W, height: TILE_H }}
+                className="box-border h-[110px] w-[156px] flex-shrink-0 overflow-hidden rounded-lg border-2 border-solid border-white/25 shadow-[0_5px_14px_rgba(0,0,0,0.32)] md:h-[248px] md:w-[352px] md:rounded-xl md:border-[3px] md:shadow-[0_8px_22px_rgba(0,0,0,0.38),0_3px_8px_rgba(0,0,0,0.22)]"
               >
                 <img
                   src={src}
@@ -74,26 +71,28 @@ export function WebDesignPortfolioCascade({
 
   return (
     <div
-      className={cn("relative h-full min-h-0 w-full overflow-hidden", className)}
+      className={cn(
+        "relative h-full min-h-0 w-full max-md:[perspective-origin:50%_42%] overflow-hidden md:[perspective-origin:15%_50%]",
+        className,
+      )}
       style={{
         perspective: "600px",
-        perspectiveOrigin: "15% 50%",
       }}
     >
+      {/* Full width on mobile; desktop keeps offset crop for the tilted stage */}
       <div
-        className="absolute overflow-hidden"
-        style={{
-          top: "-20%",
-          bottom: "-20%",
-          left: "20%",
-          right: "-15%",
-        }}
+        className="absolute max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:top-0 overflow-hidden md:bottom-[-20%] md:left-[20%] md:-right-[15%] md:top-[-20%]"
       >
         <div
           className="flex h-full w-full items-center justify-center"
           style={{ transformStyle: "preserve-3d" }}
         >
-          <div style={{ transform: "scale(1.08)", transformStyle: "preserve-3d" }}>{rowsEl}</div>
+          <div
+            className="origin-[48%_42%] [transform:scale(0.91)] will-change-transform md:origin-center md:[transform:scale(1.08)]"
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            {rowsEl}
+          </div>
         </div>
       </div>
     </div>

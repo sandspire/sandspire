@@ -3,7 +3,10 @@ import { cache } from "react";
 
 import { client } from "../client";
 
-const caseStudyProjection = `{
+/** GROQ: current `workProject` + legacy `caseStudy` until content is migrated in Sanity. */
+const WORK_DOC_TYPES = `["caseStudy", "workProject"]`;
+
+const workProjectProjection = `{
   internalTitle,
   "slug": slug.current,
   heroImage,
@@ -36,10 +39,10 @@ const caseStudyProjection = `{
   resultImageTallPath
 }`;
 
-export const CASE_STUDY_BY_SLUG_QUERY =
-  `*[_type == "caseStudy" && slug.current == $slug][0] ${caseStudyProjection}`;
+export const WORK_PROJECT_BY_SLUG_QUERY =
+  `*[_type in ${WORK_DOC_TYPES} && slug.current == $slug] | order(_type desc) [0] ${workProjectProjection}`;
 
-export type CaseStudyDocument = {
+export type WorkProjectDocumentFields = {
   internalTitle?: string;
   slug?: string;
   heroImage?: SanityImageSource;
@@ -70,22 +73,24 @@ export type CaseStudyDocument = {
   resultImageWidePath?: string | null;
   resultImageTall?: SanityImageSource;
   resultImageTallPath?: string | null;
-} | null;
+};
 
-const SANITY_CASE_STUDY_FETCH_MS = 12_000;
+export type WorkProjectDocument = WorkProjectDocumentFields | null;
 
-async function getCaseStudyBySlugImpl(
+const SANITY_WORK_FETCH_MS = 12_000;
+
+async function getWorkProjectBySlugImpl(
   slug: string,
-): Promise<CaseStudyDocument> {
+): Promise<WorkProjectDocumentFields | null> {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
   const timeoutPromise = new Promise<"timeout">((resolve) => {
-    timeoutId = setTimeout(() => resolve("timeout"), SANITY_CASE_STUDY_FETCH_MS);
+    timeoutId = setTimeout(() => resolve("timeout"), SANITY_WORK_FETCH_MS);
   });
 
   const fetchPromise = client.fetch(
-    CASE_STUDY_BY_SLUG_QUERY,
+    WORK_PROJECT_BY_SLUG_QUERY,
     { slug },
-    { next: { tags: [`caseStudy:${slug}`] } },
+    { next: { tags: [`workProject:${slug}`] } },
   );
 
   try {
@@ -93,7 +98,7 @@ async function getCaseStudyBySlugImpl(
     if (result === "timeout") {
       if (process.env.NODE_ENV === "development") {
         console.warn(
-          `[sandspire] Sanity case study fetch timed out (${SANITY_CASE_STUDY_FETCH_MS}ms, slug: ${slug}) — using code fallbacks.`,
+          `[sandspire] Work project Sanity fetch timed out (${SANITY_WORK_FETCH_MS}ms, slug: ${slug}) — using code fallbacks.`,
         );
       }
       return null;
@@ -101,7 +106,7 @@ async function getCaseStudyBySlugImpl(
     return result;
   } catch (err) {
     if (process.env.NODE_ENV === "development") {
-      console.warn(`[sandspire] Sanity case study fetch failed (${slug}):`, err);
+      console.warn(`[sandspire] Work project Sanity fetch failed (${slug}):`, err);
     }
     return null;
   } finally {
@@ -109,5 +114,4 @@ async function getCaseStudyBySlugImpl(
   }
 }
 
-/** Cached per request; avoids duplicate GROQ calls from generateMetadata + page. */
-export const getCaseStudyBySlug = cache(getCaseStudyBySlugImpl);
+export const getWorkProjectBySlug = cache(getWorkProjectBySlugImpl);

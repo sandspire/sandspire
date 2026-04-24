@@ -20,7 +20,8 @@
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "seed:sanity-case-studies": "npx tsx scripts/seed-case-studies.ts"
+    "seed:sanity-work-projects": "npx tsx scripts/seed-work-projects.ts",
+    "seed:sanity-case-studies": "npx tsx scripts/seed-work-projects.ts"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",

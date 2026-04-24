@@ -19,7 +19,7 @@ export function ServicesBento() {
   return (
     <section
       id="services"
-      className="mx-auto max-w-[1280px] px-6 py-12 lg:px-8 lg:py-16 xl:px-12"
+      className="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16 xl:px-12"
     >
       <ScrollReveal className="mx-auto w-full max-w-[1180px]">
         <p className="text-xs font-normal uppercase tracking-[0.14px] text-[var(--accent)]">
@@ -29,16 +29,15 @@ export function ServicesBento() {
           What we do
         </h2>
 
-        <div className="mt-10 grid gap-4 lg:grid-cols-1 lg:items-stretch xl:grid-cols-[minmax(0,760px)_minmax(252px,380px)] xl:gap-4 2xl:gap-5">
+        <div className="mt-8 max-md:pt-2 grid gap-4 lg:grid-cols-1 lg:items-stretch xl:mt-10 xl:grid-cols-[minmax(0,760px)_minmax(252px,380px)] xl:gap-4 2xl:gap-5">
           <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-5 self-stretch xl:h-full">
             <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 md:items-stretch">
               <ServiceMediaCard
                 className="h-full min-h-[360px] md:min-h-[400px]"
                 priceLine=""
                 title=""
-                topDivider
                 accent="from-[#A31F11]/80 to-[#FF5E00]/80"
-                titleClassName="max-w-[260px] font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]"
+                titleClassName="max-w-[260px] max-md:mb-4 font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]"
                 contentClassName="pb-[calc(1.5rem-18px)]"
                 titleNode={
                   <>
@@ -71,7 +70,6 @@ export function ServicesBento() {
                 className="h-full min-h-[320px] md:min-h-[380px]"
                 title="AI Automation"
                 priceLine="Starting from AED 10,000"
-                topDivider
                 patternImage={AI_DOT_MATRIX}
               >
                 <img
@@ -91,9 +89,8 @@ export function ServicesBento() {
               }}
             >
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.12),transparent_48%)]" />
-              <div className="relative flex min-h-0 flex-1 flex-col gap-4 p-5 pt-8 md:flex-row md:gap-0 md:pt-9">
-                <div className="shrink-0 md:max-w-[180px] md:pr-3">
-                  <div className="mb-5 h-px w-[min(309px,100%)] bg-[var(--accent)] md:mb-6" />
+              <div className="relative flex min-h-0 flex-1 flex-col gap-6 p-5 pt-8 max-md:gap-7 md:flex-row md:gap-0 md:pt-9">
+                <div className="shrink-0 max-md:mb-1 md:max-w-[180px] md:pr-3">
                   <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
                     Starting from AED 5,000
                   </p>
@@ -101,10 +98,10 @@ export function ServicesBento() {
                     Web Design
                   </h3>
                 </div>
-                <div className="relative min-h-[300px] flex-1 self-stretch overflow-hidden md:min-h-0">
+                <div className="relative min-h-[200px] w-full min-w-0 flex-1 self-stretch overflow-hidden max-md:-mx-5 max-md:mt-1 max-md:min-h-[220px] md:min-h-0">
                   <WebDesignPortfolioCascade
                     images={brandStrategyImages}
-                    className="absolute inset-0 min-h-[280px] md:min-h-0"
+                    className="absolute inset-0 min-h-[220px] md:min-h-0"
                     rows={3}
                     maxPerRow={2}
                   />
@@ -117,7 +114,6 @@ export function ServicesBento() {
             className="h-full min-h-[480px] w-full xl:min-h-[720px]"
             title="Social Media Marketing"
             priceLine="Starting from AED 5,000"
-            topDivider
             accent="from-[#1c0c08]/25 via-[#2a100a]/35 to-[#140505]/50"
             titleClassName="font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.15] tracking-[-0.02em] text-white md:text-[24px]"
             glassPanel
@@ -138,7 +134,7 @@ export function ServicesBento() {
                 <div className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_40%_60%,rgba(163,31,17,0.5)_0%,transparent_65%)]" />
               </div>
               <video
-                className="relative z-[1] mx-auto h-[min(560px,62vh)] w-[min(280px,82%)] shrink-0 rounded-[20px] object-cover object-bottom shadow-[0_3px_12px_rgba(0,0,0,0.44)] md:h-[560px] md:w-[280px]"
+                className="relative z-[1] mx-auto h-[min(360px,42vh)] w-[min(100%,100%)] max-w-[min(400px,92vw)] shrink-0 rounded-[20px] object-cover object-bottom shadow-[0_3px_12px_rgba(0,0,0,0.44)] sm:max-w-[min(420px,90%)] md:h-[560px] md:max-w-none md:w-[280px]"
                 src="/videos/InstagramViewsAnalytics.mp4"
                 poster="/images/InstagramViewsAnalyticsFallback2.png"
                 autoPlay
@@ -159,7 +155,6 @@ function ServiceMediaCard(props: {
   title: string;
   priceLine: string;
   accent?: string;
-  topDivider?: boolean;
   titleNode?: ReactNode;
   titleClassName?: string;
   glassPanel?: boolean;
@@ -176,7 +171,6 @@ function ServiceMediaCard(props: {
     title,
     priceLine,
     accent = "from-[#141414]/80 to-[#232323]/75",
-    topDivider,
     titleNode,
     titleClassName = "font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]",
     glassPanel,
@@ -226,7 +220,6 @@ function ServiceMediaCard(props: {
       <div
         className={`relative flex h-full min-h-0 flex-col p-5 pt-8 md:pt-9 ${footerBleed ? "min-h-[inherit] pb-0" : ""} ${contentClassName}`}
       >
-        {topDivider ? <div className="mb-5 h-px w-[min(309px,100%)] bg-[var(--accent)] md:mb-6" /> : null}
         {priceLine ? (
           <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
             {priceLine}
@@ -247,11 +240,10 @@ function ServiceInfoCard(props: {
   className?: string;
   title: string;
   priceLine: string;
-  topDivider?: boolean;
   patternImage?: string;
   children?: React.ReactNode;
 }) {
-  const { className = "", title, priceLine, topDivider, patternImage, children } = props;
+  const { className = "", title, priceLine, patternImage, children } = props;
 
   return (
     <div
@@ -283,7 +275,6 @@ function ServiceInfoCard(props: {
         </div>
       ) : null}
       <div className="relative flex h-full flex-col p-5 pt-8 md:pt-9">
-        {topDivider ? <div className="mb-5 h-px w-[min(309px,100%)] bg-[var(--accent)] md:mb-6" /> : null}
         {priceLine ? (
           <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
             {priceLine}
@@ -294,7 +285,7 @@ function ServiceInfoCard(props: {
             {title}
           </h3>
         ) : null}
-        <div className="mt-3 flex min-h-0 flex-1 flex-col items-center justify-center pb-2 md:mt-4 md:pb-3">
+        <div className="mt-3 flex min-h-0 max-md:mt-4 flex-1 flex-col items-center justify-center pb-2 md:mt-4 md:pb-3">
           {children}
         </div>
       </div>

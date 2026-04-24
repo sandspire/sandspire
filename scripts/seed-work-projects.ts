@@ -1,9 +1,9 @@
 /**
- * Creates or replaces all caseStudy documents from lib/caseStudyProjectDefaults.ts.
+ * Creates or replaces all work project documents from lib/workProjectDefaults.ts.
  *
  * Usage (from repo root):
  *   export SANITY_API_WRITE_TOKEN="your_token_with_editor_rights"
- *   npx tsx scripts/seed-case-studies.ts
+ *   npx tsx scripts/seed-work-projects.ts
  *
  * Token: https://www.sanity.io/manage → Project → API → Tokens (Editor).
  * Also load NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET
@@ -12,7 +12,7 @@
 
 import { createClient } from "@sanity/client";
 
-import { CASE_STUDY_PROJECTS } from "../lib/caseStudyProjectDefaults";
+import { WORK_PROJECTS } from "../lib/workProjectDefaults";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -39,10 +39,10 @@ const client = createClient({
 });
 
 async function main() {
-  for (const p of CASE_STUDY_PROJECTS) {
+  for (const p of WORK_PROJECTS) {
     const doc = {
-      _id: `caseStudy-${p.slug}`,
-      _type: "caseStudy" as const,
+      _id: `workProject-${p.slug}`,
+      _type: "workProject" as const,
       internalTitle: p.internalTitle,
       slug: { _type: "slug" as const, current: p.slug },
       heroImagePath: p.images.hero,
@@ -72,7 +72,7 @@ async function main() {
     console.log("Upserted", p.slug);
   }
 
-  console.log("Done. Open /studio → Case study to see all documents.");
+  console.log("Done. Open your Studio (npx sanity dev) → Work project.");
 }
 
 main().catch((e) => {

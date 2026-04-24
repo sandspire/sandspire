@@ -3,7 +3,7 @@
  * Single-image projects reuse their card image across hero / gallery / result slots.
  */
 
-export type CaseStudyImageSet = {
+export type WorkProjectImageSet = {
   hero: string;
   galleryStackTop: string;
   galleryStackBottom: string | null;
@@ -12,7 +12,7 @@ export type CaseStudyImageSet = {
   resultTall: string;
 };
 
-export type CaseStudyProjectDefaults = {
+export type WorkProjectDefaults = {
   slug: string;
   internalTitle: string;
   serviceTags: string[];
@@ -31,7 +31,7 @@ export type CaseStudyProjectDefaults = {
   invertClientLogo: boolean;
   /** `/public` path to SVG/PNG, or null to show wordmark text in the hero */
   clientLogoPath: string | null;
-  images: CaseStudyImageSet;
+  images: WorkProjectImageSet;
   alts: {
     hero: string;
     galleryStackTop: string;
@@ -57,7 +57,7 @@ function usePublicProjectAssets(
     website: string;
     card: string;
   },
-): { images: CaseStudyImageSet; alts: CaseStudyProjectDefaults["alts"] } {
+): { images: WorkProjectImageSet; alts: WorkProjectDefaults["alts"] } {
   return {
     images: {
       hero: projectImagePath(folder, files.header),
@@ -72,14 +72,14 @@ function usePublicProjectAssets(
       galleryStackTop: `${name} phone mockup`,
       galleryStackBottom: `${name} accent composition`,
       galleryHeroTall: `${name} website showcase`,
-      resultWide: `${name} case study cover`,
+      resultWide: `${name} project cover`,
       resultTall: `${name} brand detail`,
       clientLogo: name,
     },
   };
 }
 
-const SLRP_IMAGES: CaseStudyImageSet = {
+const SLRP_IMAGES: WorkProjectImageSet = {
   hero: "/images/projects/slrp/slrp_header.png",
   galleryStackTop: "/images/projects/slrp/slrpBento3.png",
   galleryStackBottom: "/images/projects/slrp/slrpBento1.png",
@@ -88,7 +88,7 @@ const SLRP_IMAGES: CaseStudyImageSet = {
   resultTall: "/images/projects/slrp/slrpBento5.png",
 };
 
-const SLRP_ALTS: CaseStudyProjectDefaults["alts"] = {
+const SLRP_ALTS: WorkProjectDefaults["alts"] = {
   hero: "SLRP website — Seriously Fun Ramen and Rolls",
   galleryStackTop: "SLRP mobile concepts",
   galleryStackBottom: "SLRP brand screen",
@@ -108,7 +108,7 @@ function bodySolution() {
 
 const UAE = "United Arab Emirates";
 
-export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
+export const WORK_PROJECTS: WorkProjectDefaults[] = [
   (() => {
     const { images, alts } = usePublicProjectAssets(
       "3fils",
@@ -343,13 +343,13 @@ export const CASE_STUDY_PROJECTS: CaseStudyProjectDefaults[] = [
 ];
 
 const bySlug = Object.fromEntries(
-  CASE_STUDY_PROJECTS.map((p) => [p.slug, p]),
-) as Record<string, CaseStudyProjectDefaults>;
+  WORK_PROJECTS.map((p) => [p.slug, p]),
+) as Record<string, WorkProjectDefaults>;
 
-export const CASE_STUDY_SLUGS = CASE_STUDY_PROJECTS.map((p) => p.slug);
+export const WORK_PROJECT_SLUGS = WORK_PROJECTS.map((p) => p.slug);
 
-export function getCaseStudyFallback(
+export function getWorkProjectFallback(
   slug: string,
-): CaseStudyProjectDefaults | undefined {
+): WorkProjectDefaults | undefined {
   return bySlug[slug];
 }

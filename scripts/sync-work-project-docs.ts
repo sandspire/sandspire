@@ -1,30 +1,31 @@
 import { getCliClient } from "sanity/cli";
 
-import { CASE_STUDY_PROJECTS } from "../lib/caseStudyProjectDefaults";
+import { WORK_PROJECTS } from "../lib/workProjectDefaults";
 
 const client = getCliClient({
   apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-23",
 });
 
-type ExistingCaseStudy = {
+type ExistingWorkDoc = {
   _id: string;
   slug?: string;
+  _type?: string;
 };
 
 async function main() {
-  const existing = await client.fetch<ExistingCaseStudy[]>(
-    `*[_type == "caseStudy"]{_id, "slug": slug.current}`,
+  const existing = await client.fetch<ExistingWorkDoc[]>(
+    `*[_type in ["caseStudy", "workProject"]]{_id, _type, "slug": slug.current}`,
   );
 
   const existingBySlug = new Map(
     existing
-      .filter((doc): doc is ExistingCaseStudy & { slug: string } => Boolean(doc.slug))
+      .filter((doc): doc is ExistingWorkDoc & { slug: string } => Boolean(doc.slug))
       .map((doc) => [doc.slug, doc]),
   );
 
   const transaction = client.transaction();
 
-  for (const project of CASE_STUDY_PROJECTS) {
+  for (const project of WORK_PROJECTS) {
     const existingDoc = existingBySlug.get(project.slug);
     if (!existingDoc) {
       console.log("Skipped missing document", project.slug);

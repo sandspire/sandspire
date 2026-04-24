@@ -1,12 +1,12 @@
 export const LogoMarquee = () => {
   const logos: { src: string; alt: string }[] = [
     { src: "/logos/3fils.svg", alt: "3 Fils" },
-    { src: "/logos/brix.svg", alt: "Brix" },
+    { src: "/logos/brix.svg", alt: "Brix Journey" },
     { src: "/logos/konbini.svg", alt: "Konbini" },
     { src: "/logos/slrp.svg", alt: "Slrp" },
     { src: "/logos/kanji.svg", alt: "Kanji" },
     { src: "/logos/bordomavi.svg", alt: "Bordo Mavi" },
-    { src: "/logos/brix.svg", alt: "Brix duplicate" },
+    { src: "/logos/brix.svg", alt: "Brix Journey" },
     { src: "/logos/konbini.svg", alt: "Konbini duplicate" },
   ];
 

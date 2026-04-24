@@ -11,7 +11,7 @@ export default function Home() {
       <Hero />
 
       {/* Cream band with large rounded top corners (matches Figma’s 336:1208 treatment). */}
-      <div className="relative mt-0 rounded-t-[70px] bg-[var(--background)] pt-[84px]">
+      <div className="relative mt-0 rounded-t-[32px] bg-[var(--background)] pt-16 sm:rounded-t-[48px] sm:pt-20 lg:rounded-t-[70px] lg:pt-[84px]">
         <main>
           <WhoIsSandspire />
           <ServicesBento />

@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { ContactForm } from "@/components/sandspire/ContactForm";
 import { FaqAccordion } from "@/components/sandspire/FaqAccordion";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
+import { COMING_SOON_HREF } from "@/lib/comingSoon";
 import { cn } from "@/lib/utils";
 
 type ContactFAQProps = {
@@ -54,20 +56,31 @@ export function ContactFAQ({ className }: ContactFAQProps) {
                   Whether you&apos;re starting from scratch or need a brand refresh, we&apos;re here to
                   help bring your vision to life.
                 </p>
+                <a
+                  href="tel:+971561980747"
+                  className="inline-flex text-[17px] font-medium leading-[1.45] text-[#faf3e8] transition-colors duration-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/50"
+                >
+                  +971 56 198 0747
+                </a>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <SocialIcon href="#" label="Instagram">
+              <SocialIcon href={COMING_SOON_HREF} label="Instagram">
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
                   <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="2" />
                   <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
                   <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" />
                 </svg>
               </SocialIcon>
-              <SocialIcon href="#" label="LinkedIn" variant="muted">
+              <SocialIcon href={COMING_SOON_HREF} label="LinkedIn" variant="muted">
                 <svg viewBox="0 0 24 24" className="h-[17px] w-[17px]" fill="currentColor" aria-hidden="true">
                   <path d="M6.5 8.5A1.5 1.5 0 1 0 6.5 5.5A1.5 1.5 0 0 0 6.5 8.5ZM5 10h3v9H5zM10 10h2.9v1.3h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.7 2 3.7 4.7V19h-3v-3.8c0-.9 0-2-1.2-2s-1.4.9-1.4 2V19h-3z" />
+                </svg>
+              </SocialIcon>
+              <SocialIcon href={COMING_SOON_HREF} label="X (Twitter)" variant="muted">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M18.205 2.25h3.308l-7.227 8.26 8.502 11.24H16.13l-5.214-6.817L4.95 21.75H1.64l7.73-8.835L1.215 2.25H8.04l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z" />
                 </svg>
               </SocialIcon>
             </div>
@@ -106,15 +119,21 @@ function SocialIcon({
   children: React.ReactNode;
   variant?: "default" | "muted";
 }) {
+  const className = [
+    "inline-flex size-[50px] items-center justify-center rounded-[32px] text-[#faf3e8] transition-all duration-200 ease-out hover:scale-110 hover:ring-2 hover:ring-white/20 active:scale-95",
+    variant === "muted" ? "bg-[rgba(13,13,13,0.4)]" : "bg-black/30 ring-1 ring-white/10",
+  ].join(" ");
+
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} aria-label={label} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <a
-      href={href}
-      aria-label={label}
-      className={[
-        "inline-flex size-[50px] items-center justify-center rounded-[32px] text-[#faf3e8] transition-all duration-200 ease-out hover:scale-110 hover:ring-2 hover:ring-white/20 active:scale-95",
-        variant === "muted" ? "bg-[rgba(13,13,13,0.4)]" : "bg-black/30 ring-1 ring-white/10",
-      ].join(" ")}
-    >
+    <a href={href} aria-label={label} className={className}>
       {children}
     </a>
   );

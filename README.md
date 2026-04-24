@@ -6,7 +6,7 @@ Sandspire is a custom marketing website for a creative studio focused on brand s
 
 - A full-screen homepage hero with motion background and service overview
 - A services section covering brand strategy, web design, social media marketing, and AI automation
-- A selected work page with portfolio cards and case study previews
+- A selected work page with portfolio cards and work previews
 - Dedicated `About` and `Contact` pages
 - A contact section with FAQ content and a styled inquiry form
 
@@ -14,7 +14,7 @@ Sandspire is a custom marketing website for a creative studio focused on brand s
 
 - `/` - Homepage
 - `/work` - Portfolio overview
-- `/work/[slug]` - Case study pages (e.g. `/work/slrp`, `/work/3-fils`) — see `lib/caseStudyProjectDefaults.ts`
+- `/work/[slug]` - Work project pages (e.g. `/work/slrp`, `/work/3-fils`) — see `lib/workProjectDefaults.ts`
 - `/about` - Studio overview
 - `/contact` - Contact page and FAQ
 
