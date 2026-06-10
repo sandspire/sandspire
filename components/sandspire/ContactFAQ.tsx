@@ -7,10 +7,19 @@ import { cn } from "@/lib/utils";
 
 type ContactFAQProps = {
   className?: string;
+  /** `home2` matches Figma MacBook Air 14 — no orange “Contact us” label, serif FAQ title. */
+  variant?: "default" | "home2";
+  faqItems?: Array<{ question: string; answer: string }>;
+  contactMoreQuestionsHref?: string;
 };
 
-export function ContactFAQ({ className }: ContactFAQProps) {
-  const faqItems = [
+export function ContactFAQ({
+  className,
+  variant = "default",
+  faqItems: faqItemsProp,
+  contactMoreQuestionsHref = "#contact",
+}: ContactFAQProps) {
+  const faqItemsDefault = [
     {
       question: "How long does a project take?",
       answer:
@@ -33,6 +42,9 @@ export function ContactFAQ({ className }: ContactFAQProps) {
     },
   ];
 
+  const faqItems = faqItemsProp ?? faqItemsDefault;
+  const isHome2 = variant === "home2";
+
   return (
     <section
       id="contact"
@@ -45,11 +57,19 @@ export function ContactFAQ({ className }: ContactFAQProps) {
         <ScrollReveal className="flex w-full flex-col items-start justify-between gap-12 lg:flex-row lg:gap-8">
           <div className="flex w-full max-w-[508px] flex-col gap-16 lg:gap-24">
             <div className="flex flex-col gap-1.5">
-              <p className="font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.4] tracking-[-0.03em] text-[#ff5e00]">
-                Contact us
-              </p>
+              {!isHome2 ? (
+                <p className="font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.4] tracking-[-0.03em] text-[#ff5e00]">
+                  Contact us
+                </p>
+              ) : null}
               <div className="flex flex-col gap-8">
-                <h2 className="font-[family-name:var(--font-body)] text-[32px] font-light leading-[1.08] tracking-[-0.02em] text-[#faf3e8] lg:text-[34px]">
+                <h2
+                  className={
+                    isHome2
+                      ? "font-[family-name:var(--font-body)] text-[32px] font-medium leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[38px]"
+                      : "font-[family-name:var(--font-body)] text-[32px] font-light leading-[1.08] tracking-[-0.02em] text-[#faf3e8] lg:text-[34px]"
+                  }
+                >
                   Let&apos;s Create Something Meaningful
                 </h2>
                 <p className="max-w-[320px] text-[17px] font-normal leading-[1.45] text-[#818181]">
@@ -92,12 +112,18 @@ export function ContactFAQ({ className }: ContactFAQProps) {
         </ScrollReveal>
 
         <ScrollReveal className="flex w-full flex-col items-center gap-16 lg:gap-14" delay={0.12}>
-          <h3 className="text-center font-[family-name:var(--font-body)] text-[clamp(1.65rem,4vw,2.5rem)] font-light leading-tight tracking-[-0.02em] text-[#e6ddd0]">
+          <h3
+            className={
+              isHome2
+                ? "text-center font-[family-name:var(--font-serif-section)] text-[clamp(1.75rem,4vw,3rem)] font-normal italic leading-tight tracking-[-0.02em] text-[#e6ddd0]"
+                : "text-center font-[family-name:var(--font-body)] text-[clamp(1.65rem,4vw,2.5rem)] font-light leading-tight tracking-[-0.02em] text-[#e6ddd0]"
+            }
+          >
             Frequently Asked Questions
           </h3>
           <FaqAccordion items={faqItems} />
           <a
-            href="#contact"
+            href={contactMoreQuestionsHref}
             className="text-center font-[family-name:var(--font-body)] text-sm font-light tracking-[-0.02em] text-[#e6ddd0] underline decoration-solid underline-offset-4 transition-colors duration-200 hover:text-white"
           >
             Have more questions? Contact us

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Alexandria, Plus_Jakarta_Sans } from "next/font/google";
+import { Alexandria, Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { AgentationProvider } from "@/components/AgentationProvider";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const alexandria = Alexandria({
   subsets: ["latin"],
@@ -28,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${alexandria.variable} ${plusJakartaSans.variable}`}
+      className={cn(alexandria.variable, plusJakartaSans.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
       <body className="font-[family-name:var(--font-body)] antialiased">

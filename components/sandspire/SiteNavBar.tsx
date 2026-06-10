@@ -60,7 +60,10 @@ export type SiteNavBarProps = {
   /** Classes on the root `<header>` (height, background, padding). */
   className: string;
   ctaHref?: string;
+  ctaLabel?: string | null;
   logoLoading?: "eager" | "lazy";
+  logoHref?: string;
+  links?: { label: string; href: string }[];
 };
 
 /**
@@ -70,7 +73,10 @@ export type SiteNavBarProps = {
 export function SiteNavBar({
   className,
   ctaHref = "/contact",
+  ctaLabel = "Get in touch",
   logoLoading = "lazy",
+  logoHref = "/",
+  links = sandspireNavLinks,
 }: SiteNavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [panelTop, setPanelTop] = useState(0);
@@ -103,7 +109,7 @@ export function SiteNavBar({
     >
       <div className="relative mx-auto flex h-full w-full max-w-[1220px] items-center justify-between gap-3">
         <Link
-          href="/"
+          href={logoHref}
           aria-label="Go to homepage"
           className="shrink-0 transition-opacity duration-200 hover:opacity-80 active:opacity-70"
           onClick={() => setMenuOpen(false)}
@@ -122,7 +128,7 @@ export function SiteNavBar({
           className="hidden items-center justify-center gap-[38px] md:flex"
           aria-label="Main"
         >
-          {sandspireNavLinks.map((link) => (
+          {links.map((link) => (
             <Link key={link.label} href={link.href} className={navLinkClass}>
               {link.label}
             </Link>
@@ -130,13 +136,15 @@ export function SiteNavBar({
         </nav>
 
         <div className="flex min-w-0 items-center justify-end gap-2">
-          <Link
-            href={ctaHref}
-            className="inline-flex h-9 min-w-0 shrink items-center rounded-full bg-[var(--background)] px-3 text-[12px] font-medium text-[var(--foreground)] shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_8px_28px_rgba(0,0,0,0.18)] active:translate-y-0 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/60 sm:px-5"
-            onClick={() => setMenuOpen(false)}
-          >
-            Get in touch
-          </Link>
+          {ctaLabel ? (
+            <Link
+              href={ctaHref}
+              className="inline-flex h-9 min-w-0 shrink items-center rounded-full bg-[var(--background)] px-3 text-[12px] font-medium text-[var(--foreground)] shadow-[0_4px_20px_rgba(0,0,0,0.12)] transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_8px_28px_rgba(0,0,0,0.18)] active:translate-y-0 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/60 sm:px-5"
+              onClick={() => setMenuOpen(false)}
+            >
+              {ctaLabel}
+            </Link>
+          ) : null}
 
           <button
             type="button"
@@ -188,7 +196,7 @@ export function SiteNavBar({
                 transition={transition}
               >
                 <div className="px-1 pb-1 pt-2 sm:px-2 sm:pb-2 sm:pt-3">
-                  {sandspireNavLinks.map((link) => (
+                  {links.map((link) => (
                     <Link
                       key={link.label}
                       href={link.href}

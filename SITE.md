@@ -9,16 +9,20 @@
   - Secondary accent: `--accent-secondary` (`#F7941D`)
   - Neutrals: `--background` (`#FAF3E8`), `--foreground` (`#0D0D0D`), `--muted` (`#999999`)
   - Functional: `--success` (`#10B981`), `--warning` (`#F59E0B`), `--error` (`#EF4444`)
-- Fonts: `Alexandria` (display/headings) and `Plus Jakarta Sans` (body/UI text).
+- Fonts: `Alexandria` (display/headings), `Plus Jakarta Sans` (body/UI), and on **`/home-2` only** italic `DM Serif Text` for section titles (`--font-serif-section`).
 
 ## Pages
 - Homepage (`/`) - Hero video, logo marquee, who we are, services bento, case studies, contact + FAQ, footer.
+- **Home 2** (`/home-2`) - Alternate homepage from Figma **[Things — node 349:142](https://www.figma.com/design/DAnc9vXaZN9VHQcCosnCm3/Things?node-id=349-142)** (MacBook Air 14): full-bleed **hero image** (`HeroImage.png`) with integrated logo rail, **Our Work** spotlight (Slrp copy on the left + **stacking scroll videos** for 3.fils, eatkanji, and slrp.ramen on the right, with orange stripe backdrop), **Service Suite** bento grid, **Our 360° Showreel**, contact + FAQ (serif section titles via **`DM Serif Text`** on this route only), shared footer. Smooth scrolling on this page only.
 - About (`/about`) - General about the studio (cream page, same typography and header as other inner pages).
 - Contact (`/contact`) - Full contact + FAQ block on a dedicated dark page with the shared top bar.
 - Work (`/work`) - Portfolio listing loaded from **Sanity** (each **work project** with “Show on /work” on); if Sanity is empty or unreachable, the site falls back to the same built-in list as before. Each **whole card** links to **`/work/{slug}`**. Category pills filter the grid. Revalidates about every minute.
 - Work project pages (`/work/[slug]`) - Shared layout: dark hero (on **mobile**, text block **above** the hero image; **desktop** image left, copy right), cream **challenge** and **solution** copy, then a gallery with light hover zoom on images. Content is merged from **Sanity** with code fallbacks in **`lib/workProjectDefaults.ts`**. New projects can exist **only in Sanity** (no code entry) if the document includes a hero image (or path) and the rest of the required fields. No separate “The result” block or wide cover image. (True “case studies” are not modeled yet — that label is reserved for a future content type.)
 
 ## Components
+- `HomePageV2` - `/home-2` page shell (hero, work spotlight, service suite, showreel, contact, footer). Sub-pieces: **`HomePageV2WorkScroll`** (Slrp text + scroll videos), **`HomePageV2ServiceSuite`**, **`HomePageV2WorkVideoBackground`** (bright masked glow behind phones only), **`Home2Lenis`** (smooth scroll wrapper).
+- `WorkScrollCards` (`components/ui/scroll-card.tsx`) - Reusable sticky stacking card column; used in the **Our Work** section with your three hero side videos.
+- `ContactFAQ` - Dark contact + FAQ; optional **`variant="home2"`**, custom **`faqItems`**, and **`contactMoreQuestionsHref`** for alternate homepages.
 - `AgentationProvider` - included by the app layout.
 - `ScrollReveal` - optional scroll-into-view fade-up for section content; respects reduced-motion preferences.
 
@@ -48,6 +52,11 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 **Adding a new project later:** Add an entry to **`WORK_PROJECTS`** in `lib/workProjectDefaults.ts` if you want a code fallback, or create only a **Work project** in Sanity (or both). The **`/work`** listing is driven from Sanity; re-run the seed if you use it to sync from code defaults.
 
 ## Recent Changes
+- 2026-06-05: **`/home-2` nav** — Top bar stays **sticky** for the full page (not only inside the hero).
+- 2026-06-05: **`/home-2` polish** — Centered hero copy; logo strip flush to hero bottom and full-width; larger hero image bleed; project text fully swaps (fade out before next fades in).
+- 2026-06-05: **`/home-2` hero** — Swapped the hero video for **`public/images/HeroImage.png`** (unboxing photo).
+- 2026-06-05: **Our Work on `/home-2`** — Each scroll step shows matching **left copy + right video** (3 Fils, Kanji, Slrp); all phone cards are the same size; orange glow bleeds to the right browser edge.
+- 2026-05-14: **Added `/home-2`** from Figma [Things, node 349:142](https://www.figma.com/design/DAnc9vXaZN9VHQcCosnCm3/Things?node-id=349-142): video hero, featured work row, service suite grid, showreel, contact/FAQ with **`ContactFAQ` `variant="home2"`**, and **`app/home-2/layout.tsx`** for serif section headings.
 - 2026-04-24: **Wrangler + OpenNext in CI:** **`wrangler.jsonc`** now includes a **`build.command`** (runs `scripts/wrangler-opennext-build.cjs` → `opennextjs-cloudflare build`) so **`npx wrangler deploy` only** in Cloudflare still produces **`.open-next/`** and avoids *Could not find compiled Open Next config*. Do not duplicate a dashboard **Build** + this hook without dropping one, or the app builds twice.
 - 2026-04-24: **Cloudflare free-tier Worker size (~3 MB gzip):** **OpenNext** uses **`npx next build --webpack`** and a **webpack `NormalModuleReplacementPlugin`** so Vercel OG (`@vercel/og`, resvg/yoga) is not in the server bundle. **`@sentry/nextjs` `withSentryConfig` is disabled in production builds** (but not in **`next dev`**) unless **`OPENNEXT_WITH_SENTRY=1`** or **`npm run build:with-sentry`**, so the default deploy fits the 3 MB limit; **`@sentry/cloudflare` on `cf-worker-sentry.ts`** can still report errors if a DSN is set.
 - 2026-04-24: **Sentry (Cloudflare Worker):** **`@sentry/cloudflare`** wraps the OpenNext-generated handler in **`cf-worker-sentry.ts`** while re-exporting OpenNext’s Durable Object classes. **`wrangler.jsonc` `main`** points to that file; **`nodejs_compat`** was already set. Set **`SENTRY_DSN`** or **`NEXT_PUBLIC_SENTRY_DSN`** on the Worker (same DSN as the Next project is fine). Optional source maps: run **`npx @sentry/wizard@latest -i sourcemaps --saas --org <org> --project <project>`** as in the Sentry docs. This is separate from but complements **`@sentry/nextjs`**, which you may tune if events duplicate.

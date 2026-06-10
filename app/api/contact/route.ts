@@ -24,11 +24,11 @@ function parseContactBody(body: unknown): ContactPayload | null {
   if (
     typeof o.firstName !== "string" ||
     typeof o.lastName !== "string" ||
-    typeof o.email !== "string" ||
-    typeof o.whatsapp !== "string"
+    typeof o.email !== "string"
   ) {
     return null;
   }
+  const whatsapp = typeof o.whatsapp === "string" ? o.whatsapp : "";
   if (o.message != null && typeof o.message !== "string") {
     return null;
   }
@@ -37,9 +37,11 @@ function parseContactBody(body: unknown): ContactPayload | null {
   if (o.lastName.length < 2 || o.lastName.length > 80) return null;
   if (o.email.length < 3 || o.email.length > 120) return null;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email)) return null;
-  if (o.whatsapp.length < 8 || o.whatsapp.length > 25 || !PHONE_RE.test(o.whatsapp)) return null;
+  if (whatsapp && (whatsapp.length < 8 || whatsapp.length > 25 || !PHONE_RE.test(whatsapp))) {
+    return null;
+  }
   if (message.length > 2000) return null;
-  return { firstName: o.firstName, lastName: o.lastName, email: o.email, whatsapp: o.whatsapp, message };
+  return { firstName: o.firstName, lastName: o.lastName, email: o.email, whatsapp, message };
 }
 
 export async function POST(request: Request) {
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
     <h1>New contact — Sandspire</h1>
     <p><strong>Name:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-    <p><strong>WhatsApp:</strong> ${escapeHtml(whatsapp)}</p>
+    <p><strong>WhatsApp:</strong> ${whatsapp.trim() ? escapeHtml(whatsapp) : "<em>(not provided)</em>"}</p>
     <p><strong>Message:</strong> ${message.trim() ? "" : "<em>(none)</em>"}</p>
     ${message.trim() ? `<pre style="white-space:pre-wrap;font-family:inherit;">${escapeHtml(message)}</pre>` : ""}
   `;
