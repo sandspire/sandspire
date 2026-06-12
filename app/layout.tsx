@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
-import { Alexandria, Plus_Jakarta_Sans, Geist } from "next/font/google";
+import localFont from "next/font/local";
+import { Playfair_Display, Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { AgentationProvider } from "@/components/AgentationProvider";
 import { cn } from "@/lib/utils";
+import { getSiteSettings } from "@/sanity/lib/queries/siteContent";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
-const alexandria = Alexandria({
+const colitezSerif = localFont({
+  src: "./fonts/ColitezSerif-Italic.otf",
+  variable: "--font-colitez",
+  display: "swap",
+  weight: "400",
+  style: "italic",
+});
+
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -18,10 +28,13 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Sandspire",
-  description: "We create brands, experiences, and workflows that work without friction.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteSettings();
+  return {
+    title: site.siteTitle,
+    description: site.siteDescription,
+  };
+}
 
 export default function RootLayout({
   children,
@@ -31,7 +44,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(alexandria.variable, plusJakartaSans.variable, "font-sans", geist.variable)}
+      className={cn(
+        colitezSerif.variable,
+        playfairDisplay.variable,
+        plusJakartaSans.variable,
+        "font-sans",
+        geist.variable,
+      )}
       suppressHydrationWarning
     >
       <body className="font-[family-name:var(--font-body)] antialiased">

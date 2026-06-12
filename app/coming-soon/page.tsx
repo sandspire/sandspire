@@ -15,7 +15,7 @@ export default function ComingSoonPage() {
       <SandspireHeader />
       <main className="mx-auto flex w-full max-w-lg flex-col items-center justify-center gap-6 px-6 py-24 text-center">
         <p className="font-[family-name:var(--font-body)] text-sm font-normal text-[#ff5e00]">Sandspire</p>
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-light tracking-[-0.02em] text-[#faf3e8]">
+        <h1 className="font-display text-3xl font-light tracking-[-0.02em] text-[#faf3e8]">
           Coming soon
         </h1>
         <p className="max-w-sm text-[17px] leading-[1.5] text-[#919191]">

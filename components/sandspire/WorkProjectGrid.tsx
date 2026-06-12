@@ -40,9 +40,17 @@ function projectMatchesCategory(project: WorkIndexCard, category: string) {
 
 type Props = {
   projects: WorkIndexCard[];
+  headline?: string;
+  subheadline?: string;
+  emptyFilterMessage?: string;
 };
 
-export function WorkProjectGrid({ projects }: Props) {
+export function WorkProjectGrid({
+  projects,
+  headline = "Selected Work",
+  subheadline = "A curated set of brand, web, and campaign projects crafted for teams that care about details.",
+  emptyFilterMessage = "Nothing in this category yet. Try another filter.",
+}: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -93,12 +101,11 @@ export function WorkProjectGrid({ projects }: Props) {
     <>
       <section className="mx-auto w-full max-w-[995px] px-0 sm:px-0">
         <div className="w-full">
-          <h1 className="text-center font-[family-name:var(--font-display)] text-[34px] font-light leading-[1.05] text-[#FAF3E8] sm:text-[40px] md:text-[44px]">
-            Selected Work
+          <h1 className="text-center font-display text-[34px] font-light leading-[1.05] text-[#FAF3E8] sm:text-[40px] md:text-[44px]">
+            {headline}
           </h1>
           <p className="mx-auto mt-3 max-w-[560px] px-1 text-center text-[16px] leading-[1.4] text-[#919191] sm:mt-4 sm:text-[17px] md:text-[18px]">
-            A curated set of brand, web, and campaign projects crafted for teams
-            that care about details.
+            {subheadline}
           </p>
         </div>
 
@@ -134,12 +141,11 @@ export function WorkProjectGrid({ projects }: Props) {
 
       {filtered.length === 0 ? (
         <p className="mx-auto mt-12 max-w-md px-2 text-center text-[15px] leading-relaxed text-[#8A847B]">
-          Nothing in <span className="text-[#FAF3E8]">{category}</span> yet. Try another
-          filter.
+          {emptyFilterMessage}
         </p>
       ) : null}
 
-      <section className="mx-auto mt-10 grid w-full max-w-[995px] gap-8 gap-y-10 px-0 sm:mt-12 sm:gap-x-[47px] sm:gap-y-[52px] md:mt-14 md:grid-cols-2">
+      <section className="work-project-grid mx-auto mt-10 grid w-full max-w-[995px] gap-8 gap-y-10 px-0 sm:mt-12 sm:gap-x-[47px] sm:gap-y-[52px] md:mt-14 md:grid-cols-2">
         {filtered.map((project) => (
           <Link
             key={project.slug}
@@ -164,7 +170,7 @@ export function WorkProjectGrid({ projects }: Props) {
               </div>
 
               <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                <h2 className="font-[family-name:var(--font-display)] text-[26px] font-light leading-[1.02] text-[#FAF3E8] sm:text-[30px] md:text-[34px]">
+                <h2 className="font-body text-[26px] font-light leading-[1.02] text-[#FAF3E8] not-italic sm:text-[30px] md:text-[34px]">
                   {project.title}
                 </h2>
                 <p className="max-w-full text-left text-[13px] leading-[1.4] text-[#8A847B] sm:max-w-[250px] sm:text-right sm:text-[14px] sm:leading-[1.35]">

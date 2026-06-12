@@ -50,6 +50,7 @@ You have specialized skills in `.claude/skills/`. **Use them constantly:**
 | **copywriting** | Writing any text for the site | Auto |
 | **marketing-site-design** | Planning page layouts, sections | Auto |
 | **sanity-cms** | User wants editable content/CMS | `/sanity-cms` |
+| **cloudflare-sanity-deploy** | Deploy to Cloudflare, Worker size limits, CMS performance | `/cloudflare-sanity-deploy` |
 | **documentation-writer** | After EVERY code change - update SITE.md | Auto |
 | **react-nextjs-expert** | Writing any React/Next.js code | Auto |
 | **frontend-design** | Creating any visual component | Auto |

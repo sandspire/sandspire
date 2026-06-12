@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -8,16 +8,18 @@ import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
 import { cn } from "@/lib/utils";
 
 /** Uniform phone size (based on largest Figma card, scaled). */
-const CARD_WIDTH = 405;
-const CARD_HEIGHT = 579;
-const CARD_RADIUS = 25;
+const DEFAULT_CARD_WIDTH = 405;
+const DEFAULT_CARD_HEIGHT = 579;
+const DEFAULT_CARD_RADIUS = 25;
 const CARD_SHADOW = "0px 5px 10.2px rgba(0,0,0,0.25)";
 
-/** Pin below the sticky nav (54px) + Our Work title band. */
-export const WORK_SCROLL_STICKY_TOP = "calc(54px + 7.75rem)";
-/** Viewport band between the pinned title and pinned button. */
-export const WORK_SCROLL_VIEWPORT_HEIGHT = "calc(100vh - 54px - 7.75rem - 4.75rem)";
+/** Pin below the sticky nav (54px) + Our Work title band (static, not sticky). */
+export const WORK_SCROLL_STICKY_TOP = "calc(54px + 2rem)";
+/** Viewport band for stacking cards. */
+export const WORK_SCROLL_VIEWPORT_HEIGHT = "calc(100dvh - 54px - 2rem - 4.75rem)";
 
+/** Card must fill the sticky band before sidebar copy advances. */
+const CARD_FULLY_VISIBLE_RATIO = 0.98;
 const fadeEase = [0.33, 1, 0.68, 1] as [number, number, number, number];
 
 export type ScrollCardTag = {
@@ -40,12 +42,15 @@ export type WorkScrollCardsProps = {
   className?: string;
   stickyTop?: string;
   viewportHeight?: string;
+  cardWidth?: number;
+  cardHeight?: number;
+  cardRadius?: number;
 };
 
 function WorkTag({ children, glow = "orange" }: { children: string; glow?: "orange" | "white" }) {
   return (
     <span
-      className="inline-flex h-[28px] items-center rounded-full bg-[rgba(27,27,27,0.2)] px-3 font-[family-name:var(--font-display)] text-[12px] font-light tracking-[-0.04em] text-[#e6ddd0]"
+      className="inline-flex h-[28px] items-center rounded-full bg-[rgba(27,27,27,0.2)] px-3 font-body text-[12px] font-normal tracking-[-0.04em] text-[#e6ddd0] not-italic"
       style={{
         boxShadow:
           glow === "orange"
@@ -85,7 +90,7 @@ function WorkScrollCardHeader({ iconSrc, label }: { iconSrc: string; label: stri
         <div className="relative size-[27px] shrink-0 overflow-hidden rounded-full bg-black/20">
           <img src={iconSrc} alt="" className="size-full object-cover" />
         </div>
-        <span className="truncate font-[family-name:var(--font-display)] text-[10px] font-normal tracking-[-0.025em] text-white">
+        <span className="truncate font-body text-[10px] font-normal tracking-[-0.025em] text-white not-italic">
           {label}
         </span>
       </div>
@@ -96,8 +101,11 @@ function WorkScrollCardHeader({ iconSrc, label }: { iconSrc: string; label: stri
 
 function WorkScrollSidebar({ card }: { card: ScrollCardItem }) {
   return (
-    <Link href={card.href} className="group flex w-full flex-col items-start gap-[22px]">
-      <h3 className="font-[family-name:var(--font-body)] text-[30px] font-medium leading-[1] text-white transition-opacity group-hover:opacity-90">
+    <Link
+      href={card.href}
+      className="work-scroll-sidebar group flex w-full flex-col items-start gap-[22px] pt-6 font-body lg:pt-0"
+    >
+      <h3 className="font-body text-[30px] font-medium leading-[1] text-white not-italic transition-opacity group-hover:opacity-90">
         {card.title}
       </h3>
       <div className="flex flex-wrap items-center gap-[19px]">
@@ -107,7 +115,7 @@ function WorkScrollSidebar({ card }: { card: ScrollCardItem }) {
           </WorkTag>
         ))}
       </div>
-      <p className="font-[family-name:var(--font-body)] text-[16px] font-normal leading-[1.86] text-white">
+      <p className="font-body text-[16px] font-normal leading-[1.86] text-white not-italic">
         {card.description}
       </p>
     </Link>
@@ -126,26 +134,35 @@ function WorkScrollSidebarFade({
   viewportHeight: string;
 }) {
   const reduceMotion = useReducedMotion();
-  const activeCard = cards[activeIndex];
 
   return (
     <div
-      className="sticky z-10 grid w-full max-w-[394px] shrink-0 place-items-center lg:w-[394px]"
-      style={{ top: stickyTop, height: viewportHeight }}
+      className="relative z-10 w-full max-w-[394px] shrink-0 lg:sticky lg:h-[var(--work-scroll-vh)] lg:w-[394px]"
+      style={{ top: stickyTop, ["--work-scroll-vh" as string]: viewportHeight }}
     >
-      <div className="relative min-h-[220px] w-full">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeCard.videoSrc}
-            initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
-            transition={{ duration: reduceMotion ? 0 : 0.32, ease: fadeEase }}
-            className="w-full"
-          >
-            <WorkScrollSidebar card={activeCard} />
-          </motion.div>
-        </AnimatePresence>
+      <div className="relative min-h-[200px] w-full lg:flex lg:h-full lg:min-h-0 lg:items-center">
+        <div className="relative w-full lg:absolute lg:inset-0 lg:flex lg:items-center">
+          {cards.map((card, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <motion.div
+                key={card.videoSrc}
+                className={cn(
+                  "inset-x-0 w-full",
+                  isActive ? "relative" : "absolute max-lg:hidden",
+                  "lg:absolute lg:inset-0 lg:flex lg:items-center",
+                )}
+                initial={false}
+                animate={{ opacity: isActive ? 1 : 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.28, ease: fadeEase }}
+                style={{ pointerEvents: isActive ? "auto" : "none" }}
+                aria-hidden={!isActive}
+              >
+                <WorkScrollSidebar card={card} />
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -168,10 +185,10 @@ function WorkScrollStickyPanel({
     <figure
       ref={panelRef}
       data-card-index={index}
-      className="sticky z-10 grid place-items-center"
+      className="relative z-10 grid place-items-center max-lg:h-auto lg:sticky lg:h-[var(--work-scroll-vh)]"
       style={{
         top: stickyTop,
-        height: viewportHeight,
+        ["--work-scroll-vh" as string]: viewportHeight,
         zIndex: index + 1,
       }}
     >
@@ -180,17 +197,27 @@ function WorkScrollStickyPanel({
   );
 }
 
-function WorkScrollCard({ card }: { card: ScrollCardItem }) {
+function WorkScrollCard({
+  card,
+  cardWidth,
+  cardHeight,
+  cardRadius,
+}: {
+  card: ScrollCardItem;
+  cardWidth: number;
+  cardHeight: number;
+  cardRadius: number;
+}) {
   return (
     <Link
       href={card.href}
       className="group relative block transition-transform duration-300 ease-out hover:scale-[1.01]"
-      style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}
+      style={{ width: cardWidth, height: cardHeight }}
     >
       <article
         className="relative size-full overflow-hidden"
         style={{
-          borderRadius: CARD_RADIUS,
+          borderRadius: cardRadius,
           boxShadow: CARD_SHADOW,
         }}
       >
@@ -214,6 +241,9 @@ export function WorkScrollCards({
   className,
   stickyTop = WORK_SCROLL_STICKY_TOP,
   viewportHeight = WORK_SCROLL_VIEWPORT_HEIGHT,
+  cardWidth = DEFAULT_CARD_WIDTH,
+  cardHeight = DEFAULT_CARD_HEIGHT,
+  cardRadius = DEFAULT_CARD_RADIUS,
 }: WorkScrollCardsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const panelRefs = useRef<(HTMLElement | null)[]>([]);
@@ -230,16 +260,18 @@ export function WorkScrollCards({
     const nodes = panelRefs.current.filter(Boolean) as HTMLElement[];
     if (!nodes.length) return;
 
-    visibilityRef.current = cards.map(() => false);
+    visibilityRef.current = cards.map((_, index) => index === 0);
 
     const syncActiveIndex = () => {
-      const visibleIndices = visibilityRef.current
+      const fullyVisibleIndices = visibilityRef.current
         .map((visible, index) => (visible ? index : -1))
         .filter((index) => index >= 0);
 
-      if (!visibleIndices.length) return;
-      setActiveIndex(Math.max(...visibleIndices));
+      if (!fullyVisibleIndices.length) return;
+      setActiveIndex(Math.max(...fullyVisibleIndices));
     };
+
+    syncActiveIndex();
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -247,32 +279,44 @@ export function WorkScrollCards({
           const index = Number(entry.target.getAttribute("data-card-index"));
           if (Number.isNaN(index)) return;
           visibilityRef.current[index] =
-            entry.isIntersecting && entry.intersectionRatio >= 0.35;
+            entry.isIntersecting && entry.intersectionRatio >= CARD_FULLY_VISIBLE_RATIO;
         });
         syncActiveIndex();
       },
-      { threshold: [0, 0.35, 0.55, 0.75] },
+      { threshold: [0, 0.5, 0.75, 0.9, 0.95, 0.98, 1] },
     );
 
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
   }, [cards]);
 
+  const viewportHeightExpr = viewportHeight.startsWith("calc(")
+    ? viewportHeight.slice(5, -1)
+    : viewportHeight;
+
   return (
     <div
       className={cn(
-        "relative z-10 mx-auto flex w-full max-w-[920px] flex-col items-center justify-center gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-[75px]",
+        "relative z-10 mx-auto flex w-full max-w-[920px] flex-col items-center justify-center gap-0 lg:flex-row lg:items-start lg:justify-center lg:gap-[75px]",
         className,
       )}
     >
-      <WorkScrollSidebarFade
-        cards={cards}
-        activeIndex={activeIndex}
-        stickyTop={stickyTop}
-        viewportHeight={viewportHeight}
-      />
+      <div
+        className="relative w-full max-w-[394px] shrink-0 lg:ml-10 lg:w-[394px] lg:min-h-[var(--work-stack-h)]"
+        style={{ ["--work-stack-h" as string]: `calc(${cards.length} * (${viewportHeightExpr}))` }}
+      >
+        <WorkScrollSidebarFade
+          cards={cards}
+          activeIndex={activeIndex}
+          stickyTop={stickyTop}
+          viewportHeight={viewportHeight}
+        />
+      </div>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-[415px] gap-0">
+      <div
+        className="relative z-10 mx-auto grid w-full gap-0"
+        style={{ maxWidth: cardWidth + 10 }}
+      >
         {cards.map((card, index) => (
           <WorkScrollStickyPanel
             key={card.videoSrc}
@@ -281,7 +325,12 @@ export function WorkScrollCards({
             viewportHeight={viewportHeight}
             panelRef={setPanelRef(index)}
           >
-            <WorkScrollCard card={card} />
+            <WorkScrollCard
+              card={card}
+              cardWidth={cardWidth}
+              cardHeight={cardHeight}
+              cardRadius={cardRadius}
+            />
           </WorkScrollStickyPanel>
         ))}
       </div>

@@ -9,11 +9,11 @@
   - Secondary accent: `--accent-secondary` (`#F7941D`)
   - Neutrals: `--background` (`#FAF3E8`), `--foreground` (`#0D0D0D`), `--muted` (`#999999`)
   - Functional: `--success` (`#10B981`), `--warning` (`#F59E0B`), `--error` (`#EF4444`)
-- Fonts: `Alexandria` (display/headings), `Plus Jakarta Sans` (body/UI), and on **`/home-2` only** italic `DM Serif Text` for section titles (`--font-serif-section`).
+- Fonts: **Colitez Serif** (most section headings, with **Playfair Display** fallback), **Plus Jakarta Sans** (body, hero, contact form, footer).
 
 ## Pages
 - Homepage (`/`) - Hero video, logo marquee, who we are, services bento, case studies, contact + FAQ, footer.
-- **Home 2** (`/home-2`) - Alternate homepage from Figma **[Things — node 349:142](https://www.figma.com/design/DAnc9vXaZN9VHQcCosnCm3/Things?node-id=349-142)** (MacBook Air 14): full-bleed **hero image** (`HeroImage.png`) with integrated logo rail, **Our Work** spotlight (Slrp copy on the left + **stacking scroll videos** for 3.fils, eatkanji, and slrp.ramen on the right, with orange stripe backdrop), **Service Suite** bento grid, **Our 360° Showreel**, contact + FAQ (serif section titles via **`DM Serif Text`** on this route only), shared footer. Smooth scrolling on this page only.
+- **Home 2** (`/home-2`) - Alternate homepage from Figma **[Things — node 349:142](https://www.figma.com/design/DAnc9vXaZN9VHQcCosnCm3/Things?node-id=349-142)** (MacBook Air 14): full-bleed **hero image** (`HeroImage.png`) with integrated logo rail, **Our Work** spotlight (project copy pinned on the left + **stacking scroll videos** for 3 Fils, eatkanji, and slrp.ramen on the right, with orange stripe backdrop), **Service Suite** bento grid (serif section title; Jakarta on cards), **Our 360° Showreel**, contact + FAQ, **sticky footer** with bright orange stripe glow. Smooth scrolling on this page only.
 - About (`/about`) - General about the studio (cream page, same typography and header as other inner pages).
 - Contact (`/contact`) - Full contact + FAQ block on a dedicated dark page with the shared top bar.
 - Work (`/work`) - Portfolio listing loaded from **Sanity** (each **work project** with “Show on /work” on); if Sanity is empty or unreachable, the site falls back to the same built-in list as before. Each **whole card** links to **`/work/{slug}`**. Category pills filter the grid. Revalidates about every minute.
@@ -37,7 +37,31 @@ The site is wired for [Sanity](https://www.sanity.io/). **The live site does not
 
 **Deploy:** Add the same `NEXT_PUBLIC_SANITY_*` variables to your host (e.g. Cloudflare **`.dev.vars`** / dashboard env) so builds don’t fail. **Cloudflare:** the Worker script must stay under the host’s size limit; on the **free** plan that limit is very small, so a **paid Workers** plan (larger limit) is usually needed for this OpenNext app, or use another host (e.g. Vercel) for production.
 
-**Code:** Client in `sanity/lib/client.ts`, config in `sanity.config.ts`, schemas in `sanity/schemaTypes/` (starter **Homepage** type with optional hero fields — homepage UI still uses static copy until you add GROQ fetches).
+**Code:** Client in `sanity/lib/client.ts`, config in `sanity.config.ts`, schemas in `sanity/schemaTypes/`. Page copy is loaded through **`sanity/lib/queries/siteContent.ts`** with fallbacks in **`lib/siteContentDefaults.ts`**.
+
+### What you can edit in Sanity (almost everything)
+
+Open **`npx sanity dev`** (or Sanity Manage) and use the **Content** list on the left:
+
+| Document | What it controls |
+|----------|------------------|
+| **Site settings** | Site name & description (browser tab), phone, **navigation links**, header “Get in touch” button, **footer** tagline/blurb/copyright, **social links**, contact headline/intro, **FAQ** (default + home-2 versions) |
+| **Homepage (version 1)** | Main page hero text & video, service labels under hero, “Who is Sandspire”, services bento titles/prices, featured case studies, analytics video paths |
+| **Homepage (version 2)** | `/home-2` hero, Our Work scroll items, Service Suite cards & bento images, showreel, page title for SEO |
+| **About page** | All text on `/about` |
+| **Work listing page** | Headline, subheadline, and empty-filter message on `/work` |
+| **Work projects** | Each project page + cards on `/work` (same as before) |
+| **Client logos** | Logo strip on both homepages |
+
+After you **Publish** in Studio, the live site picks up changes within about **one minute** (`revalidate = 60`). If Sanity is slow or offline, the site keeps showing the built-in defaults from **`lib/siteContentDefaults.ts`**.
+
+**Seed all site copy at once (recommended first time):**
+1. Set **`SANITY_API_WRITE_TOKEN`** (Editor token) in **`.env.local`**.
+2. Run **`npm run seed:sanity-site-content`** — uploads Site settings, both homepages, About, Work listing, and client logos.
+3. Run **`npm run seed:sanity-work-projects`** if work projects are not in Sanity yet.
+4. Open Studio, review, and **Publish** each document.
+
+**Still fixed in code (not in CMS yet):** decorative bento SVG frames, the AI Automation icon diagram, contact form field labels, and some layout-only styling. Media mostly uses **paths** under `public/` (e.g. `/videos/…`, `/images/…`) — you can change the path in Sanity or upload via future image fields.
 
 ### Work projects in Sanity
 Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **`workProject`**; older **`caseStudy`** docs are still read until migrated). If the document is missing or a field is empty, the site uses **`lib/workProjectDefaults.ts`** for that slug.
@@ -52,6 +76,19 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 **Adding a new project later:** Add an entry to **`WORK_PROJECTS`** in `lib/workProjectDefaults.ts` if you want a code fallback, or create only a **Work project** in Sanity (or both). The **`/work`** listing is driven from Sanity; re-run the seed if you use it to sync from code defaults.
 
 ## Recent Changes
+- 2026-06-11: **Full-site Sanity CMS** — Navigation, footer, both homepages, About, Contact/FAQ, Work listing headers, logo marquee, and work projects are now editable in Sanity. Run **`npm run seed:sanity-site-content`** once to upload current copy, then edit in **`npx sanity dev`**. Site falls back to **`lib/siteContentDefaults.ts`** if Sanity is empty or unreachable.
+- 2026-06-11: **`/home-2` polish (14 layout fixes):** Service Suite **Brand Strategy** cascade is smaller, centered, and responsive; bento images align **top**; dot-pattern background removed from the AI card; **Service Suite** title uses **Colitez Serif** (bento card copy stays **Jakarta**). **Our Work** title is no longer sticky; orange glow aligns with the section top and reads **darker**; **3 Fils** copy shows immediately before scrolling; card labels and tags use **Jakarta**. Hero **h1** uses **Jakarta**. Contact form: removed the gray info box and orange button glow on home-2. **Footer** on home-2: **orange** background, **black** text, logo **blend mode**.
+- 2026-06-11: **`/home-2` follow-up:** Footer uses the same **orange stripe glow** as Our Work (brighter). Work sidebar copy stays **pinned on the left** while cards stack (opacity crossfade only). Brand Strategy cascade and service icon are **larger**.
+- 2026-06-11: **`/work` page:** Project card titles (e.g. Bordo Mavi) use **Plus Jakarta Sans** instead of the serif display font.
+- 2026-06-11: **`/home-2` Our Work:** Left project copy is **vertically centered** next to the stacking phone cards on desktop.
+- 2026-06-11: **`/home-2` nav:** Top bar uses the **same links as Homepage 1** (Services, Work, About, Contact).
+- 2026-06-11: **`/home-2` Service Suite:** Bento grid width aligned with other sections so left/right padding matches.
+- 2026-06-11: **`/home-2` Service Suite:** Entire bento grid locked to **Plus Jakarta Sans** (section title, card titles, flip text).
+- 2026-06-11: **`/home-2` hero:** Softer bottom corner radius (**28px** mobile, **40px** desktop).
+- 2026-06-11: **`/home-2`:** Removed sticky-scroll hero overlay; hero stays **full screen** with bottom marquee. Flip bento cards and Plus Jakarta Sans on hero/contact/footer remain.
+- 2026-06-11: **Hero, contact form, and footer** use **Plus Jakarta Sans**; Colitez Serif stays on other section headings.
+- 2026-06-11: **`package.json` name** set to **`sandspire`** so it matches the Cloudflare Worker in **`wrangler.jsonc`** (avoids “Worker not found” on deploy when OpenNext reads the package name).
+- 2026-06-11: Added agent skill **`.claude/skills/cloudflare-sanity-deploy/`** — reusable checklist for Cloudflare Worker size limits, Sanity CMS performance (SSG/ISR, CDN images), mobile patterns, and pre-deploy audits (based on La Torta production learnings). Invoke with **`/cloudflare-sanity-deploy`** in Ship Studio.
 - 2026-06-05: **`/home-2` nav** — Top bar stays **sticky** for the full page (not only inside the hero).
 - 2026-06-05: **`/home-2` polish** — Centered hero copy; logo strip flush to hero bottom and full-width; larger hero image bleed; project text fully swaps (fade out before next fades in).
 - 2026-06-05: **`/home-2` hero** — Swapped the hero video for **`public/images/HeroImage.png`** (unboxing photo).
@@ -206,5 +243,6 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 
 ## How to Customize
 - To change the site name/tagline: edit `app/layout.tsx` (`metadata.title` / `metadata.description`) and/or `app/page.tsx`.
+- To change heading fonts: the Colitez Serif file lives in **`app/fonts/`**; Playfair Display loads from Google as fallback. Both are wired in **`app/layout.tsx`**.
 - To enable more MCP integrations: edit `.mcp.json`.
 

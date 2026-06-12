@@ -44,7 +44,15 @@ function validateFields(get: (name: string) => string): Partial<Record<FieldName
   return e;
 }
 
-export function ContactForm() {
+export function ContactForm({
+  className,
+  hideFormNote = false,
+  flatSubmit = false,
+}: {
+  className?: string;
+  hideFormNote?: boolean;
+  flatSubmit?: boolean;
+}) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
@@ -120,17 +128,19 @@ export function ContactForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-5"
+      className={cn("flex flex-col gap-5", className)}
       noValidate
-      aria-describedby={formNoteId}
+      aria-describedby={hideFormNote ? undefined : formNoteId}
     >
-      <div
-        id={formNoteId}
-        className="rounded-xl border border-white/[0.07] bg-[rgba(255,248,240,0.04)] px-3.5 py-2.5 text-[11px] leading-relaxed text-[#a39e92]"
-      >
-        <span className="font-semibold text-[#c9c2b6]">Name, email, and WhatsApp are required.</span> Use a
-        WhatsApp number you check, with country code. Message is optional.
-      </div>
+      {!hideFormNote ? (
+        <div
+          id={formNoteId}
+          className="rounded-xl border border-white/[0.07] bg-[rgba(255,248,240,0.04)] px-3.5 py-2.5 text-[11px] leading-relaxed text-[#a39e92]"
+        >
+          <span className="font-semibold text-[#c9c2b6]">Name, email, and WhatsApp are required.</span> Use a
+          WhatsApp number you check, with country code. Message is optional.
+        </div>
+      ) : null}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
         <label className="flex flex-col gap-1.5">
@@ -265,7 +275,12 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="mt-1 flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl bg-[#ff5e00] text-[13px] font-semibold tracking-[-0.02em] text-[#faf3e8] shadow-[0_6px_28px_rgba(255,94,0,0.32)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_36px_rgba(255,94,0,0.42)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-70 disabled:shadow-none disabled:hover:brightness-100"
+          className={cn(
+            "mt-1 flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl bg-[#ff5e00] text-[13px] font-semibold tracking-[-0.02em] text-[#faf3e8] transition-all duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-70",
+            flatSubmit
+              ? "hover:brightness-105 active:scale-[0.99] disabled:hover:brightness-100"
+              : "shadow-[0_6px_28px_rgba(255,94,0,0.32)] hover:-translate-y-0.5 hover:shadow-[0_10px_36px_rgba(255,94,0,0.42)] active:translate-y-0 active:scale-[0.99] disabled:translate-y-0 disabled:shadow-none disabled:hover:brightness-100",
+          )}
         >
           {status === "loading" ? (
             <>

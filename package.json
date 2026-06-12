@@ -1,5 +1,5 @@
 {
-  "name": "main-website",
+  "name": "sandspire",
   "version": "0.1.0",
   "private": true,
   "repository": {
@@ -23,6 +23,7 @@
     "cf:workers": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "seed:sanity-work-projects": "npx tsx scripts/seed-work-projects.ts",
+    "seed:sanity-site-content": "npx tsx scripts/seed-site-content.ts",
     "seed:sanity-case-studies": "npx tsx scripts/seed-work-projects.ts"
   },
   "dependencies": {

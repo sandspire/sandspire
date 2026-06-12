@@ -1,24 +1,40 @@
 import type { Metadata } from "next";
 import { ContactFAQ } from "@/components/sandspire/ContactFAQ";
-import { SandspireHeader } from "@/components/sandspire/SandspireHeader";
-import { SiteFooter } from "@/components/sandspire/SiteFooter";
+import { SandspireHeaderFromCms } from "@/components/sandspire/SandspireHeaderFromCms";
+import { SiteFooterFromCms } from "@/components/sandspire/SiteFooterFromCms";
+import { getSiteSettings } from "@/sanity/lib/queries/siteContent";
 
-export const metadata: Metadata = {
-  title: "Contact — Sandspire",
-  description:
-    "Start a project with Sandspire—brand, web, social, and automation. Send a message or read answers to common questions.",
-};
+export const revalidate = 60;
 
-export default function ContactPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteSettings();
+  return {
+    title: `Contact — ${site.siteTitle}`,
+    description:
+      "Start a project with Sandspire—brand, web, social, and automation. Send a message or read answers to common questions.",
+  };
+}
+
+export default async function ContactPage() {
+  const site = await getSiteSettings();
+
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
-      <SandspireHeader ctaHref="#contact" />
+      <SandspireHeaderFromCms ctaHref="#contact" />
 
       <main>
-        <ContactFAQ className="rounded-none pt-14 lg:pt-20" />
+        <ContactFAQ
+          className="rounded-none pt-14 lg:pt-20"
+          faqItems={site.contact.faqDefault}
+          eyebrow={site.contact.eyebrow}
+          headline={site.contact.headline}
+          intro={site.contact.intro}
+          phone={site.phone}
+          socialLinks={site.footer.socialLinks}
+        />
       </main>
 
-      <SiteFooter />
+      <SiteFooterFromCms />
     </div>
   );
 }

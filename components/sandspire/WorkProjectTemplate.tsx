@@ -156,7 +156,7 @@ export function WorkProjectTemplate({
                     decoding="async"
                   />
                 ) : (
-                  <p className="font-[family-name:var(--font-display)] text-[26px] font-light leading-tight tracking-[-0.04em] text-[#e6ddd0]">
+                  <p className="font-display text-[26px] font-light leading-tight tracking-[-0.04em] text-[#e6ddd0]">
                     {wordmarkTitle}
                   </p>
                 )}
@@ -165,7 +165,7 @@ export function WorkProjectTemplate({
                     <TagPill key={category} label={category} />
                   ))}
                 </div>
-                <div className="space-y-3.5 font-[family-name:var(--font-display)] text-[12.5px] font-light leading-[1.2]">
+                <div className="space-y-3.5 font-display text-[12.5px] font-light leading-[1.2]">
                   <div>
                     <p className="tracking-[-0.87px] text-[#818181]">
                       {fieldLabel}
@@ -210,7 +210,7 @@ export function WorkProjectTemplate({
           <div className="mx-auto w-full max-w-[1220px] px-6 lg:px-10">
             <div className="mx-auto flex w-full max-w-[773px] flex-col gap-[72px] md:gap-[88px]">
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-[family-name:var(--font-display)] text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:text-[36px] md:leading-[45px]">
+                <h2 className="shrink-0 font-display text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:text-[36px] md:leading-[45px]">
                   {challengeTitle}
                 </h2>
                 <p className="max-w-[397px] text-[17px] leading-[1.67] text-[#171513] md:text-[18px] md:leading-[30px]">
@@ -262,7 +262,7 @@ export function WorkProjectTemplate({
               </div>
 
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-[family-name:var(--font-display)] text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:w-[232px] md:text-[36px] md:leading-[45px]">
+                <h2 className="shrink-0 font-display text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:w-[232px] md:text-[36px] md:leading-[45px]">
                   {solutionTitle}
                 </h2>
                 <p className="max-w-[397px] text-[17px] leading-[1.67] text-[#171513] md:text-[18px] md:leading-[30px]">

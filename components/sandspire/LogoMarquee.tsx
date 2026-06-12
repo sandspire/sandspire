@@ -1,18 +1,19 @@
+import { cn } from "@/lib/utils";
+import type { ClientLogo } from "@/lib/siteContentDefaults";
+import { siteContentDefaults } from "@/lib/siteContentDefaults";
+
 type LogoMarqueeProps = {
   variant?: "default" | "hero";
+  className?: string;
+  logos?: ClientLogo[];
 };
 
-export const LogoMarquee = ({ variant = "default" }: LogoMarqueeProps) => {
-  const logos: { src: string; alt: string }[] = [
-    { src: "/logos/3fils.svg", alt: "3 Fils" },
-    { src: "/logos/brix.svg", alt: "Brix Journey" },
-    { src: "/logos/konbini.svg", alt: "Konbini" },
-    { src: "/logos/slrp.svg", alt: "Slrp" },
-    { src: "/logos/kanji.svg", alt: "Kanji" },
-    { src: "/logos/bordomavi.svg", alt: "Bordo Mavi" },
-    { src: "/logos/brix.svg", alt: "Brix Journey" },
-    { src: "/logos/konbini.svg", alt: "Konbini duplicate" },
-  ];
+export const LogoMarquee = ({ variant = "default", className, logos }: LogoMarqueeProps) => {
+  const source = logos ?? siteContentDefaults.clientLogos;
+  const logosForTrack = source.flatMap((logo) => [
+    { src: logo.logoPath, alt: logo.name },
+    { src: logo.logoPath, alt: logo.name },
+  ]);
 
   const isHero = variant === "hero";
 
@@ -20,8 +21,11 @@ export const LogoMarquee = ({ variant = "default" }: LogoMarqueeProps) => {
     <div
       className={
         isHero
-          ? "relative w-full overflow-hidden bg-[#141414]"
-          : "relative w-full overflow-hidden rounded-[72px] bg-gradient-to-r from-[#141414] via-[#141414]/0 to-[#141414]"
+          ? cn("relative w-full overflow-hidden bg-[#141414]", className)
+          : cn(
+              "relative w-full overflow-hidden rounded-[72px] bg-gradient-to-r from-[#141414] via-[#141414]/0 to-[#141414]",
+              className,
+            )
       }
     >
       <div
@@ -34,7 +38,7 @@ export const LogoMarquee = ({ variant = "default" }: LogoMarqueeProps) => {
         <div
           className={`logo-marquee-track flex w-max opacity-95 ${isHero ? "gap-[110px] sm:gap-[130px]" : "gap-[90px]"}`}
         >
-          {logos.concat(logos).map((logo, idx) => (
+          {logosForTrack.map((logo, idx) => (
             <img
               key={`${logo.src}-${idx}`}
               src={logo.src}
@@ -53,8 +57,8 @@ export const LogoMarquee = ({ variant = "default" }: LogoMarqueeProps) => {
         </>
       ) : (
         <>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#141414] to-transparent sm:w-14" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#141414] to-transparent sm:w-14" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#141414] to-transparent sm:w-24" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#141414] to-transparent sm:w-24" />
         </>
       )}
     </div>

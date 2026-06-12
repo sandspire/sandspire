@@ -3,8 +3,33 @@ import type { ReactNode } from "react";
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { WebDesignPortfolioCascade } from "@/components/sandspire/WebDesignPortfolioCascade";
+import type { ServiceCardContent } from "@/lib/siteContentDefaults";
+import { siteContentDefaults } from "@/lib/siteContentDefaults";
 
-export function ServicesBento() {
+type ServicesBentoProps = {
+  eyebrow?: string;
+  title?: string;
+  serviceCards?: ServiceCardContent[];
+  analyticsVideoPath?: string;
+  analyticsVideoPosterPath?: string;
+};
+
+function findCard(cards: ServiceCardContent[], title: string) {
+  return cards.find((c) => c.title === title || c.title.replace("\n", " ") === title.replace("\n", " "));
+}
+
+export function ServicesBento({
+  eyebrow = siteContentDefaults.homepage.servicesEyebrow,
+  title = siteContentDefaults.homepage.servicesTitle,
+  serviceCards = siteContentDefaults.homepage.serviceCards,
+  analyticsVideoPath = siteContentDefaults.homepage.analyticsVideoPath,
+  analyticsVideoPosterPath = siteContentDefaults.homepage.analyticsVideoPosterPath,
+}: ServicesBentoProps) {
+  const analyticsCard = serviceCards[0];
+  const aiCard = findCard(serviceCards, "AI Automation");
+  const webCard = findCard(serviceCards, "Web Design");
+  const socialCard = findCard(serviceCards, "Social Media Marketing");
+  const analyticsTitleLines = (analyticsCard?.title ?? "See real results\nyou can measure").split("\n");
   const brandStrategyImages = [
     "/images/bento/Frame%201618872692-1.svg",
     "/images/bento/Frame%201618872694-1.svg",
@@ -23,10 +48,10 @@ export function ServicesBento() {
     >
       <ScrollReveal className="mx-auto w-full max-w-[1180px]">
         <p className="text-xs font-normal uppercase tracking-[0.14px] text-[var(--accent)]">
-          Agency Services
+          {eyebrow}
         </p>
-        <h2 className="mt-3 font-[family-name:var(--font-display)] text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] lg:text-[32px]">
-          What we do
+        <h2 className="mt-3 font-display text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] lg:text-[32px]">
+          {title}
         </h2>
 
         <div className="mt-8 max-md:pt-2 grid gap-4 lg:grid-cols-1 lg:items-stretch xl:mt-10 xl:grid-cols-[minmax(0,760px)_minmax(252px,380px)] xl:gap-4 2xl:gap-5">
@@ -41,9 +66,12 @@ export function ServicesBento() {
                 contentClassName="pb-[calc(1.5rem-18px)]"
                 titleNode={
                   <>
-                    See real results
-                    <br />
-                    you can measure
+                    {analyticsTitleLines.map((line, i) => (
+                      <span key={i}>
+                        {line}
+                        {i < analyticsTitleLines.length - 1 ? <br /> : null}
+                      </span>
+                    ))}
                   </>
                 }
               >
@@ -55,8 +83,8 @@ export function ServicesBento() {
                     />
                     <DeferredVideo
                       className="absolute bottom-0 left-1/2 h-[520px] w-full min-w-full max-w-none -translate-x-1/2 object-cover object-bottom"
-                      src="/videos/InstagramViewsAnalytics.mp4"
-                      poster="/images/bento/InstagramViewsAnalyticsFallback2.png"
+                      src={analyticsVideoPath}
+                      poster={analyticsVideoPosterPath}
                       autoPlay
                       muted
                       loop
@@ -69,8 +97,8 @@ export function ServicesBento() {
 
               <ServiceInfoCard
                 className="h-full min-h-[320px] md:min-h-[380px]"
-                title="AI Automation"
-                priceLine="Starting from AED 10,000"
+                title={aiCard?.title ?? "AI Automation"}
+                priceLine={aiCard?.priceLine ?? "Starting from AED 10,000"}
                 showPattern
               >
                 <Image
@@ -95,10 +123,10 @@ export function ServicesBento() {
               <div className="relative flex min-h-0 flex-1 flex-col gap-6 p-5 pt-8 max-md:gap-7 md:flex-row md:gap-0 md:pt-9">
                 <div className="shrink-0 max-md:mb-1 md:max-w-[180px] md:pr-3">
                   <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
-                    Starting from AED 5,000
+                    {webCard?.priceLine ?? "Starting from AED 5,000"}
                   </p>
                   <h3 className="mt-1 font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
-                    Web Design
+                    {webCard?.title ?? "Web Design"}
                   </h3>
                 </div>
                 <div className="relative min-h-[200px] w-full min-w-0 flex-1 self-stretch overflow-hidden max-md:-mx-5 max-md:mt-1 max-md:min-h-[220px] md:min-h-0">
@@ -115,8 +143,8 @@ export function ServicesBento() {
 
           <ServiceMediaCard
             className="h-full min-h-[480px] w-full xl:min-h-[720px]"
-            title="Social Media Marketing"
-            priceLine="Starting from AED 5,000"
+            title={socialCard?.title ?? "Social Media Marketing"}
+            priceLine={socialCard?.priceLine ?? "Starting from AED 5,000"}
             accent="from-[#1c0c08]/25 via-[#2a100a]/35 to-[#140505]/50"
             titleClassName="font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.15] tracking-[-0.02em] text-white md:text-[24px]"
             glassPanel
@@ -138,8 +166,8 @@ export function ServicesBento() {
               </div>
               <DeferredVideo
                 className="relative z-[1] mx-auto h-[min(360px,42vh)] w-[min(100%,100%)] max-w-[min(400px,92vw)] shrink-0 rounded-[20px] object-cover object-bottom shadow-[0_3px_12px_rgba(0,0,0,0.44)] sm:max-w-[min(420px,90%)] md:h-[560px] md:max-w-none md:w-[280px]"
-                src="/videos/InstagramViewsAnalytics.mp4"
-                poster="/images/bento/InstagramViewsAnalyticsFallback2.png"
+                src={analyticsVideoPath}
+                poster={analyticsVideoPosterPath}
                 autoPlay
                 muted
                 loop
