@@ -8,7 +8,8 @@
 
 import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { resolve } from "node:path";
+import { readFileSync } from "node:fs";
+import { basename, resolve } from "node:path";
 
 import { siteContentDefaults } from "../lib/siteContentDefaults";
 
@@ -37,8 +38,33 @@ const client = createClient({
 });
 
 const d = siteContentDefaults;
+const publicDir = resolve(process.cwd(), "public");
+
+async function uploadPublicImage(relativePath: string) {
+  try {
+    const absolutePath = resolve(publicDir, relativePath.replace(/^\//, ""));
+    const buffer = readFileSync(absolutePath);
+    const asset = await client.assets.upload("image", buffer, {
+      filename: basename(absolutePath),
+    });
+
+    return {
+      _type: "image" as const,
+      asset: { _type: "reference" as const, _ref: asset._id },
+    };
+  } catch {
+    console.warn(`Skip image upload (file missing): ${relativePath}`);
+    return undefined;
+  }
+}
 
 async function main() {
+  const [heroImage, bentoCocktailImage, bentoFoodImage] = await Promise.all([
+    uploadPublicImage("/images/HeroImage.png"),
+    uploadPublicImage("/images/bento/service-suite-cocktail.png"),
+    uploadPublicImage("/images/bento/service-suite-food.png"),
+  ]);
+
   const siteSettings = {
     _id: "siteSettings",
     _type: "siteSettings" as const,
@@ -87,6 +113,12 @@ async function main() {
     _id: "homepageV2",
     _type: "homepageV2" as const,
     ...d.homepageV2,
+    ...(heroImage ? { heroImage } : {}),
+    ...(bentoCocktailImage ? { bentoCocktailImage } : {}),
+    ...(bentoFoodImage ? { bentoFoodImage } : {}),
+    heroImagePath: null,
+    bentoCocktailImagePath: null,
+    bentoFoodImagePath: null,
     serviceCards: d.homepageV2.serviceCards.map((card) => ({
       title: card.title,
       flipDescription: card.flipDescription,

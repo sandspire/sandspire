@@ -1,6 +1,7 @@
 import { cache } from "react";
 
 import {
+  homepageV2ImageFallbacks,
   siteContentDefaults,
   type AboutPageContent,
   type ClientLogo,
@@ -15,6 +16,7 @@ import {
 } from "@/lib/siteContentDefaults";
 
 import { client } from "../client";
+import { resolveCmsImageUrl } from "../image";
 
 const SANITY_FETCH_MS = 12_000;
 
@@ -98,6 +100,7 @@ const HOMEPAGE_V2_QUERY = `*[_type == "homepageV2" && _id == "homepageV2"][0]{
   metaDescription,
   heroHeadline,
   heroSubheadline,
+  heroImage,
   heroImagePath,
   heroPrimaryCtaLabel,
   heroPrimaryCtaHref,
@@ -125,6 +128,8 @@ const HOMEPAGE_V2_QUERY = `*[_type == "homepageV2" && _id == "homepageV2"][0]{
   showreelCtaHref,
   analyticsVideoPath,
   analyticsVideoPosterPath,
+  bentoCocktailImage,
+  bentoFoodImage,
   bentoCocktailImagePath,
   bentoFoodImagePath
 }`;
@@ -314,7 +319,12 @@ async function getHomepageV2ContentImpl(): Promise<HomepageV2Content> {
     metaDescription: pickString(doc.metaDescription as string, d.metaDescription),
     heroHeadline: pickString(doc.heroHeadline as string, d.heroHeadline),
     heroSubheadline: pickString(doc.heroSubheadline as string, d.heroSubheadline),
-    heroImagePath: pickString(doc.heroImagePath as string, d.heroImagePath),
+    heroImagePath: resolveCmsImageUrl(
+      doc.heroImage as Parameters<typeof resolveCmsImageUrl>[0],
+      doc.heroImagePath as string,
+      homepageV2ImageFallbacks.hero,
+      2400,
+    ),
     heroPrimaryCtaLabel: pickString(doc.heroPrimaryCtaLabel as string, d.heroPrimaryCtaLabel),
     heroPrimaryCtaHref: pickString(doc.heroPrimaryCtaHref as string, d.heroPrimaryCtaHref),
     heroSecondaryCtaLabel: pickString(doc.heroSecondaryCtaLabel as string, d.heroSecondaryCtaLabel),
@@ -336,8 +346,18 @@ async function getHomepageV2ContentImpl(): Promise<HomepageV2Content> {
       doc.analyticsVideoPosterPath as string,
       d.analyticsVideoPosterPath,
     ),
-    bentoCocktailImagePath: pickString(doc.bentoCocktailImagePath as string, d.bentoCocktailImagePath),
-    bentoFoodImagePath: pickString(doc.bentoFoodImagePath as string, d.bentoFoodImagePath),
+    bentoCocktailImagePath: resolveCmsImageUrl(
+      doc.bentoCocktailImage as Parameters<typeof resolveCmsImageUrl>[0],
+      doc.bentoCocktailImagePath as string,
+      homepageV2ImageFallbacks.bentoCocktail,
+      900,
+    ),
+    bentoFoodImagePath: resolveCmsImageUrl(
+      doc.bentoFoodImage as Parameters<typeof resolveCmsImageUrl>[0],
+      doc.bentoFoodImagePath as string,
+      homepageV2ImageFallbacks.bentoFood,
+      900,
+    ),
   };
 }
 

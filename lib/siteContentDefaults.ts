@@ -84,6 +84,13 @@ export type WorkPageSettingsContent = {
   emptyFilterMessage: string;
 };
 
+/** Local /public fallbacks when Sanity has no uploaded image yet. */
+export const homepageV2ImageFallbacks = {
+  hero: "/images/HeroImage.png",
+  bentoCocktail: "/images/bento/service-suite-cocktail.png",
+  bentoFood: "/images/bento/service-suite-food.png",
+} as const;
+
 export const siteContentDefaults = {
   site: {
     siteTitle: "Sandspire",
@@ -223,7 +230,7 @@ export const siteContentDefaults = {
     heroHeadline: "AI-native creative studio",
     heroSubheadline:
       "We create brands, experiences, and workflows that work without friction.",
-    heroImagePath: "/images/HeroImage.png",
+    heroImagePath: homepageV2ImageFallbacks.hero,
     heroPrimaryCtaLabel: "Get Started",
     heroPrimaryCtaHref: "/home-2#contact",
     heroSecondaryCtaLabel: "About Us",
@@ -282,8 +289,8 @@ export const siteContentDefaults = {
     showreelCtaHref: "/home-2#services",
     analyticsVideoPath: "/videos/InstagramViewsAnalytics.mp4",
     analyticsVideoPosterPath: "/images/bento/InstagramViewsAnalyticsFallback1.png",
-    bentoCocktailImagePath: "/images/bento/service-suite-cocktail.png",
-    bentoFoodImagePath: "/images/bento/service-suite-food.png",
+    bentoCocktailImagePath: homepageV2ImageFallbacks.bentoCocktail,
+    bentoFoodImagePath: homepageV2ImageFallbacks.bentoFood,
   },
   about: {
     metaTitle: "About — Sandspire",

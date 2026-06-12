@@ -30,10 +30,11 @@
 The site is wired for [Sanity](https://www.sanity.io/). **The live site does not ship the full Studio UI** (that bundle is too large for Cloudflare’s server limits). **Edit content** in [Sanity Manage](https://www.sanity.io/manage), or run the full **Studio** on your computer: in the project folder use **`npx sanity dev`**, then open the URL it prints (the config is still at **`/studio`**). On the **public site**, **`/studio`** is a small page with the same links and instructions.
 
 **Local setup**
-1. Copy **`.env.example`** to **`.env.local`** in the project root (same folder as `package.json`) for **`npm run dev`**. For **`npx sanity dev`**, the CLI usually reads **`.env`** (not `.env.local`); either copy the same vars into **`.env`** or rely on **defaults in `sanity/env.ts`** (same IDs as the example) so Studio starts without an extra file.
-2. Set **`NEXT_PUBLIC_SANITY_PROJECT_ID`** and **`NEXT_PUBLIC_SANITY_DATASET`** if they differ from the example file.
-3. For the **full** editing UI locally, run **`npx sanity dev`** and open the local Studio URL; sign in with the same Sanity account. To create a **Homepage** document, use the **Structure** or **Create** flow in that Studio.
-4. In Sanity **Manage** → **API** → **CORS origins**, add `http://localhost:3000` (and your production URL when you deploy) so the browser can talk to the API.
+1. Copy **`.env.example`** to **`.env.local`**. Your project is **`1fmk53vd`** / dataset **`production`** (Sandspire in [Sanity Manage](https://www.sanity.io/manage/project/1fmk53vd)).
+2. **Do not** run `npm create sanity@latest` again in this repo — Sanity is already set up. That command is for brand-new projects and can overwrite config.
+3. Check the connection anytime: **`npm run verify:sanity`** (should show all ✓ checks).
+4. For the **editing UI**, run **`npm run sanity:dev`** (or `npx sanity dev`) and sign in with your Sanity account.
+5. In Sanity **Manage** → **API** → **CORS origins**, add `http://localhost:3000` (and your production URL when you deploy).
 
 **Deploy:** Add the same `NEXT_PUBLIC_SANITY_*` variables to your host (e.g. Cloudflare **`.dev.vars`** / dashboard env) so builds don’t fail. **Cloudflare:** the Worker script must stay under the host’s size limit; on the **free** plan that limit is very small, so a **paid Workers** plan (larger limit) is usually needed for this OpenNext app, or use another host (e.g. Vercel) for production.
 
@@ -56,12 +57,15 @@ Open **`npx sanity dev`** (or Sanity Manage) and use the **Content** list on the
 After you **Publish** in Studio, the live site picks up changes within about **one minute** (`revalidate = 60`). If Sanity is slow or offline, the site keeps showing the built-in defaults from **`lib/siteContentDefaults.ts`**.
 
 **Seed all site copy at once (recommended first time):**
-1. Set **`SANITY_API_WRITE_TOKEN`** (Editor token) in **`.env.local`**.
-2. Run **`npm run seed:sanity-site-content`** — uploads Site settings, both homepages, About, Work listing, and client logos.
-3. Run **`npm run seed:sanity-work-projects`** if work projects are not in Sanity yet.
-4. Open Studio, review, and **Publish** each document.
+1. In [Sanity Manage](https://www.sanity.io/manage) → your project → **API** → **Tokens**, create an **Editor** token.
+2. Add **`SANITY_API_WRITE_TOKEN`** to **`.env.local`** (this is only for *uploading* content — visitors do **not** need it).
+3. Run **`npm run seed:sanity-site-content`** — uploads text **and** home-2 images (hero + bento photos) into Sanity’s CDN.
+4. Run **`npm run seed:sanity-work-projects`** if work projects are not in Sanity yet.
+5. Open **`npx sanity dev`** → **Homepage (version 2)** to swap images anytime.
 
-**Still fixed in code (not in CMS yet):** decorative bento SVG frames, the AI Automation icon diagram, contact form field labels, and some layout-only styling. Media mostly uses **paths** under `public/` (e.g. `/videos/…`, `/images/…`) — you can change the path in Sanity or upload via future image fields.
+**Where home-2 images live in Sanity:** Studio → **Homepage (version 2)** → **Hero image**, **Service bento — cocktail photo**, **Service bento — food photo**. They are stored on **`cdn.sanity.io`** (not in your `public/` folder). You do **not** need a separate image API key to *show* them on the site — only the normal **`NEXT_PUBLIC_SANITY_*`** vars (already in `.env.example`).
+
+**Still fixed in code (not in CMS yet):** decorative bento SVG frames, the AI Automation icon diagram, contact form field labels, and some layout-only styling. **Home 2 hero + bento photos** are uploaded **images in Sanity** (edit under **Homepage version 2**). Videos still use paths under `public/videos/`.
 
 ### Work projects in Sanity
 Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **`workProject`**; older **`caseStudy`** docs are still read until migrated). If the document is missing or a field is empty, the site uses **`lib/workProjectDefaults.ts`** for that slug.
@@ -76,7 +80,11 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 **Adding a new project later:** Add an entry to **`WORK_PROJECTS`** in `lib/workProjectDefaults.ts` if you want a code fallback, or create only a **Work project** in Sanity (or both). The **`/work`** listing is driven from Sanity; re-run the seed if you use it to sync from code defaults.
 
 ## Recent Changes
-- 2026-06-11: **Full-site Sanity CMS** — Navigation, footer, both homepages, About, Contact/FAQ, Work listing headers, logo marquee, and work projects are now editable in Sanity. Run **`npm run seed:sanity-site-content`** once to upload current copy, then edit in **`npx sanity dev`**. Site falls back to **`lib/siteContentDefaults.ts`** if Sanity is empty or unreachable.
+- 2026-06-11: **`/home-2` Service Suite (mobile)** — Slightly larger text on the compact flip cards (titles and descriptions).
+- 2026-06-11: **`/home-2` Service Suite (mobile)** — Compact **3-column** bento (Figma iPhone layout) only below **554px** wide; **554px and wider** uses the full desktop bento grid. Mobile grid spans the full browser width with smaller ~120px cards.
+- 2026-06-11: **`/home-2` Service Suite** — The service icon diagram (top-left bento card) now has **animated connecting lines**: orange dashes flow along the paths between nodes, with small dots traveling the routes (like React Flow’s animating edges). Respects **reduced motion** settings.
+- 2026-06-11: **`/home-2` Service Suite** — Brand Strategy cascade tiles size to each image’s aspect ratio, with **10px** padding, **rounded corners**, and **gray translucent borders**; seven **webp** files in `public/images/bento/`. Service icon card has **5px** side padding.
+- 2026-06-11: **`/home-2` images** — Hero and bento photos prefer **Sanity uploads** when set; otherwise the site uses local fallbacks in `public/images/` so the page never shows blank. Bento photos **fill their card frames** edge-to-edge.
 - 2026-06-11: **`/home-2` polish (14 layout fixes):** Service Suite **Brand Strategy** cascade is smaller, centered, and responsive; bento images align **top**; dot-pattern background removed from the AI card; **Service Suite** title uses **Colitez Serif** (bento card copy stays **Jakarta**). **Our Work** title is no longer sticky; orange glow aligns with the section top and reads **darker**; **3 Fils** copy shows immediately before scrolling; card labels and tags use **Jakarta**. Hero **h1** uses **Jakarta**. Contact form: removed the gray info box and orange button glow on home-2. **Footer** on home-2: **orange** background, **black** text, logo **blend mode**.
 - 2026-06-11: **`/home-2` follow-up:** Footer uses the same **orange stripe glow** as Our Work (brighter). Work sidebar copy stays **pinned on the left** while cards stack (opacity crossfade only). Brand Strategy cascade and service icon are **larger**.
 - 2026-06-11: **`/work` page:** Project card titles (e.g. Bordo Mavi) use **Plus Jakarta Sans** instead of the serif display font.

@@ -24,6 +24,8 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "seed:sanity-work-projects": "npx tsx scripts/seed-work-projects.ts",
     "seed:sanity-site-content": "npx tsx scripts/seed-site-content.ts",
+    "verify:sanity": "npx tsx scripts/verify-sanity-connection.ts",
+    "sanity:dev": "sanity dev",
     "seed:sanity-case-studies": "npx tsx scripts/seed-work-projects.ts"
   },
   "dependencies": {

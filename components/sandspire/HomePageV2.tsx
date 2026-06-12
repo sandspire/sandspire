@@ -12,7 +12,7 @@ import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { SiteFooter } from "@/components/sandspire/SiteFooter";
 import { SiteNavBar } from "@/components/sandspire/SiteNavBar";
 import type { ClientLogo, HomepageV2Content } from "@/lib/siteContentDefaults";
-import { siteContentDefaults } from "@/lib/siteContentDefaults";
+import { homepageV2ImageFallbacks, siteContentDefaults } from "@/lib/siteContentDefaults";
 import type { SiteSettingsContent } from "@/sanity/lib/queries/siteContent";
 
 function OutlineButton({
@@ -48,6 +48,8 @@ export function HomePageV2({
   const nav = site?.nav ?? siteContentDefaults.nav;
   const contact = site?.contact ?? siteContentDefaults.contact;
   const footer = site?.footer ?? siteContentDefaults.footer;
+  const heroImageSrc =
+    content.heroImagePath?.trim() || homepageV2ImageFallbacks.hero;
 
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
@@ -65,14 +67,16 @@ export function HomePageV2({
           <div className="relative min-h-0 flex-1 overflow-hidden rounded-b-[32px] lg:rounded-b-[48px]">
             <div className="absolute inset-0 overflow-hidden rounded-b-[32px] lg:rounded-b-[48px]">
               <div className="absolute inset-0 scale-[1.18]">
-                <Image
-                  src={content.heroImagePath}
-                  alt=""
-                  fill
-                  priority
-                  sizes="100vw"
-                  className="object-cover object-center brightness-[1.12] saturate-[1.05]"
-                />
+                {heroImageSrc ? (
+                  <Image
+                    src={heroImageSrc}
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover object-center brightness-[1.12] saturate-[1.05]"
+                  />
+                ) : null}
               </div>
             </div>
             <div className="pointer-events-none absolute inset-0 rounded-b-[32px] bg-gradient-to-b from-black/40 via-black/22 to-black/48 lg:rounded-b-[48px]" />

@@ -9,7 +9,18 @@ export const homepageV2 = defineType({
     defineField({ name: "metaDescription", title: "Meta description", type: "text", rows: 2 }),
     defineField({ name: "heroHeadline", title: "Hero headline", type: "string" }),
     defineField({ name: "heroSubheadline", title: "Hero subheadline", type: "text", rows: 2 }),
-    defineField({ name: "heroImagePath", title: "Hero image path", type: "string" }),
+    defineField({
+      name: "heroImage",
+      title: "Hero image",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "heroImagePath",
+      title: "Hero image path (legacy fallback)",
+      type: "string",
+      description: "Optional /public path if no uploaded hero image.",
+    }),
     defineField({ name: "heroPrimaryCtaLabel", title: "Primary CTA label", type: "string" }),
     defineField({ name: "heroPrimaryCtaHref", title: "Primary CTA link", type: "string" }),
     defineField({ name: "heroSecondaryCtaLabel", title: "Secondary CTA label", type: "string" }),
@@ -38,8 +49,28 @@ export const homepageV2 = defineType({
     defineField({ name: "showreelCtaHref", title: "Showreel CTA link", type: "string" }),
     defineField({ name: "analyticsVideoPath", title: "Service bento analytics video", type: "string" }),
     defineField({ name: "analyticsVideoPosterPath", title: "Analytics video poster", type: "string" }),
-    defineField({ name: "bentoCocktailImagePath", title: "Bento cocktail image path", type: "string" }),
-    defineField({ name: "bentoFoodImagePath", title: "Bento food image path", type: "string" }),
+    defineField({
+      name: "bentoCocktailImage",
+      title: "Service bento — cocktail photo",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "bentoFoodImage",
+      title: "Service bento — food photo",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "bentoCocktailImagePath",
+      title: "Cocktail photo path (legacy fallback)",
+      type: "string",
+    }),
+    defineField({
+      name: "bentoFoodImagePath",
+      title: "Food photo path (legacy fallback)",
+      type: "string",
+    }),
   ],
   preview: {
     prepare() {

@@ -4,7 +4,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  images: string[];
+  images?: string[];
+  /** Explicit row groups (overrides flat `images` + modulo split). */
+  imageRows?: string[][];
   className?: string;
   /** Number of marquee rows (default 3). */
   rows?: number;
@@ -15,12 +17,30 @@ type Props = {
   variant?: "default" | "compact";
 };
 
+const compactTileMaxHeight =
+  "max-h-[72px] sm:max-h-[80px] md:max-h-[88px] lg:max-h-[96px]";
+
+function CompactCascadeTile({ src }: { src: string }) {
+  return (
+    <div className="box-border flex-shrink-0 overflow-hidden rounded-[14px] border border-[#9a9a9a]/45 bg-black/10 p-0 shadow-[0_2px_8px_rgba(0,0,0,0.22)]">
+      <img
+        src={src}
+        alt=""
+        className={cn("block h-auto w-auto max-w-none", compactTileMaxHeight)}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  );
+}
+
 /**
  * 3D Marquee — horizontal scrolling rows with strong isometric tilt.
  * `compact` fits the home-2 bento: smaller tiles, centered, flush vertical fit.
  */
 export function WebDesignPortfolioCascade({
-  images,
+  images = [],
+  imageRows,
   className,
   rows = 3,
   maxPerRow = 2,
@@ -28,9 +48,11 @@ export function WebDesignPortfolioCascade({
   variant = "default",
 }: Props) {
   const isCompact = variant === "compact";
-  const rowArraysRaw: string[][] = Array.from({ length: rows }, (_, rowIdx) =>
-    images.filter((_, i) => i % rows === rowIdx),
-  );
+  const rowArraysRaw: string[][] =
+    imageRows ??
+    Array.from({ length: rows }, (_, rowIdx) =>
+      images.filter((_, i) => i % rows === rowIdx),
+    );
   const rowArrays = rowArraysRaw.map((row) => {
     if (!row.length) return row;
     const capped = row.slice(0, maxPerRow);
@@ -51,7 +73,7 @@ export function WebDesignPortfolioCascade({
       }}
       className={cn(
         "flex w-max flex-col",
-        isCompact ? "gap-0 py-0" : "max-md:gap-4 gap-6 py-1 max-md:py-0.5 md:py-2",
+        isCompact ? "gap-[10px] py-0" : "max-md:gap-4 gap-6 py-1 max-md:py-0.5 md:py-2",
       )}
     >
       {rowArrays.map((rowImages, rowIdx) => {
@@ -63,30 +85,29 @@ export function WebDesignPortfolioCascade({
             key={rowIdx}
             className={cn(
               "flex w-max flex-shrink-0",
-              isCompact ? "gap-0" : "gap-3 md:gap-6",
+              isCompact ? "gap-[10px]" : "gap-3 md:gap-6",
               pauseOnHover && "hover:[animation-play-state:paused]",
               reverse ? "animate-marquee-reverse" : "animate-marquee",
             )}
           >
-            {loopImages.map((src, i) => (
-              <div
-                key={`${src}-${i}`}
-                className={cn(
-                  "box-border flex-shrink-0 overflow-hidden border-solid border-white/25 shadow-[0_4px_10px_rgba(0,0,0,0.28)]",
-                  isCompact
-                    ? "h-[78px] w-[111px] rounded-none border-0 shadow-none sm:h-[90px] sm:w-[129px] md:h-[102px] md:w-[144px] lg:h-[114px] lg:w-[162px]"
-                    : "h-[110px] w-[156px] rounded-lg border-2 md:h-[248px] md:w-[352px] md:rounded-xl md:border-[3px] md:shadow-[0_8px_22px_rgba(0,0,0,0.38),0_3px_8px_rgba(0,0,0,0.22)]",
-                )}
-              >
-                <img
-                  src={src}
-                  alt=""
-                  className="block h-full w-full object-cover object-center"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            ))}
+            {loopImages.map((src, i) =>
+              isCompact ? (
+                <CompactCascadeTile key={`${src}-${i}`} src={src} />
+              ) : (
+                <div
+                  key={`${src}-${i}`}
+                  className="box-border h-[110px] w-[156px] flex-shrink-0 overflow-hidden rounded-lg border-2 border-solid border-white/25 shadow-[0_4px_10px_rgba(0,0,0,0.28)] md:h-[248px] md:w-[352px] md:rounded-xl md:border-[3px] md:shadow-[0_8px_22px_rgba(0,0,0,0.38),0_3px_8px_rgba(0,0,0,0.22)]"
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    className="block h-full w-full object-cover object-center"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ),
+            )}
           </div>
         );
       })}
@@ -124,7 +145,7 @@ export function WebDesignPortfolioCascade({
             className={cn(
               "will-change-transform",
               isCompact
-                ? "origin-center [transform:scale(1.32)] sm:[transform:scale(1.42)] md:[transform:scale(1.5)] lg:[transform:scale(1.58)]"
+                ? "origin-center [transform:scale(0.95)] sm:[transform:scale(1)] md:[transform:scale(1.05)] lg:[transform:scale(1.11)]"
                 : "origin-[48%_42%] [transform:scale(0.91)] md:origin-center md:[transform:scale(1.08)]",
             )}
             style={{ transformStyle: "preserve-3d" }}
