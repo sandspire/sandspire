@@ -26,7 +26,7 @@ function CompactCascadeTile({ src }: { src: string }) {
       <img
         src={src}
         alt=""
-        className={cn("block h-auto w-auto max-w-none", compactTileMaxHeight)}
+        className={cn("block h-auto w-auto max-w-none object-fill", compactTileMaxHeight)}
         loading="lazy"
         decoding="async"
       />
@@ -73,7 +73,7 @@ export function WebDesignPortfolioCascade({
       }}
       className={cn(
         "flex w-max flex-col",
-        isCompact ? "gap-[10px] py-0" : "max-md:gap-4 gap-6 py-1 max-md:py-0.5 md:py-2",
+        isCompact ? "gap-[10px] py-0" : "max-md:gap-4 gap-6 py-0.5 max-md:py-0 md:py-0",
       )}
     >
       {rowArrays.map((rowImages, rowIdx) => {
@@ -101,7 +101,7 @@ export function WebDesignPortfolioCascade({
                   <img
                     src={src}
                     alt=""
-                    className="block h-full w-full object-cover object-center"
+                    className="block h-full w-full scale-[1.03] object-fill object-center"
                     loading="lazy"
                     decoding="async"
                   />
@@ -120,7 +120,7 @@ export function WebDesignPortfolioCascade({
         "relative h-full min-h-0 w-full overflow-hidden",
         isCompact
           ? "[perspective-origin:50%_50%]"
-          : "max-md:[perspective-origin:50%_42%] md:[perspective-origin:15%_50%]",
+          : "max-md:[perspective-origin:50%_45%] md:[perspective-origin:50%_50%]",
         className,
       )}
       style={{
@@ -131,7 +131,7 @@ export function WebDesignPortfolioCascade({
         className={cn(
           "absolute inset-0 overflow-hidden",
           !isCompact &&
-            "max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:top-0 md:bottom-[-20%] md:left-[20%] md:-right-[15%] md:top-[-20%]",
+            "max-md:bottom-[-8%] max-md:left-0 max-md:right-0 max-md:top-[-8%] md:bottom-[-16%] md:left-[-10%] md:right-[-10%] md:top-[-16%]",
         )}
       >
         <div
@@ -146,7 +146,7 @@ export function WebDesignPortfolioCascade({
               "will-change-transform",
               isCompact
                 ? "origin-center [transform:scale(0.95)] sm:[transform:scale(1)] md:[transform:scale(1.05)] lg:[transform:scale(1.11)]"
-                : "origin-[48%_42%] [transform:scale(0.91)] md:origin-center md:[transform:scale(1.08)]",
+                  : "origin-center [transform:scale(1.2)] md:[transform:scale(0.6)]",
             )}
             style={{ transformStyle: "preserve-3d" }}
           >

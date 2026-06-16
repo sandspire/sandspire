@@ -99,11 +99,11 @@ const SLRP_ALTS: WorkProjectDefaults["alts"] = {
 };
 
 function bodyChallenge(name: string) {
-  return `${name} needed a digital experience that matched the energy guests feel in person. Competing noise in the category, uneven messaging, and fragmented touchpoints were slowing discovery and weakening recall.`;
+  return `${name} felt great in person, but that energy wasn't coming through online. The messaging shifted from one channel to the next, the brand looked different everywhere you found it, and new customers had to work too hard to figure out what to try first.`;
 }
 
 function bodySolution() {
-  return `We rebuilt the story around clarity and rhythm: stronger hierarchy, a flexible visual system, and repeatable content blocks so launches stay fast without losing consistency. The result is a brand that feels intentional on every screen.`;
+  return `We tightened the whole thing up: a clearer story, one consistent look, and reusable content blocks the team can launch with quickly. Now the brand reads the same wherever you meet it — and it actually sounds like the place you'd visit.`;
 }
 
 const UAE = "United Arab Emirates";
@@ -164,7 +164,7 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
       locationLabel: "Company Location",
       location: UAE,
       about:
-        "A premium dining journey and digital booking flow for guests who expect polish at every step.",
+        "A premium dining brand and booking flow that stays polished from the first tap to the table.",
       projectUrl: "https://www.brixjourney.com/",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
@@ -191,9 +191,9 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
     projectUrl: "https://www.slrpramen.com/",
     ctaLabel: "Visit Website",
     challengeTitle: "The challenge",
-    challengeBody: `The original website looked static and didn't reflect the speed and energy of SLRP's in-store experience. Navigation and content hierarchy felt fragmented, making it harder for customers to discover what to order first. Visual identity assets were inconsistent across social and web touchpoints, reducing brand recall.`,
+    challengeBody: `The old site felt flat — none of the speed or noise you get walking into SLRP in person. The menu was hard to scan, so first-timers didn't know what to order, and the brand looked different on the site than it did on social.`,
     solutionTitle: "The solution",
-    solutionBody: `We rebuilt the experience around clear product categories, a stronger visual rhythm, and conversion-first sections. A high-contrast design system and bold typography were introduced to mirror the Tokyo-inspired brand personality. Reusable visual blocks made campaign launches and menu updates faster without losing consistency.`,
+    solutionBody: `We rebuilt the site around clear menu categories and bold, high-contrast design that matches the Tokyo street energy. Reusable sections let the team push new menus and campaigns fast, and the brand now looks the same whether you find it on a phone, a screen, or a feed.`,
     resultTitle: "The result",
     invertClientLogo: true,
     clientLogoPath: "/logos/slrp.svg",
@@ -221,7 +221,7 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
       locationLabel: "Company Location",
       location: UAE,
       about:
-        "Mediterranean experience with immersive storytelling across social and digital touchpoints.",
+        "A Mediterranean restaurant brand with a social presence that tells its story across every post.",
       projectUrl: "https://www.bordomavidubai.com/",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
@@ -256,7 +256,7 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
       locationLabel: "Company Location",
       location: UAE,
       about:
-        "Cafe identity, website, and campaign launch assets for a dessert-led neighborhood favorite.",
+        "Brand, website, and launch campaign for a dessert-led neighbourhood café people keep coming back to.",
       projectUrl: "https://www.brixtable.com/cafe",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
@@ -291,7 +291,7 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
       locationLabel: "Company Location",
       location: UAE,
       about:
-        "Retail-inspired visual system and conversion pages built for quick decisions.",
+        "A retail-inspired look and easy-to-shop pages built to help people decide fast.",
       projectUrl: "https://www.3fils.com/the-concepts/kombini",
       ctaLabel: "Visit Website",
       challengeTitle: "The challenge",
@@ -326,7 +326,7 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
       locationLabel: "Company Location",
       location: UAE,
       about:
-        "Editorial-inspired food brand with a focused campaign rollout and distinctive art direction.",
+        "An editorial-style food brand with sharp art direction and a focused launch campaign.",
       projectUrl: "https://www.instagram.com/eatkanji/",
       ctaLabel: "Visit Instagram",
       challengeTitle: "The challenge",

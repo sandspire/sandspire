@@ -83,7 +83,7 @@ export function HomePageV2({
 
             <div className="relative z-10 flex h-full flex-col justify-center px-6 font-body home2-hero lg:px-8">
               <ScrollReveal className="mx-auto w-full max-w-[554px] text-center">
-                <h1 className="font-body text-[clamp(2.5rem,6.5vw,4.7rem)] font-light leading-[0.95] tracking-[-0.05em] text-white">
+                <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.7rem)] font-light leading-[0.95] tracking-[-0.05em] text-white">
                   {content.heroHeadline}
                 </h1>
                 <p className="mt-6 text-[18px] font-normal leading-[1.4] text-[#faf3e8] sm:text-[20px]">

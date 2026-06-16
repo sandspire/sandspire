@@ -95,7 +95,7 @@ export const siteContentDefaults = {
   site: {
     siteTitle: "Sandspire",
     siteDescription:
-      "We create brands, experiences, and workflows that work without friction.",
+      "Sandspire is a creative studio in the UAE. We design websites, run social, and build AI that handles the busywork.",
     phone: "+971 56 198 0747",
     email: "",
   },
@@ -106,14 +106,14 @@ export const siteContentDefaults = {
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ] satisfies NavLink[],
-    ctaLabel: "Get in touch",
+    ctaLabel: "Start a project",
     ctaHref: "/contact",
   },
   footer: {
-    taglineLine1: "Great design should",
-    taglineLine2: "feel invisible.",
+    taglineLine1: "Creative that",
+    taglineLine2: "pulls its weight.",
     blurb:
-      "We are a creative agency supporting businesses from branding, all the way to automation.",
+      "A creative studio for brands that want to look sharp and run smoother — websites, social, and AI that takes the repetitive stuff off your plate.",
     copyright: "© Copyright Sandspire | Design by Jabrni",
     socialLinks: [
       { label: "LinkedIn", href: "/coming-soon" },
@@ -122,83 +122,105 @@ export const siteContentDefaults = {
     ] satisfies SocialLink[],
   },
   contact: {
-    eyebrow: "Contact us",
-    headline: "Let's Create Something Meaningful",
+    eyebrow: "Say hello",
+    headline: "Tell us what you're building",
     intro:
-      "Whether you're starting from scratch or need a brand refresh, we're here to help bring your vision to life.",
+      "Got a website to launch, a feed to fill, or a process eating your week? Send a note — we usually reply within one business day.",
     faqDefault: [
       {
-        question: "How long does a project take?",
+        question: "How long does a website take?",
         answer:
-          "Most projects take 4–8 weeks after discovery. Timeline depends on scope, approvals, and how quickly assets are ready.",
+          "Most sites go live in 4–6 weeks. The exact timeline comes down to how many pages you need, how fast feedback lands, and whether copy and photos are ready.",
       },
       {
-        question: "Do you work with international clients?",
+        question: "What can AI actually do for my business?",
         answer:
-          "Yes. We collaborate with teams worldwide and keep things smooth with async updates and scheduled check-ins.",
+          "Usually the boring, repetitive stuff: replying to leads, sorting enquiries, drafting content, and moving info between your tools. We map your day-to-day first, then automate the parts that waste the most time.",
       },
       {
-        question: "Do you offer payment plans?",
+        question: "Do you work with clients outside the UAE?",
         answer:
-          "Yes. We can structure work into milestones so you pay in phases as deliverables are completed.",
+          "Yes. We're based in the UAE and work with teams across time zones. Async updates and scheduled calls keep everyone in the loop.",
       },
       {
-        question: "What do I need to get started?",
+        question: "Can I pay in stages?",
         answer:
-          "A short brief (goals + audience), any brand assets you already have, and a target launch window. If you're missing pieces, we'll guide you.",
+          "Yes. We split larger projects into milestones, so you pay as each piece is finished — not all upfront.",
+      },
+      {
+        question: "What do you need from me to start?",
+        answer:
+          "A quick brief on your goals and audience, anything you already have (logo, photos, old site), and a rough launch date. Missing a few pieces? We'll help you fill them in.",
       },
     ] satisfies FaqItem[],
     faqHome2: [
       {
-        question: "How long does a project take?",
+        question: "Do you create the content, or just post it?",
         answer:
-          "Most projects land in the 4–8 week range after kickoff, depending on scope, feedback speed, and asset readiness.",
+          "Both. We plan the calendar, shoot and edit short-form video, write the captions, and post it — then send you the numbers each month. You can be as hands-on or hands-off as you like.",
       },
       {
-        question: "Do you work with international clients?",
+        question: "What's UGC, and do I need it?",
         answer:
-          "Yes. We collaborate across time zones with async updates and scheduled reviews so progress stays visible.",
+          "UGC is content that looks like it came from a real customer, not an ad. It's great for building trust and works hard on Reels, TikTok, and product pages. If your audience scrolls past polished ads, it's worth a try.",
       },
       {
-        question: "Do you offer payment plans?",
-        answer: "Yes. Larger engagements can be split into milestone payments as deliverables are approved.",
+        question: "How soon will I see results on social?",
+        answer:
+          "Consistency takes a few months to compound. Most clients see steadier engagement within 60–90 days, and we report on what's working so we can do more of it.",
+      },
+      {
+        question: "Can I pay in stages?",
+        answer:
+          "Yes. Monthly social retainers are billed month to month, and larger one-off projects can be split into milestones.",
       },
       {
         question: "Where are you based?",
         answer:
-          "Sandspire is based in the UAE and works with regional and international teams — remote-first when it helps the schedule.",
+          "Sandspire is in the UAE and works with regional and international brands — remote-first whenever that keeps things moving faster.",
       },
     ] satisfies FaqItem[],
   },
   homepage: {
-    heroEyebrow: "Hey, we're a",
-    heroHeadline: "Creative Studio",
+    heroEyebrow: "We're a creative studio for",
+    heroHeadline: "Web & AI",
     heroSubheadline: "",
-    heroBodyTitle: "Great brands should feel\neffortless.",
+    heroBodyTitle: "A sharp website,\nwired to run itself.",
     heroBodyText:
-      "From strategy to launch, we create brands, experiences, and workflows that work without friction—so your customers never have to fight the experience.",
+      "We design and build fast, good-looking websites — then plug in AI to handle the follow-ups, the routing, and the busywork. You get the credit; the robots get the grunt work.",
     analyticsVideoPath: "/videos/InstagramViewsAnalytics.mp4",
     analyticsVideoPosterPath: "/images/bento/InstagramViewsAnalyticsFallback2.png",
+    webDesignImages: [
+      "/images/bento-web/top1-web.webp",
+      "/images/bento-web/top2-web.webp",
+      "/images/bento-web/top3-web.webp",
+      "/images/bento-web/middle1-web.webp",
+      "/images/bento-web/middle2-web.webp",
+      "/images/bento-web/bottom1-web.webp",
+      "/images/bento-web/bottom2-web.webp",
+      "/images/bento-web/middle 3-web.webp",
+      "/images/bento-web/middle 4-web.webp",
+    ],
     serviceCards: [
-      { title: "See real results\nyou can measure", description: "", priceLine: "" },
-      { title: "AI Automation", description: "", priceLine: "Starting from AED 10,000" },
-      { title: "Web Design", description: "", priceLine: "Starting from AED 5,000" },
-      { title: "Social Media Marketing", description: "", priceLine: "Starting from AED 5,000" },
+      { title: "Numbers that\nactually move", description: "", priceLine: "" },
+      { title: "AI Automation", description: "", priceLine: "From AED 10,000" },
+      { title: "Web Design", description: "", priceLine: "From AED 5,000" },
+      { title: "Social Media Marketing", description: "", priceLine: "From AED 5,000" },
     ] satisfies ServiceCardContent[],
     heroVideoPath: "/videos/HeroVideo-2%20(1).mp4",
     heroVideoPosterPath: "/images/hero/HeroVideoFallback.png",
     heroServices: [
-      { num: "#01", label: "Brand Strategy" },
-      { num: "#02", label: "Web Design" },
-      { num: "#03", label: "Social Media" },
-      { num: "#04", label: "AI Automation" },
+      { num: "#01", label: "Web Design" },
+      { num: "#02", label: "AI Automation" },
+      { num: "#03", label: "Brand Strategy" },
+      { num: "#04", label: "Social Media" },
     ],
     whoTitle: "Who is Sandspire?",
     whoBody:
-      "We are a creative agency supporting businesses from branding, all the way to automation.",
-    servicesEyebrow: "Agency Services",
+      "We're a small creative studio in the UAE. We design websites, build brands, and set up AI to quietly handle the repetitive work — so your business looks sharp and the day-to-day stops piling up.",
+    servicesEyebrow: "Our services",
     servicesTitle: "What we do",
-    caseStudiesTitle: "Crafting legacy for teams that scale",
+    caseStudiesTitle: "Recent work we're proud of",
     featuredCases: [
       {
         title: "3 Fils",
@@ -211,32 +233,32 @@ export const siteContentDefaults = {
         title: "Brix Journey",
         slug: "brix-journey",
         description:
-          "A premium dining journey and digital booking flow for guests who expect polish at every step.",
+          "A premium dining experience with a booking flow that stays polished from the first tap to the table.",
         imagePath: "/images/projects/brixjourney/brixjourney_img.png",
       },
       {
         title: "Slrp",
         slug: "slrp",
         description:
-          "High-energy ramen and rolls inspired by Tokyo street culture, built for busy malls, bold flavors, and fast-moving crowds.",
+          "Ramen and rolls with Tokyo street energy — a site built for busy malls, bold flavours, and fast decisions.",
         imagePath: "/images/projects/slrp/slrp_img.png",
       },
     ] satisfies FeaturedCase[],
   },
   homepageV2: {
-    metaTitle: "Sandspire Home 2",
+    metaTitle: "Sandspire — Social Media & Content Studio",
     metaDescription:
-      "Alternate Sandspire homepage: hero, featured work, service suite, showreel, contact and FAQ.",
-    heroHeadline: "AI-native creative studio",
+      "Sandspire runs social media, UGC, and content for brands that want feeds worth following. We plan, shoot, post, and report — so you don't have to.",
+    heroHeadline: "Social worth following",
     heroSubheadline:
-      "We create brands, experiences, and workflows that work without friction.",
+      "We plan, shoot, post, and report — so your brand shows up every day without eating your week. Short-form, UGC, community, the lot.",
     heroImagePath: homepageV2ImageFallbacks.hero,
-    heroPrimaryCtaLabel: "Get Started",
+    heroPrimaryCtaLabel: "Start a project",
     heroPrimaryCtaHref: "/home-2#contact",
     heroSecondaryCtaLabel: "About Us",
     heroSecondaryCtaHref: "/about",
     workTitle: "Our Work",
-    workSubtitle: "Selected works spanning our full range",
+    workSubtitle: "A few brands we've helped show up online",
     workViewAllLabel: "View All Work",
     workViewAllHref: "/work",
     workScrollItems: [
@@ -254,7 +276,7 @@ export const siteContentDefaults = {
       {
         title: "Kanji",
         description:
-          "Editorial-inspired food brand with a focused campaign rollout and distinctive art direction.",
+          "An editorial-style food brand with sharp art direction and a focused launch campaign.",
         href: "/work/kanji",
         videoPath: "/videos/heroSideImg_kanji.mp4",
         iconPath: "/logos/kanji.svg",
@@ -265,7 +287,7 @@ export const siteContentDefaults = {
       {
         title: "Slrp",
         description:
-          "High-energy ramen and rolls inspired by Tokyo street culture — built for busy malls, bold flavors, and fast-moving crowds.",
+          "Ramen and rolls with Tokyo street energy — a site built for busy malls, bold flavours, and fast decisions.",
         href: "/work/slrp",
         videoPath: "/videos/heroSideImg_slrpramen.mp4",
         iconPath: "/logos/slrp.svg",
@@ -276,11 +298,11 @@ export const siteContentDefaults = {
     ] satisfies FeaturedWorkScrollItem[],
     servicesTitle: "Service Suite",
     serviceCards: [
-      { title: "Post-Production & Video Editing", flipDescription: "Cuts, color, and sound—ready to publish." },
-      { title: "AI-Infused Production", flipDescription: "Faster drafts, human polish throughout." },
-      { title: "Brand Experiences", flipDescription: "Identity that holds across touchpoints." },
-      { title: "Social Media Management", flipDescription: "Plan, post, and refine every month." },
-      { title: "UGC Content & SEO", flipDescription: "Creator content built to be found." },
+      { title: "Social Media Management", flipDescription: "Plan, post, reply, repeat — every week." },
+      { title: "UGC & Creator Content", flipDescription: "Real faces, real reach, on brand." },
+      { title: "Short-Form Video Editing", flipDescription: "Hooks, cuts, captions — ready to post." },
+      { title: "Content & SEO", flipDescription: "Found on Google, not just the feed." },
+      { title: "AI-Assisted Production", flipDescription: "More posts a week, same small team." },
     ] satisfies ServiceCardContent[],
     showreelTitle: "Our 360° Showreel",
     showreelVideoPath: "/videos/HeroVideo-2%20(1).mp4",
@@ -295,28 +317,28 @@ export const siteContentDefaults = {
   about: {
     metaTitle: "About — Sandspire",
     metaDescription:
-      "Sandspire is a creative studio for brand strategy, web design, social, and automation—built for teams that want clarity and craft.",
+      "Sandspire is a small creative studio in the UAE — websites, brand, social, and AI automation, handled by people who actually pick up the phone.",
     eyebrow: "About",
-    headline: "A studio for brands that want to feel effortless",
+    headline: "A small studio that does the heavy lifting",
     intro:
-      "We're Sandspire—a creative team helping businesses go from first impression to daily operations without friction. Strategy, design, content, and automation sit together so your story, site, and workflows stay in sync.",
+      "We're Sandspire — a creative team in the UAE that designs websites, builds brands, runs social, and sets up AI to take the repetitive work off your plate. Small enough to care about the details, senior enough to get it done.",
     section1Title: "How we work",
     section1Body:
-      "We start with goals and audience, then shape identity and UX so every touchpoint reinforces the same idea. Small teams get senior attention; larger orgs get systems they can grow into—not one-off files nobody can maintain.",
+      "We start with your goal and your audience, then build backwards from there. You get one team across design, content, and automation — so your site, your feed, and your tools actually talk to each other instead of pulling in three directions.",
     section2Title: "What we care about",
     section2Body:
-      "Clarity over noise, craft over trends, and outcomes you can point to. Whether it's a launch, a refresh, or tooling that saves your team hours each week, we build for longevity—not just the screenshot.",
-    ctaPrefix: "Ready to talk?",
-    ctaLinkLabel: "Get in touch",
+      "Clear over clever, useful over flashy, and results you can point to. Whether it's a launch, a refresh, or a workflow that saves your team a few hours a week, we build things meant to last — not just look good in a screenshot.",
+    ctaPrefix: "Got something in mind?",
+    ctaLinkLabel: "Start a project",
     ctaLinkHref: "/contact",
   },
   workPage: {
     metaTitle: "Work — Sandspire",
-    metaDescription: "Selected brand, web, and campaign projects from Sandspire.",
+    metaDescription: "Brand, web, and social projects from Sandspire — built for real businesses across the UAE.",
     headline: "Selected Work",
     subheadline:
-      "A curated set of brand, web, and campaign projects crafted for teams that care about details.",
-    emptyFilterMessage: "Nothing in this category yet. Try another filter.",
+      "A few brand, web, and social projects we've shipped for teams that sweat the details.",
+    emptyFilterMessage: "Nothing here yet. Try another filter.",
   },
   clientLogos: [
     { name: "3 Fils", logoPath: "/logos/3fils.svg", order: 0 },

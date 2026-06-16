@@ -92,7 +92,8 @@ const HOMEPAGE_QUERY = `*[_type == "homepage" && _id == "homepage"][0]{
   servicesTitle,
   caseStudiesTitle,
   featuredCases[]{ title, slug, description, imagePath },
-  serviceCards[]{ title, description, priceLine, flipDescription }
+  serviceCards[]{ title, description, priceLine, flipDescription },
+  webDesignImages[]{ ..., asset->{ url } }
 }`;
 
 const HOMEPAGE_V2_QUERY = `*[_type == "homepageV2" && _id == "homepageV2"][0]{
@@ -159,7 +160,7 @@ const WORK_PAGE_SETTINGS_QUERY = `*[_type == "workPageSettings" && _id == "workP
 
 const CLIENT_LOGOS_QUERY = `*[_type == "clientLogo"] | order(order asc, name asc){
   name,
-  logoPath,
+  "logoPath": coalesce(logoImage.asset->url, logoPath),
   order
 }`;
 
@@ -207,6 +208,7 @@ export type HomepageContent = {
   caseStudiesTitle: string;
   featuredCases: FeaturedCase[];
   serviceCards: ServiceCardContent[];
+  webDesignImages: string[];
 };
 
 async function getSiteSettingsImpl(): Promise<SiteSettingsContent> {
@@ -260,8 +262,14 @@ async function getHomepageContentImpl(): Promise<HomepageContent> {
       heroServices: [...d.heroServices],
       featuredCases: [...d.featuredCases],
       serviceCards: [...d.serviceCards],
+      webDesignImages: [...d.webDesignImages],
     };
   }
+
+  const webDesignImagesRaw =
+    (doc.webDesignImages as Array<{ asset?: { url?: string } }> | undefined)
+      ?.map((img) => img?.asset?.url)
+      .filter((u): u is string => Boolean(u)) ?? [];
 
   return {
     heroEyebrow: pickString(doc.heroEyebrow as string, d.heroEyebrow),
@@ -287,6 +295,7 @@ async function getHomepageContentImpl(): Promise<HomepageContent> {
     caseStudiesTitle: pickString(doc.caseStudiesTitle as string, d.caseStudiesTitle),
     featuredCases: pickArray(doc.featuredCases as FeaturedCase[], [...d.featuredCases]),
     serviceCards: pickArray(doc.serviceCards as ServiceCardContent[], [...d.serviceCards]),
+    webDesignImages: webDesignImagesRaw.length ? webDesignImagesRaw : [...d.webDesignImages],
   };
 }
 

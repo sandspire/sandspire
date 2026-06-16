@@ -163,6 +163,13 @@ main :is(h1, h2, h3, h4, h5, h6) {
   font-style: normal;
 }
 
+/* Web & AI homepage (/): no italic serif anywhere — use Plus Jakarta Sans for every title. */
+.home-web :is(h1, h2, h3, h4, h5, h6),
+.home-web .font-display {
+  font-family: var(--font-body), system-ui, sans-serif !important;
+  font-style: normal !important;
+}
+
 .home2-section-title {
   letter-spacing: -2px;
 }

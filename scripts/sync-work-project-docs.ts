@@ -47,6 +47,7 @@ async function main() {
         galleryHeroTallPath: project.images.galleryHeroTall,
         resultImageWidePath: project.images.resultWide,
         resultImageTallPath: project.images.resultTall,
+        listingImagePath: project.images.resultWide,
       },
     };
 

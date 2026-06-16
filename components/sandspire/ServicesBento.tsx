@@ -12,6 +12,8 @@ type ServicesBentoProps = {
   serviceCards?: ServiceCardContent[];
   analyticsVideoPath?: string;
   analyticsVideoPosterPath?: string;
+  /** Web Design card preview images (Sanity-editable, falls back to /public). */
+  webDesignImages?: string[];
 };
 
 function findCard(cards: ServiceCardContent[], title: string) {
@@ -24,22 +26,26 @@ export function ServicesBento({
   serviceCards = siteContentDefaults.homepage.serviceCards,
   analyticsVideoPath = siteContentDefaults.homepage.analyticsVideoPath,
   analyticsVideoPosterPath = siteContentDefaults.homepage.analyticsVideoPosterPath,
+  webDesignImages: webDesignImagesProp,
 }: ServicesBentoProps) {
   const analyticsCard = serviceCards[0];
   const aiCard = findCard(serviceCards, "AI Automation");
   const webCard = findCard(serviceCards, "Web Design");
   const socialCard = findCard(serviceCards, "Social Media Marketing");
   const analyticsTitleLines = (analyticsCard?.title ?? "See real results\nyou can measure").split("\n");
-  const brandStrategyImages = [
-    "/images/bento/Frame%201618872692-1.svg",
-    "/images/bento/Frame%201618872694-1.svg",
-    "/images/bento/Frame%201618872695-1.svg",
-    "/images/bento/Frame%201618872693-1.svg",
-    "/images/bento/Frame%201618872692.svg",
-    "/images/bento/Frame%201618872694.svg",
-    "/images/bento/Frame%201618872695.svg",
-    "/images/bento/Frame%201618872693.svg",
-  ];
+  const webDesignImages = webDesignImagesProp?.length
+    ? webDesignImagesProp
+    : [
+        "/images/bento-web/top1-web.webp",
+        "/images/bento-web/top2-web.webp",
+        "/images/bento-web/top3-web.webp",
+        "/images/bento-web/middle1-web.webp",
+        "/images/bento-web/middle2-web.webp",
+        "/images/bento-web/bottom1-web.webp",
+        "/images/bento-web/bottom2-web.webp",
+        "/images/bento-web/middle%203-web.webp",
+        "/images/bento-web/middle%204-web.webp",
+      ];
 
   return (
     <section
@@ -47,14 +53,14 @@ export function ServicesBento({
       className="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-16 xl:px-12"
     >
       <ScrollReveal className="mx-auto w-full max-w-[1180px]">
-        <p className="text-xs font-normal uppercase tracking-[0.14px] text-[var(--accent)]">
+        <p className="text-xs font-normal uppercase tracking-[0.14px] text-[#ff5e00]">
           {eyebrow}
         </p>
-        <h2 className="mt-3 font-display text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] lg:text-[32px]">
+        <h2 className="mt-3 font-[family-name:var(--font-body)] not-italic text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[32px]">
           {title}
         </h2>
 
-        <div className="mt-8 max-md:pt-2 grid gap-4 lg:grid-cols-1 lg:items-stretch xl:mt-10 xl:grid-cols-[minmax(0,760px)_minmax(252px,380px)] xl:gap-4 2xl:gap-5">
+        <div className="mt-8 max-md:pt-2 grid gap-4 lg:grid-cols-[minmax(0,760px)_minmax(252px,380px)] lg:items-stretch lg:gap-4 xl:mt-10 2xl:gap-5">
           <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-5 self-stretch xl:h-full">
             <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 md:items-stretch">
               <ServiceMediaCard
@@ -113,30 +119,28 @@ export function ServicesBento({
             </div>
 
             <div
-              className="relative flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-[24px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25) md:min-h-[460px]"
+              className="relative flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-[24px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25)] md:min-h-[460px]"
               style={{
                 backgroundImage:
                   "linear-gradient(158deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
               }}
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.12),transparent_48%)]" />
-              <div className="relative flex min-h-0 flex-1 flex-col gap-6 p-5 pt-8 max-md:gap-7 md:flex-row md:gap-0 md:pt-9">
-                <div className="shrink-0 max-md:mb-1 md:max-w-[180px] md:pr-3">
-                  <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
-                    {webCard?.priceLine ?? "Starting from AED 5,000"}
-                  </p>
-                  <h3 className="mt-1 font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
-                    {webCard?.title ?? "Web Design"}
-                  </h3>
-                </div>
-                <div className="relative min-h-[200px] w-full min-w-0 flex-1 self-stretch overflow-hidden max-md:-mx-5 max-md:mt-1 max-md:min-h-[220px] md:min-h-0">
-                  <WebDesignPortfolioCascade
-                    images={brandStrategyImages}
-                    className="absolute inset-0 min-h-[220px] md:min-h-0"
-                    rows={3}
-                    maxPerRow={2}
-                  />
-                </div>
+              {/* Full-bleed website cascade — fills the whole card, no empty spots */}
+              <WebDesignPortfolioCascade
+                images={webDesignImages}
+                className="absolute inset-0 pt-[70px]"
+                rows={3}
+                maxPerRow={3}
+              />
+              {/* Scrim for title legibility over the imagery */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-32 bg-gradient-to-b from-black/70 via-black/35 to-transparent" />
+              <div className="relative z-[2] p-5 pt-8 md:pt-9">
+                <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
+                  {webCard?.priceLine ?? "Starting from AED 5,000"}
+                </p>
+                <h3 className="mt-1 font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
+                  {webCard?.title ?? "Web Design"}
+                </h3>
               </div>
             </div>
           </div>

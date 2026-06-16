@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/sandspire/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Coming soon — Sandspire",
-  description: "This link will go live soon.",
+  description: "This one's still in the works.",
   robots: { index: false, follow: false },
 };
 
@@ -19,14 +19,14 @@ export default function ComingSoonPage() {
           Coming soon
         </h1>
         <p className="max-w-sm text-[17px] leading-[1.5] text-[#919191]">
-          We&apos;re preparing this channel. In the meantime, reach us through the contact form or the phone
-          number on the contact page.
+          We&apos;re still setting this one up. In the meantime, the fastest way to reach us is the contact
+          form or the phone number on the contact page.
         </p>
         <Link
           href="/contact"
           className="mt-2 inline-flex h-10 items-center rounded-full bg-[var(--background)] px-6 text-sm font-medium text-[var(--foreground)] transition-transform hover:-translate-y-px"
         >
-          Get in touch
+          Start a project
         </Link>
         <Link href="/" className="text-sm text-[#a9a095] underline underline-offset-4 transition-colors hover:text-[#faf3e8]">
           Back to home

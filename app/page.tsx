@@ -20,7 +20,7 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div className="home-web min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
       <Hero
         content={homepage}
         navLinks={site.nav.links}
@@ -29,8 +29,9 @@ export default async function Home() {
         logos={logos}
       />
 
-      <div className="relative mt-0 rounded-t-[32px] bg-[var(--background)] pt-16 sm:rounded-t-[48px] sm:pt-20 lg:rounded-t-[70px] lg:pt-[84px]">
-        <main>
+      <main>
+        {/* Who is Sandspire + What we do — brand black */}
+        <div className="bg-[#0d0d0d] pt-12 sm:pt-16 lg:pt-20">
           <WhoIsSandspire title={homepage.whoTitle} body={homepage.whoBody} />
           <ServicesBento
             eyebrow={homepage.servicesEyebrow}
@@ -38,9 +39,13 @@ export default async function Home() {
             serviceCards={homepage.serviceCards}
             analyticsVideoPath={homepage.analyticsVideoPath}
             analyticsVideoPosterPath={homepage.analyticsVideoPosterPath}
+            webDesignImages={homepage.webDesignImages}
           />
-          <CaseStudies title={homepage.caseStudiesTitle} cases={homepage.featuredCases} />
-          <ContactFAQ
+        </div>
+
+        {/* Recent work — white section with rounded top corners */}
+        <CaseStudies title={homepage.caseStudiesTitle} cases={homepage.featuredCases} />
+        <ContactFAQ
             faqItems={site.contact.faqDefault}
             eyebrow={site.contact.eyebrow}
             headline={site.contact.headline}
@@ -56,8 +61,7 @@ export default async function Home() {
             copyright={site.footer.copyright}
             socialLinks={site.footer.socialLinks}
           />
-        </main>
-      </div>
+      </main>
     </div>
   );
 }

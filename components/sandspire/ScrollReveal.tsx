@@ -1,15 +1,8 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 
 export type ScrollRevealProps = {
   children: ReactNode;
@@ -25,17 +18,14 @@ export type ScrollRevealProps = {
 /** Subtle ease-out (no overshoot) */
 const ease = [0.25, 0.46, 0.45, 0.94] as [number, number, number, number];
 
-/** Match viewport `amount: 0.12` — visible area / element area */
-function intersectionRatio(el: Element) {
-  const rect = el.getBoundingClientRect();
-  const vh = window.innerHeight;
-  const vw = window.innerWidth;
-  const ih = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
-  const iw = Math.min(rect.right, vw) - Math.max(rect.left, 0);
-  if (ih <= 0 || iw <= 0 || rect.width <= 0 || rect.height <= 0) return 0;
-  return (ih * iw) / (rect.width * rect.height);
-}
-
+/**
+ * Reveal-on-scroll wrapper.
+ *
+ * Important: the server renders content VISIBLE (never blank), so above-the-fold
+ * content shows immediately even before JavaScript hydrates. After mount we hide
+ * only the blocks that start *below* the fold (still off-screen, so no flash),
+ * then fade them up as they scroll into view.
+ */
 export function ScrollReveal({
   children,
   className,
@@ -46,65 +36,55 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const [layoutInView, setLayoutInView] = useState(false);
-  const [restoredFromCache, setRestoredFromCache] = useState(false);
-
-  const isInView = useInView(ref, {
-    once,
-    amount: 0.12,
-    margin: "0px 0px -56px 0px",
-  });
-
-  const syncLayoutVisibility = useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (intersectionRatio(el) >= 0.12) setLayoutInView(true);
-  }, []);
+  // "initial" = first paint / SSR (visible, no animation)
+  // "hidden"  = below the fold, waiting to reveal
+  // "visible" = revealed (fades up)
+  const [state, setState] = useState<"initial" | "hidden" | "visible">("initial");
 
   useLayoutEffect(() => {
-    let cancelled = false;
-    const run = () => {
-      if (!cancelled) syncLayoutVisibility();
-    };
-    run();
-    const id1 = requestAnimationFrame(() => {
-      run();
-      requestAnimationFrame(run);
-    });
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(id1);
-    };
-  }, [syncLayoutVisibility]);
+    if (reduceMotion) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const belowFold = rect.top >= window.innerHeight * 0.9;
+    setState(belowFold ? "hidden" : "visible");
+  }, [reduceMotion]);
 
   useEffect(() => {
-    const onPageShow = (e: PageTransitionEvent) => {
-      if (e.persisted) setRestoredFromCache(true);
-    };
-    const onPop = () => {
-      requestAnimationFrame(() => requestAnimationFrame(syncLayoutVisibility));
-    };
-    window.addEventListener("pageshow", onPageShow);
-    window.addEventListener("popstate", onPop);
-    return () => {
-      window.removeEventListener("pageshow", onPageShow);
-      window.removeEventListener("popstate", onPop);
-    };
-  }, [syncLayoutVisibility]);
+    if (state !== "hidden") return;
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setState("visible");
+            if (once) observer.disconnect();
+          } else if (!once) {
+            setState("hidden");
+          }
+        }
+      },
+      { rootMargin: "0px 0px -56px 0px", threshold: 0.12 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [state, once]);
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
-  const visible = restoredFromCache || layoutInView || isInView;
+  const hidden = state === "hidden";
 
   return (
     <motion.div
       ref={ref}
       className={cn(className)}
-      initial={{ opacity: 0, y }}
-      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y }}
-      transition={{ duration, delay, ease }}
+      initial={false}
+      animate={{ opacity: hidden ? 0 : 1, y: hidden ? y : 0 }}
+      // Only animate when revealing on scroll; the initial/instant states snap.
+      transition={state === "visible" ? { duration, delay, ease } : { duration: 0 }}
     >
       {children}
     </motion.div>

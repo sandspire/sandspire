@@ -75,6 +75,7 @@ function cardImageFromRow(
   if (row.listingImage) {
     return imageUrl(row.listingImage, fallbackImg) || fallbackImg;
   }
+  if (fallbackImg) return fallbackImg;
   const heroPath = publicPath(row.heroImagePath);
   if (heroPath) return heroPath;
   if (row.heroImage) {

@@ -49,6 +49,13 @@ export const homepage = defineType({
       type: "array",
       of: [{ type: "serviceCardContent" }],
     }),
+    defineField({
+      name: "webDesignImages",
+      title: "Web Design card — preview images",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+      description: "Website screenshots shown in the scrolling Web Design card.",
+    }),
   ],
   preview: {
     prepare() {

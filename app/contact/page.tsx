@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `Contact — ${site.siteTitle}`,
     description:
-      "Start a project with Sandspire—brand, web, social, and automation. Send a message or read answers to common questions.",
+      "Start a project with Sandspire — websites, brand, social, and AI automation. Send a note or read answers to the questions we hear most.",
   };
 }
 

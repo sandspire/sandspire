@@ -13,6 +13,7 @@ function defaultHomepageContent(): HomepageContent {
     heroServices: [...d.heroServices],
     featuredCases: [...d.featuredCases],
     serviceCards: [...d.serviceCards],
+    webDesignImages: [...d.webDesignImages],
   };
 }
 
@@ -67,7 +68,7 @@ export function Hero({
                     <p className="font-[family-name:var(--font-body)] text-[clamp(1rem,2vw,1.65rem)] font-medium leading-[1.15] text-white">
                       {content.heroEyebrow}
                     </p>
-                    <h1 className="mt-1 font-display text-[clamp(2.35rem,9vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-white">
+                    <h1 className="mt-1 font-[family-name:var(--font-body)] not-italic text-[clamp(2.35rem,9vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-white">
                       {content.heroHeadline}
                     </h1>
                   </div>

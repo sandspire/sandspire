@@ -55,7 +55,7 @@ export function ContactFAQ({
               <div className="flex flex-col gap-8">
                 <h2
                   className={cn(
-                    isHome2 && "font-body",
+                      isHome2 && "font-display",
                     isHome2
                       ? "text-[32px] font-medium leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[38px]"
                       : "font-[family-name:var(--font-body)] text-[32px] font-light leading-[1.08] tracking-[-0.02em] text-[#faf3e8] lg:text-[34px]",
@@ -102,7 +102,7 @@ export function ContactFAQ({
           <h3
             className={
               isHome2
-                ? "text-center font-body text-[clamp(1.75rem,4vw,3rem)] font-medium leading-tight tracking-[-0.02em] text-[#e6ddd0]"
+                ? "text-center font-display text-[clamp(1.75rem,4vw,3rem)] font-medium leading-tight tracking-[-0.02em] text-[#e6ddd0]"
                 : "text-center font-[family-name:var(--font-body)] text-[clamp(1.65rem,4vw,2.5rem)] font-light leading-tight tracking-[-0.02em] text-[#e6ddd0]"
             }
           >

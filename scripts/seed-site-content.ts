@@ -65,6 +65,13 @@ async function main() {
     uploadPublicImage("/images/bento/service-suite-food.png"),
   ]);
 
+  const webDesignImagesRaw = await Promise.all(
+    d.homepage.webDesignImages.map((p) => uploadPublicImage(p)),
+  );
+  const webDesignImages = webDesignImagesRaw
+    .filter((img): img is NonNullable<typeof img> => Boolean(img))
+    .map((img, i) => ({ ...img, _key: `web${i}` }));
+
   const siteSettings = {
     _id: "siteSettings",
     _type: "siteSettings" as const,
@@ -107,6 +114,7 @@ async function main() {
     caseStudiesTitle: d.homepage.caseStudiesTitle,
     featuredCases: d.homepage.featuredCases,
     serviceCards: d.homepage.serviceCards,
+    ...(webDesignImages.length ? { webDesignImages } : {}),
   };
 
   const homepageV2 = {
@@ -140,11 +148,17 @@ async function main() {
     ...d.workPage,
   };
 
-  const clientLogos = d.clientLogos.map((logo) => ({
-    _id: `clientLogo-${logo.name.toLowerCase().replace(/\s+/g, "-")}`,
-    _type: "clientLogo" as const,
-    ...logo,
-  }));
+  const clientLogos = await Promise.all(
+    d.clientLogos.map(async (logo) => {
+      const logoImage = await uploadPublicImage(logo.logoPath);
+      return {
+        _id: `clientLogo-${logo.name.toLowerCase().replace(/\s+/g, "-")}`,
+        _type: "clientLogo" as const,
+        ...logo,
+        ...(logoImage ? { logoImage } : {}),
+      };
+    }),
+  );
 
   const docs = [siteSettings, homepage, homepageV2, aboutPage, workPageSettings, ...clientLogos];
 
