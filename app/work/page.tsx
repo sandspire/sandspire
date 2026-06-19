@@ -25,7 +25,7 @@ export default async function WorkPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#FAF3E8]">
+    <div className="site-jakarta min-h-screen bg-[#0D0D0D] text-[#FAF3E8]">
       <SandspireHeaderFromCms />
 
       <main className="mx-auto w-full max-w-[1280px] px-4 pb-0 pt-20 sm:px-6 sm:pt-24 lg:px-0">
@@ -54,8 +54,8 @@ export default async function WorkPage() {
       </main>
 
       <ContactFAQ
+        variant="home2"
         faqItems={site.contact.faqDefault}
-        eyebrow={site.contact.eyebrow}
         headline={site.contact.headline}
         intro={site.contact.intro}
         phone={site.phone}

@@ -12,6 +12,7 @@ export async function SiteFooterFromCms(props: SiteFooterProps = {}) {
       blurb={site.footer.blurb}
       copyright={site.footer.copyright}
       socialLinks={site.footer.socialLinks}
+      logoSrc={site.siteLogoPath}
     />
   );
 }

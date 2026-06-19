@@ -59,6 +59,7 @@ export function HomePageV2({
         ctaLabel={nav.ctaLabel}
         links={nav.links}
         logoHref="/home-2"
+        logoSrc={site?.siteLogoPath}
         logoLoading="eager"
       />
 
@@ -138,6 +139,8 @@ export function HomePageV2({
           analyticsVideoPosterPath={content.analyticsVideoPosterPath}
           bentoCocktailImagePath={content.bentoCocktailImagePath}
           bentoFoodImagePath={content.bentoFoodImagePath}
+          brandStrategyImagePaths={content.brandStrategyImagePaths}
+          serviceFlowDiagramImagePath={content.serviceFlowDiagramImagePath}
         />
 
         <section className="px-6 py-16 lg:px-8 lg:py-24">
@@ -171,6 +174,7 @@ export function HomePageV2({
           blurb={footer.blurb}
           copyright={footer.copyright}
           socialLinks={footer.socialLinks}
+          logoSrc={site?.siteLogoPath}
         />
       </main>
     </div>

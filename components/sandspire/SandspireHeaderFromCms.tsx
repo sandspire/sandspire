@@ -12,6 +12,7 @@ export async function SandspireHeaderFromCms({ ctaHref }: Props = {}) {
       ctaHref={ctaHref ?? site.nav.ctaHref}
       ctaLabel={site.nav.ctaLabel}
       links={site.nav.links}
+      logoSrc={site.siteLogoPath}
     />
   );
 }

@@ -15,6 +15,7 @@ import {
   type WorkPageSettingsContent,
 } from "@/lib/siteContentDefaults";
 
+import { BRAND_LOGO_SRC } from "@/lib/brandAssets";
 import { client } from "../client";
 import { resolveCmsImageUrl } from "../image";
 
@@ -58,6 +59,8 @@ function pickArray<T>(value: T[] | null | undefined, fallback: T[]): T[] {
 const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && _id == "siteSettings"][0]{
   siteTitle,
   siteDescription,
+  siteLogo,
+  "siteLogoUrl": siteLogo.asset->url,
   phone,
   email,
   navLinks[]{ label, href },
@@ -93,7 +96,8 @@ const HOMEPAGE_QUERY = `*[_type == "homepage" && _id == "homepage"][0]{
   caseStudiesTitle,
   featuredCases[]{ title, slug, description, imagePath },
   serviceCards[]{ title, description, priceLine, flipDescription },
-  webDesignImages[]{ ..., asset->{ url } }
+  webDesignImages[]{ ..., asset->{ url } },
+  serviceFlowDiagramImage
 }`;
 
 const HOMEPAGE_V2_QUERY = `*[_type == "homepageV2" && _id == "homepageV2"][0]{
@@ -132,7 +136,9 @@ const HOMEPAGE_V2_QUERY = `*[_type == "homepageV2" && _id == "homepageV2"][0]{
   bentoCocktailImage,
   bentoFoodImage,
   bentoCocktailImagePath,
-  bentoFoodImagePath
+  bentoFoodImagePath,
+  brandStrategyImages[]{ ..., asset->{ url } },
+  serviceFlowDiagramImage
 }`;
 
 const ABOUT_PAGE_QUERY = `*[_type == "aboutPage" && _id == "aboutPage"][0]{
@@ -167,6 +173,7 @@ const CLIENT_LOGOS_QUERY = `*[_type == "clientLogo"] | order(order asc, name asc
 export type SiteSettingsContent = {
   siteTitle: string;
   siteDescription: string;
+  siteLogoPath: string;
   phone: string;
   email: string;
   nav: {
@@ -209,6 +216,7 @@ export type HomepageContent = {
   featuredCases: FeaturedCase[];
   serviceCards: ServiceCardContent[];
   webDesignImages: string[];
+  serviceFlowDiagramImagePath: string;
 };
 
 async function getSiteSettingsImpl(): Promise<SiteSettingsContent> {
@@ -218,6 +226,7 @@ async function getSiteSettingsImpl(): Promise<SiteSettingsContent> {
     return {
       siteTitle: d.site.siteTitle,
       siteDescription: d.site.siteDescription,
+      siteLogoPath: BRAND_LOGO_SRC,
       phone: d.site.phone,
       email: d.site.email,
       nav: d.nav,
@@ -229,6 +238,7 @@ async function getSiteSettingsImpl(): Promise<SiteSettingsContent> {
   return {
     siteTitle: pickString(doc.siteTitle as string, d.site.siteTitle),
     siteDescription: pickString(doc.siteDescription as string, d.site.siteDescription),
+    siteLogoPath: pickString(doc.siteLogoUrl as string, BRAND_LOGO_SRC),
     phone: pickString(doc.phone as string, d.site.phone),
     email: pickString(doc.email as string, d.site.email),
     nav: {
@@ -263,6 +273,7 @@ async function getHomepageContentImpl(): Promise<HomepageContent> {
       featuredCases: [...d.featuredCases],
       serviceCards: [...d.serviceCards],
       webDesignImages: [...d.webDesignImages],
+      serviceFlowDiagramImagePath: "/images/Service Icon Group.svg",
     };
   }
 
@@ -296,6 +307,12 @@ async function getHomepageContentImpl(): Promise<HomepageContent> {
     featuredCases: pickArray(doc.featuredCases as FeaturedCase[], [...d.featuredCases]),
     serviceCards: pickArray(doc.serviceCards as ServiceCardContent[], [...d.serviceCards]),
     webDesignImages: webDesignImagesRaw.length ? webDesignImagesRaw : [...d.webDesignImages],
+    serviceFlowDiagramImagePath: resolveCmsImageUrl(
+      doc.serviceFlowDiagramImage as Parameters<typeof resolveCmsImageUrl>[0],
+      null,
+      "/images/Service Icon Group.svg",
+      600,
+    ),
   };
 }
 
@@ -307,6 +324,8 @@ async function getHomepageV2ContentImpl(): Promise<HomepageV2Content> {
       ...d,
       workScrollItems: d.workScrollItems.map((item) => ({ ...item, tags: [...item.tags], tagGlow: item.tagGlow ? [...item.tagGlow] : undefined })),
       serviceCards: [...d.serviceCards],
+      brandStrategyImagePaths: [...d.brandStrategyImagePaths],
+      serviceFlowDiagramImagePath: d.serviceFlowDiagramImagePath,
     };
   }
 
@@ -322,6 +341,20 @@ async function getHomepageV2ContentImpl(): Promise<HomepageV2Content> {
       };
     },
   );
+
+  const brandStrategyImagesRaw =
+    (doc.brandStrategyImages as Array<{ asset?: { url?: string } }> | undefined)
+      ?.map((img) => img?.asset?.url)
+      .filter((u): u is string => Boolean(u)) ?? [];
+  const brandStrategyDefaults = [
+    "/images/bento/top-1.webp",
+    "/images/bento/top-2.webp",
+    "/images/bento/middle-1.webp",
+    "/images/bento/middle-2.webp",
+    "/images/bento/middle-3.webp",
+    "/images/bento/bottom-1.webp",
+    "/images/bento/bottom-2.webp",
+  ];
 
   return {
     metaTitle: pickString(doc.metaTitle as string, d.metaTitle),
@@ -366,6 +399,15 @@ async function getHomepageV2ContentImpl(): Promise<HomepageV2Content> {
       doc.bentoFoodImagePath as string,
       homepageV2ImageFallbacks.bentoFood,
       900,
+    ),
+    brandStrategyImagePaths: brandStrategyImagesRaw.length
+      ? brandStrategyImagesRaw
+      : brandStrategyDefaults,
+    serviceFlowDiagramImagePath: resolveCmsImageUrl(
+      doc.serviceFlowDiagramImage as Parameters<typeof resolveCmsImageUrl>[0],
+      null,
+      "/images/Service Icon Group.svg",
+      600,
     ),
   };
 }

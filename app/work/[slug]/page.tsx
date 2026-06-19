@@ -7,6 +7,7 @@ import {
   getWorkProjectFallback,
   WORK_PROJECT_SLUGS,
 } from "@/lib/workProjectDefaults";
+import { getSiteSettings } from "@/sanity/lib/queries/siteContent";
 import { getWorkProjectBySlug } from "@/sanity/lib/queries/workProject";
 import { getAllWorkProjectSlugsForStaticParams } from "@/sanity/lib/queries/workIndex";
 
@@ -37,10 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function WorkProjectPage({ params }: Props) {
   const { slug } = await params;
   const d = getWorkProjectFallback(slug);
-  const doc = await getWorkProjectBySlug(slug);
+  const [doc, site] = await Promise.all([
+    getWorkProjectBySlug(slug),
+    getSiteSettings(),
+  ]);
 
   const props = buildWorkProjectPageProps(slug, doc, d);
   if (!props) notFound();
 
-  return <WorkProjectTemplate {...props} />;
+  return <WorkProjectTemplate {...props} site={site} />;
 }

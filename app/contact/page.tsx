@@ -19,14 +19,14 @@ export default async function ContactPage() {
   const site = await getSiteSettings();
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
+    <div className="site-jakarta min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
       <SandspireHeaderFromCms ctaHref="#contact" />
 
       <main>
         <ContactFAQ
-          className="rounded-none pt-14 lg:pt-20"
+          variant="home2"
+          className="rounded-none px-5 pt-12 sm:px-6 sm:pt-16 lg:px-12 lg:pt-20"
           faqItems={site.contact.faqDefault}
-          eyebrow={site.contact.eyebrow}
           headline={site.contact.headline}
           intro={site.contact.intro}
           phone={site.phone}

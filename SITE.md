@@ -12,19 +12,19 @@ See **`BRAND-VOICE.md`** for the full Sandspire tone-of-voice guide (read it bef
   - Secondary accent: `--accent-secondary` (`#F7941D`)
   - Neutrals: `--background` (`#FAF3E8`), `--foreground` (`#0D0D0D`), `--muted` (`#999999`)
   - Functional: `--success` (`#10B981`), `--warning` (`#F59E0B`), `--error` (`#EF4444`)
-- Fonts: **Colitez Serif** (most section headings, with **Playfair Display** fallback), **Plus Jakarta Sans** (body, hero, contact form, footer).
+- Fonts: **Plus Jakarta Sans** across inner pages, contact, footer, and work project copy. **Colitez Serif** / **Playfair Display** may still appear on **Home 2** section titles only.
 
 ## Pages
-- Homepage (`/`) - Hero video, logo marquee, who we are, services bento, case studies, contact + FAQ, footer.
+- Homepage (`/`) - Hero video, logo marquee, who we are, services bento (compact 3-column grid on phones; full layout from tablet up), case studies, contact + FAQ, footer.
 - **Home 2** (`/home-2`) - Alternate homepage from Figma **[Things — node 349:142](https://www.figma.com/design/DAnc9vXaZN9VHQcCosnCm3/Things?node-id=349-142)** (MacBook Air 14): full-bleed **hero image** (`HeroImage.png`) with integrated logo rail, **Our Work** spotlight (project copy pinned on the left + **stacking scroll videos** for 3 Fils, eatkanji, and slrp.ramen on the right, with orange stripe backdrop), **Service Suite** bento grid (serif section title; Jakarta on cards), **Our 360° Showreel**, contact + FAQ, **sticky footer** with bright orange stripe glow. Smooth scrolling on this page only.
-- About (`/about`) - General about the studio (cream page, same typography and header as other inner pages).
-- Contact (`/contact`) - Full contact + FAQ block on a dedicated dark page with the shared top bar.
+- About (`/about`) - All-black studio page with a hero photo, headline, and two text columns (Plus Jakarta Sans throughout; no small eyebrow line).
+- Contact (`/contact`) - Full contact + FAQ on a dedicated dark page; same contact form styling as the rest of the site.
 - Work (`/work`) - Portfolio listing loaded from **Sanity** (each **work project** with “Show on /work” on); if Sanity is empty or unreachable, the site falls back to the same built-in list as before. Each **whole card** links to **`/work/{slug}`**. Category pills filter the grid. Revalidates about every minute.
-- Work project pages (`/work/[slug]`) - Shared layout: dark hero (on **mobile**, text block **above** the hero image; **desktop** image left, copy right), cream **challenge** and **solution** copy, then a gallery with light hover zoom on images. Content is merged from **Sanity** with code fallbacks in **`lib/workProjectDefaults.ts`**. New projects can exist **only in Sanity** (no code entry) if the document includes a hero image (or path) and the rest of the required fields. No separate “The result” block or wide cover image. (True “case studies” are not modeled yet — that label is reserved for a future content type.)
+- Work project pages (`/work/[slug]`) - Shared layout: dark hero (on **mobile**, text block **above** the hero image; **desktop** image left, copy right), cream **challenge** and **solution** copy (**Jakarta** titles and body text), then a gallery with light hover zoom on images. Content is merged from **Sanity** with code fallbacks in **`lib/workProjectDefaults.ts`**. New projects can exist **only in Sanity** (no code entry) if the document includes a hero image (or path) and the rest of the required fields. No separate “The result” block or wide cover image. (True “case studies” are not modeled yet — that label is reserved for a future content type.)
 
 ## Components
 - `HomePageV2` - `/home-2` page shell (hero, work spotlight, service suite, showreel, contact, footer). Sub-pieces: **`HomePageV2WorkScroll`** (Slrp text + scroll videos), **`HomePageV2ServiceSuite`**, **`HomePageV2WorkVideoBackground`** (bright masked glow behind phones only), **`Home2Lenis`** (smooth scroll wrapper).
-- `WorkScrollCards` (`components/ui/scroll-card.tsx`) - Reusable sticky stacking card column; used in the **Our Work** section with your three hero side videos.
+- `WorkScrollCards` (`components/ui/scroll-card.tsx`) - Reusable sticky stacking card column; used in the **Our Work** section with your three hero side videos. On **desktop**, project copy sits on the left and **glides** sideways when you switch projects; on **mobile**, title/tags/description stick to the top while the videos stack below. **Tap a project tab** or a video card to glide to that project; the active tab has a sliding pill indicator.
 - `ContactFAQ` - Dark contact + FAQ; optional **`variant="home2"`**, custom **`faqItems`**, and **`contactMoreQuestionsHref`** for alternate homepages.
 - `AgentationProvider` - included by the app layout.
 - `ScrollReveal` - optional scroll-into-view fade-up for section content; respects reduced-motion preferences.
@@ -68,7 +68,7 @@ After you **Publish** in Studio, the live site picks up changes within about **o
 
 **Where home-2 images live in Sanity:** Studio → **Homepage (version 2)** → **Hero image**, **Service bento — cocktail photo**, **Service bento — food photo**. They are stored on **`cdn.sanity.io`** (not in your `public/` folder). You do **not** need a separate image API key to *show* them on the site — only the normal **`NEXT_PUBLIC_SANITY_*`** vars (already in `.env.example`).
 
-**Still fixed in code (not in CMS yet):** decorative bento SVG frames, the AI Automation icon diagram, contact form field labels, and some layout-only styling. **Home 2 hero + bento photos** are uploaded **images in Sanity** (edit under **Homepage version 2**). Videos still use paths under `public/videos/`.
+**Still fixed in code (not in CMS yet):** contact form field labels and some layout-only styling. **All photos and videos** are in **Sanity** (served from `cdn.sanity.io`); the **`public/` folder** is intentionally empty — use the seed commands below if you need to re-upload from git history.
 
 ### Work projects in Sanity
 Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **`workProject`**; older **`caseStudy`** docs are still read until migrated). If the document is missing or a field is empty, the site uses **`lib/workProjectDefaults.ts`** for that slug.
@@ -83,6 +83,13 @@ Each URL **`/work/{slug}`** loads a **work project** document in Sanity (type **
 **Adding a new project later:** Add an entry to **`WORK_PROJECTS`** in `lib/workProjectDefaults.ts` if you want a code fallback, or create only a **Work project** in Sanity (or both). The **`/work`** listing is driven from Sanity; re-run the seed if you use it to sync from code defaults.
 
 ## Recent Changes
+- 2026-06-19: **Home-2 services bento** — the orange circle glow behind the analytics video tile is **25% smaller** on `/home-2`.
+- 2026-06-19: **Mobile + typography polish** — “Tell us what you're building” contact section is easier to read on phones (tighter spacing, stacked layout). **About** is now all black with a studio photo and no small eyebrow text. **Contact**, **Work**, and **work project** pages use **Plus Jakarta Sans** consistently; project card titles on `/work` are smaller; Challenge/Solution blocks on project pages use Jakarta. **Contact form + footer** match across all pages. **Sandspire logo** loads from Sanity CDN again (fixed broken `/public` path).
+- 2026-06-19: **All site media now lives on Sanity CDN** — photos, videos, logos, bento images, and work-project galleries were uploaded to Sanity; the **`public/` folder is empty** (down from ~22 MB). Run **`npm run verify:sanity`** to confirm CDN URLs, or **`npm run seed:sanity-site-content`** + **`npm run seed:sanity-work-projects`** to re-upload from a backup. The site logo, service diagrams, Brand Strategy cascade, and work-scroll videos/icons all load from Sanity.
+- 2026-06-19: **Home-2 Our Work (mobile spacing)** — tightened the gap above the stacking videos and added a little more top padding to the sticky project description.
+- 2026-06-19: **Home-2 Our Work on mobile** — project title, tags, and description stay **pinned at the top** while the videos stack below; nothing shows under the phone cards anymore.
+- 2026-06-19: **Home-2 Our Work scroll videos now stack on mobile** the same way they do on desktop — cards stick and pile up as you scroll.
+- 2026-06-16: **Home-2 work videos now fit the mobile viewport with side padding**, and each video gets a mobile-only caption below it.
 - 2026-06-16: **Home-2 hero headline and FAQ heading now use the italic serif display font again**, matching the rest of the serif treatment on that page.
 - 2026-06-16: **The web-design marquee is now about 2.5x larger on mobile only**, while the desktop size stays the same.
 - 2026-06-16: **Removed the 8px vertical padding from the web-design cascade rows**, so the marquee sits tighter inside the services card.

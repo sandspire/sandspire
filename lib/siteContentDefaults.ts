@@ -59,6 +59,8 @@ export type HomepageV2Content = {
   analyticsVideoPosterPath: string;
   bentoCocktailImagePath: string;
   bentoFoodImagePath: string;
+  brandStrategyImagePaths: string[];
+  serviceFlowDiagramImagePath: string;
 };
 
 export type AboutPageContent = {
@@ -201,6 +203,7 @@ export const siteContentDefaults = {
       "/images/bento-web/middle 3-web.webp",
       "/images/bento-web/middle 4-web.webp",
     ],
+    serviceFlowDiagramImagePath: "/images/Service Icon Group.svg",
     serviceCards: [
       { title: "Numbers that\nactually move", description: "", priceLine: "" },
       { title: "AI Automation", description: "", priceLine: "From AED 10,000" },
@@ -313,6 +316,16 @@ export const siteContentDefaults = {
     analyticsVideoPosterPath: "/images/bento/InstagramViewsAnalyticsFallback1.png",
     bentoCocktailImagePath: homepageV2ImageFallbacks.bentoCocktail,
     bentoFoodImagePath: homepageV2ImageFallbacks.bentoFood,
+    brandStrategyImagePaths: [
+      "/images/bento/top-1.webp",
+      "/images/bento/top-2.webp",
+      "/images/bento/middle-1.webp",
+      "/images/bento/middle-2.webp",
+      "/images/bento/middle-3.webp",
+      "/images/bento/bottom-1.webp",
+      "/images/bento/bottom-2.webp",
+    ] as string[],
+    serviceFlowDiagramImagePath: "/images/Service Icon Group.svg",
   },
   about: {
     metaTitle: "About — Sandspire",

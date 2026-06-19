@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 type ContactFAQProps = {
   className?: string;
-  /** `home2` matches Figma MacBook Air 14 — no orange “Contact us” label; Plus Jakarta Sans throughout. */
+  /** `home2` hides the orange eyebrow; typography is Jakarta on all variants. */
   variant?: "default" | "home2";
   faqItems?: Array<{ question: string; answer: string }>;
   contactMoreQuestionsHref?: string;
@@ -36,46 +36,38 @@ export function ContactFAQ({
   return (
     <section
       id="contact"
-      data-variant={isHome2 ? "home2" : undefined}
+      data-variant={isHome2 ? "home2" : "default"}
       className={cn(
-        "w-full overflow-hidden rounded-t-[70px] bg-[#0d0d0d] px-6 pb-16 pt-20 lg:px-12 lg:pb-[72px] lg:pt-[100px] xl:px-[72px]",
-        isHome2 && "font-body",
+        "font-body w-full overflow-hidden rounded-t-[40px] bg-[#0d0d0d] px-5 pb-12 pt-14 sm:rounded-t-[56px] sm:px-6 sm:pb-16 sm:pt-16 lg:rounded-t-[70px] lg:px-12 lg:pb-[72px] lg:pt-[100px] xl:px-[72px]",
         className,
       )}
     >
-      <div className="mx-auto flex w-full max-w-[1013px] flex-col items-center gap-24 lg:gap-[140px]">
-        <ScrollReveal className="flex w-full flex-col items-start justify-between gap-12 lg:flex-row lg:gap-8">
-          <div className="flex w-full max-w-[508px] flex-col gap-16 lg:gap-24">
-            <div className="flex flex-col gap-1.5">
+      <div className="mx-auto flex w-full max-w-[1013px] flex-col items-center gap-14 sm:gap-16 lg:gap-[120px] xl:gap-[140px]">
+        <ScrollReveal className="flex w-full flex-col items-start justify-between gap-10 sm:gap-12 lg:flex-row lg:gap-8">
+          <div className="flex w-full max-w-[508px] flex-col gap-8 sm:gap-10 lg:gap-14">
+            <div className="flex flex-col gap-4 sm:gap-5">
               {!isHome2 ? (
-                <p className="font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.4] tracking-[-0.03em] text-[#ff5e00]">
+                <p className="font-[family-name:var(--font-body)] text-[15px] font-medium leading-[1.4] tracking-[0] text-[#ff5e00] sm:text-[17px]">
                   {eyebrow}
                 </p>
               ) : null}
-              <div className="flex flex-col gap-8">
-                <h2
-                  className={cn(
-                      isHome2 && "font-display",
-                    isHome2
-                      ? "text-[32px] font-medium leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[38px]"
-                      : "font-[family-name:var(--font-body)] text-[32px] font-light leading-[1.08] tracking-[-0.02em] text-[#faf3e8] lg:text-[34px]",
-                  )}
-                >
+              <div className="flex flex-col gap-5 sm:gap-6">
+                <h2 className="font-[family-name:var(--font-body)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]">
                   {headline}
                 </h2>
-                <p className="max-w-[320px] text-[17px] font-normal leading-[1.45] text-[#818181]">
+                <p className="max-w-full text-[15px] font-normal leading-[1.5] tracking-[0] text-[#818181] sm:text-[16px] lg:max-w-[320px] lg:text-[17px]">
                   {intro}
                 </p>
                 <a
                   href={`tel:${phone.replace(/\s/g, "")}`}
-                  className="inline-flex text-[17px] font-medium leading-[1.45] text-[#faf3e8] transition-colors duration-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/50"
+                  className="inline-flex text-[15px] font-medium leading-[1.45] tracking-[0] text-[#faf3e8] transition-colors duration-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/50 sm:text-[17px]"
                 >
                   {phone}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
               {socialLinks.map((link) => (
                 <SocialIcon
                   key={link.label}
@@ -89,29 +81,19 @@ export function ContactFAQ({
             </div>
           </div>
 
-          <div className="w-full max-w-[505px] shrink-0 rounded-[30px] border border-[#919191] bg-[rgba(85,85,85,0.08)] px-6 pb-8 pt-5 transition-[box-shadow,border-color] duration-300 ease-out hover:border-[#a8a8a8] hover:shadow-[0_12px_40px_rgba(0,0,0,0.25)] lg:min-h-[433px] lg:px-7 lg:pb-8 lg:pt-5">
-            <ContactForm
-              className={isHome2 ? "font-body" : undefined}
-              hideFormNote={isHome2}
-              flatSubmit={isHome2}
-            />
+          <div className="w-full max-w-[505px] shrink-0 rounded-[24px] border border-[#919191] bg-[rgba(85,85,85,0.08)] px-4 pb-7 pt-4 transition-[box-shadow,border-color] duration-300 ease-out hover:border-[#a8a8a8] hover:shadow-[0_12px_40px_rgba(0,0,0,0.25)] sm:rounded-[30px] sm:px-6 sm:pb-8 sm:pt-5 lg:min-h-[433px] lg:px-7">
+            <ContactForm className="font-body" hideFormNote flatSubmit />
           </div>
         </ScrollReveal>
 
-        <ScrollReveal className="flex w-full flex-col items-center gap-16 lg:gap-14" delay={0.12}>
-          <h3
-            className={
-              isHome2
-                ? "text-center font-display text-[clamp(1.75rem,4vw,3rem)] font-medium leading-tight tracking-[-0.02em] text-[#e6ddd0]"
-                : "text-center font-[family-name:var(--font-body)] text-[clamp(1.65rem,4vw,2.5rem)] font-light leading-tight tracking-[-0.02em] text-[#e6ddd0]"
-            }
-          >
+        <ScrollReveal className="flex w-full flex-col items-center gap-10 sm:gap-12 lg:gap-14" delay={0.12}>
+          <h3 className="text-center font-[family-name:var(--font-body)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]">
             Frequently Asked Questions
           </h3>
           <FaqAccordion items={faqItems} />
           <a
             href={contactMoreQuestionsHref}
-            className="text-center font-[family-name:var(--font-body)] text-sm font-light tracking-[-0.02em] text-[#e6ddd0] underline decoration-solid underline-offset-4 transition-colors duration-200 hover:text-white"
+            className="text-center font-[family-name:var(--font-body)] text-sm font-normal tracking-[0] text-[#e6ddd0] underline decoration-solid underline-offset-4 transition-colors duration-200 hover:text-white"
           >
             Have more questions? Contact us
           </a>
@@ -158,7 +140,7 @@ function SocialIcon({
   variant?: "default" | "muted";
 }) {
   const className = [
-    "inline-flex size-[50px] items-center justify-center rounded-[32px] text-[#faf3e8] transition-all duration-200 ease-out hover:scale-110 hover:ring-2 hover:ring-white/20 active:scale-95",
+    "inline-flex size-[46px] items-center justify-center rounded-[32px] text-[#faf3e8] transition-all duration-200 ease-out hover:scale-110 hover:ring-2 hover:ring-white/20 active:scale-95 sm:size-[50px]",
     variant === "muted" ? "bg-[rgba(13,13,13,0.4)]" : "bg-black/30 ring-1 ring-white/10",
   ].join(" ");
 

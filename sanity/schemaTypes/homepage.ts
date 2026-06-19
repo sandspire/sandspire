@@ -56,6 +56,12 @@ export const homepage = defineType({
       of: [{ type: "image", options: { hotspot: true } }],
       description: "Website screenshots shown in the scrolling Web Design card.",
     }),
+    defineField({
+      name: "serviceFlowDiagramImage",
+      title: "AI Automation diagram",
+      type: "image",
+      description: "Service flow icon diagram in the services bento.",
+    }),
   ],
   preview: {
     prepare() {

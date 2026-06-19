@@ -137,6 +137,11 @@ main :is(h1, h2, h3, h4, h5, h6) {
   font-style: normal;
 }
 
+#services .services-bento-mobile :is(h3, p) {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-style: normal;
+}
+
 /* Home-2 Service Suite bento cards: Jakarta on card copy (not the section title). */
 #services .service-suite-bento :is(h3, h4, h5, h6, p, span, button, a, li, label) {
   font-family: var(--font-body), system-ui, sans-serif;
@@ -148,14 +153,38 @@ main :is(h1, h2, h3, h4, h5, h6) {
   font-style: normal;
 }
 
-#contact[data-variant="home2"] :is(h2, h3, p, span, button, a, li, label) {
+#contact :is(h2, h3, p, span, button, a, li, label, input, textarea),
+#footer :is(h2, h3, p, span, button, a, li, label) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
+}
+
+.site-jakarta :is(h1, h2, h3, h4, h5, h6),
+.site-jakarta .font-display {
+  font-family: var(--font-body), system-ui, sans-serif !important;
+  font-style: normal !important;
 }
 
 #work .work-scroll-sidebar :is(h3, p, a) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
+}
+
+#work .work-scroll-cards {
+  --work-scroll-sticky-top: calc(54px + 2rem);
+  --work-scroll-vh: calc(100dvh - 54px - 2rem - 4.75rem);
+  --work-scroll-card-sticky-top: var(--work-scroll-sticky-top);
+  --work-stack-h: var(--work-stack-h-desktop);
+}
+
+@media (max-width: 1023px) {
+  #work .work-scroll-cards {
+    --work-scroll-sticky-top: calc(54px + 0.75rem);
+    --work-scroll-copy-h: 10rem;
+    --work-scroll-card-sticky-top: calc(54px + 0.75rem + 10rem);
+    --work-scroll-vh: calc(100dvh - 54px - 0.75rem - 10rem - 0.25rem);
+    --work-stack-h: var(--work-stack-h-mobile);
+  }
 }
 
 .work-project-grid h2 {

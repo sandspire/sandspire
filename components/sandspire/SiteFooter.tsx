@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { BRAND_LOGO_SRC } from "@/lib/brandAssets";
 import { HomePageV2GradientBackdrop } from "@/components/sandspire/HomePageV2HeroBackground";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
@@ -31,6 +32,7 @@ export type SiteFooterProps = {
   blurb?: string;
   copyright?: string;
   socialLinks?: { label: string; href: string }[];
+  logoSrc?: string;
 };
 
 function FooterContent({
@@ -41,6 +43,7 @@ function FooterContent({
   taglineLine2,
   blurb,
   copyright,
+  logoSrc = BRAND_LOGO_SRC,
 }: {
   isHome2: boolean;
   menu: ReturnType<typeof footerMenu>;
@@ -49,6 +52,7 @@ function FooterContent({
   taglineLine2: string;
   blurb: string;
   copyright: string;
+  logoSrc?: string;
 }) {
   const linkClass = isHome2 ? footerLinkClassHome2 : footerLinkClass;
 
@@ -57,7 +61,7 @@ function FooterContent({
       <div className="mx-auto flex w-full max-w-[940px] flex-col justify-between gap-10 lg:h-[210px] lg:flex-row lg:gap-[320px]">
         <div className="w-full max-w-[380px] space-y-4">
           <img
-            src="/logos/sandspire.svg"
+            src={logoSrc}
             alt="Sandspire"
             className={cn("h-10 w-auto", isHome2 && "mix-blend-screen opacity-95")}
             loading="lazy"
@@ -65,8 +69,8 @@ function FooterContent({
           />
           <p
             className={cn(
-              "text-[28px] font-light leading-[1.05]",
-              isHome2 ? "font-body text-[#faf3e8]" : "font-display text-[#FAF3E8]",
+              "font-body text-[28px] font-light leading-[1.05]",
+              isHome2 ? "text-[#faf3e8]" : "text-[#FAF3E8]",
             )}
           >
             {taglineLine1}
@@ -132,6 +136,7 @@ export function SiteFooter({
   blurb = siteContentDefaults.footer.blurb,
   copyright = siteContentDefaults.footer.copyright,
   socialLinks = siteContentDefaults.footer.socialLinks,
+  logoSrc = BRAND_LOGO_SRC,
 }: SiteFooterProps) {
   const isHome2 = variant === "home2";
   const useSticky = sticky || isHome2;
@@ -154,6 +159,7 @@ export function SiteFooter({
           taglineLine2={taglineLine2}
           blurb={blurb}
           copyright={copyright}
+          logoSrc={logoSrc}
         />
       </div>
     </div>
@@ -181,6 +187,7 @@ export function SiteFooter({
           taglineLine2={taglineLine2}
           blurb={blurb}
           copyright={copyright}
+          logoSrc={logoSrc}
         />
           </div>
         </div>

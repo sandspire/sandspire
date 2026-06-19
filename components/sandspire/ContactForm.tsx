@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const labelClass = "text-[12px] font-medium tracking-[-0.01em] text-[#d4cdc0]";
+const labelClass = "text-[12px] font-medium tracking-[0] text-[#d4cdc0]";
 
 const fieldBase =
   "h-[50px] w-full rounded-2xl border border-white/10 bg-[rgba(255,250,240,0.05)] px-4 text-[13px] font-medium text-[#f2ebe0] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] placeholder:text-[#6e6860] outline-none transition-[border-color,background-color,box-shadow,ring] duration-200 focus:border-[#ff5e00]/40 focus:bg-[rgba(255,250,240,0.08)] focus:shadow-[0_0_0_3px_rgba(255,94,0,0.12)]";

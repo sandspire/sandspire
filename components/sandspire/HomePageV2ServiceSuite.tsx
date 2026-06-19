@@ -9,11 +9,16 @@ import { cn } from "@/lib/utils";
 import type { ServiceCardContent } from "@/lib/siteContentDefaults";
 import { homepageV2ImageFallbacks, siteContentDefaults } from "@/lib/siteContentDefaults";
 
-const brandStrategyImageRows = [
+const brandStrategyImageRowsDefault = [
   ["/images/bento/top-1.webp", "/images/bento/top-2.webp"],
   ["/images/bento/middle-1.webp", "/images/bento/middle-2.webp", "/images/bento/middle-3.webp"],
   ["/images/bento/bottom-1.webp", "/images/bento/bottom-2.webp"],
 ];
+
+function brandStrategyRowsFromFlat(paths: string[]) {
+  if (paths.length < 7) return brandStrategyImageRowsDefault;
+  return [paths.slice(0, 2), paths.slice(2, 5), paths.slice(5, 7)];
+}
 
 const bentoDesktopClass =
   "relative min-h-[200px] overflow-hidden rounded-[27px] border-2 border-[#414040] bg-transparent lg:min-h-[229px]";
@@ -28,6 +33,8 @@ type HomePageV2ServiceSuiteProps = {
   analyticsVideoPosterPath?: string;
   bentoCocktailImagePath?: string;
   bentoFoodImagePath?: string;
+  brandStrategyImagePaths?: string[];
+  serviceFlowDiagramImagePath?: string;
 };
 
 function BentoPhoto({
@@ -99,7 +106,7 @@ function AnalyticsBentoCard({
         <div
           className={cn(
             "absolute bottom-0 left-1/2 aspect-square -translate-x-1/2 translate-y-[50%] rounded-full bg-gradient-to-t from-[#e63b12] via-[#ff7a18] to-[#ffd23f]",
-            compact ? "w-[155%]" : "w-[140%]",
+            compact ? "w-[116%]" : "w-[105%]",
           )}
         />
       </div>
@@ -127,9 +134,11 @@ function AnalyticsBentoCard({
 function DiagramBentoCard({
   compact = false,
   className,
+  diagramSrc,
 }: {
   compact?: boolean;
   className?: string;
+  diagramSrc?: string;
 }) {
   const shell = compact ? bentoMobileClass : bentoDesktopClass;
 
@@ -153,6 +162,7 @@ function DiagramBentoCard({
         />
       ) : null}
       <HomePageV2ServiceFlowDiagram
+        diagramSrc={diagramSrc}
         className={cn(
           "relative z-10",
           compact ? "h-[60px] sm:h-[64px]" : undefined,
@@ -165,16 +175,18 @@ function DiagramBentoCard({
 function BrandStrategyBentoCard({
   compact = false,
   className,
+  imageRows = brandStrategyImageRowsDefault,
 }: {
   compact?: boolean;
   className?: string;
+  imageRows?: string[][];
 }) {
   const shell = compact ? bentoMobileClass : bentoDesktopClass;
 
   return (
     <article className={cn(shell.replace("bg-transparent", ""), "bg-[#e07725]", className)}>
       <WebDesignPortfolioCascade
-        imageRows={brandStrategyImageRows}
+        imageRows={imageRows}
         className="absolute inset-0"
         rows={3}
         maxPerRow={4}
@@ -191,11 +203,15 @@ export function HomePageV2ServiceSuite({
   analyticsVideoPosterPath = siteContentDefaults.homepageV2.analyticsVideoPosterPath,
   bentoCocktailImagePath = siteContentDefaults.homepageV2.bentoCocktailImagePath,
   bentoFoodImagePath = siteContentDefaults.homepageV2.bentoFoodImagePath,
+  brandStrategyImagePaths = siteContentDefaults.homepageV2.brandStrategyImagePaths,
+  serviceFlowDiagramImagePath = siteContentDefaults.homepageV2.serviceFlowDiagramImagePath,
 }: HomePageV2ServiceSuiteProps) {
   const [card1, card2, card3, card4, card5] = serviceCards;
   const cocktailSrc =
     bentoCocktailImagePath?.trim() || homepageV2ImageFallbacks.bentoCocktail;
   const foodSrc = bentoFoodImagePath?.trim() || homepageV2ImageFallbacks.bentoFood;
+  const brandStrategyRows = brandStrategyRowsFromFlat(brandStrategyImagePaths);
+  const diagramSrc = serviceFlowDiagramImagePath?.trim() || "/images/Service%20Icon%20Group.svg";
 
   return (
     <section id="services" className="relative py-16 min-[554px]:px-6 lg:px-8 lg:py-24">
@@ -220,12 +236,12 @@ export function HomePageV2ServiceSuite({
         />
         {card1 ? <FlippableCard card={card1} compact /> : null}
 
-        <DiagramBentoCard compact />
+        <DiagramBentoCard compact diagramSrc={diagramSrc} />
         {card2 ? <FlippableCard card={card2} compact /> : null}
         <BentoPhoto src={foodSrc} alt="" compact />
 
         {card4 ? <FlippableCard card={card4} compact /> : null}
-        <BrandStrategyBentoCard compact className="col-span-2" />
+        <BrandStrategyBentoCard compact className="col-span-2" imageRows={brandStrategyRows} />
 
         <BentoPhoto src={cocktailSrc} alt="" compact />
         {card3 ? <FlippableCard card={card3} compact /> : null}
@@ -250,7 +266,7 @@ export function HomePageV2ServiceSuite({
           className="grid gap-3 min-[554px]:grid-cols-2 lg:grid-cols-4 lg:gap-4"
           delay={0.08}
         >
-          <DiagramBentoCard />
+          <DiagramBentoCard diagramSrc={diagramSrc} />
           {card2 ? <FlippableCard card={card2} /> : null}
           <BentoPhoto src={foodSrc} alt="" />
           {card3 ? <FlippableCard card={card3} /> : null}
@@ -261,7 +277,7 @@ export function HomePageV2ServiceSuite({
           delay={0.12}
         >
           {card4 ? <FlippableCard card={card4} /> : null}
-          <BrandStrategyBentoCard />
+          <BrandStrategyBentoCard imageRows={brandStrategyRows} />
           {card5 ? <FlippableCard card={card5} /> : null}
         </ScrollReveal>
       </div>

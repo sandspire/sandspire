@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import type { WorkIndexCard } from "@/sanity/lib/queries/workIndex";
@@ -27,6 +28,8 @@ function getPillStyle(label: string) {
     boxShadow: `inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px rgba(255,255,255,0.12), 0 0 10px ${glow}1F`,
   };
 }
+
+const pillGlideSpring = { type: "spring" as const, stiffness: 380, damping: 32 };
 
 function norm(s: string) {
   return s.trim().toLowerCase();
@@ -101,7 +104,7 @@ export function WorkProjectGrid({
     <>
       <section className="mx-auto w-full max-w-[995px] px-0 sm:px-0">
         <div className="w-full">
-          <h1 className="text-center font-display text-[34px] font-light leading-[1.05] text-[#FAF3E8] sm:text-[40px] md:text-[44px]">
+          <h1 className="text-center font-[family-name:var(--font-body)] text-[30px] font-semibold leading-[1.05] text-[#FAF3E8] sm:text-[36px] md:text-[40px]">
             {headline}
           </h1>
           <p className="mx-auto mt-3 max-w-[560px] px-1 text-center text-[16px] leading-[1.4] text-[#919191] sm:mt-4 sm:text-[17px] md:text-[18px]">
@@ -112,28 +115,36 @@ export function WorkProjectGrid({
         <div className="mt-6 sm:mt-8">
           <div className="mx-auto w-full max-w-full rounded-2xl border border-white/10 bg-white/[0.07] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:rounded-full sm:p-1.5">
             <div
-              className="-mx-0.5 flex min-h-[48px] items-center justify-start gap-1.5 overflow-x-auto overflow-y-hidden scroll-smooth px-0.5 py-0.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible sm:px-0 md:gap-3 [&::-webkit-scrollbar]:hidden"
+              className="relative -mx-0.5 flex min-h-[48px] items-center justify-start gap-1.5 overflow-x-auto overflow-y-hidden scroll-smooth px-0.5 py-0.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible sm:px-0 md:gap-3 [&::-webkit-scrollbar]:hidden"
               role="tablist"
               aria-label="Filter by category"
             >
-              {categories.map((cat) => (
-                <button
-                  type="button"
-                  key={cat}
-                  role="tab"
-                  aria-selected={category === cat}
-                  onClick={() => setCategoryInUrl(cat)}
-                  className={[
-                    "shrink-0 snap-start rounded-full px-4 py-2.5 text-[12px] font-medium leading-none transition-all duration-200 ease-out min-[480px]:py-2",
-                    "hover:scale-[1.02] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]/70",
-                    category === cat
-                      ? "bg-white/20 text-[#FAF3E8] shadow-sm"
-                      : "text-[#B5B5B5] hover:bg-white/10 hover:text-[#FAF3E8]",
-                  ].join(" ")}
-                >
-                  {cat}
-                </button>
-              ))}
+              {categories.map((cat) => {
+                const isActive = category === cat;
+                return (
+                  <button
+                    type="button"
+                    key={cat}
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setCategoryInUrl(cat)}
+                    className={[
+                      "relative shrink-0 snap-start rounded-full px-4 py-2.5 text-[12px] font-medium leading-none transition-colors duration-200 ease-out min-[480px]:py-2",
+                      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]/70",
+                      isActive ? "text-[#FAF3E8]" : "text-[#B5B5B5] hover:text-[#FAF3E8]",
+                    ].join(" ")}
+                  >
+                    {isActive ? (
+                      <motion.span
+                        layoutId="work-category-pill"
+                        className="absolute inset-0 rounded-full bg-white/20 shadow-sm ring-1 ring-white/10"
+                        transition={pillGlideSpring}
+                      />
+                    ) : null}
+                    <span className="relative">{cat}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -145,7 +156,13 @@ export function WorkProjectGrid({
         </p>
       ) : null}
 
-      <section className="work-project-grid mx-auto mt-10 grid w-full max-w-[995px] gap-8 gap-y-10 px-0 sm:mt-12 sm:gap-x-[47px] sm:gap-y-[52px] md:mt-14 md:grid-cols-2">
+      <motion.section
+        key={category}
+        initial={{ opacity: 0, x: 24 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.38, ease: [0.33, 1, 0.68, 1] }}
+        className="work-project-grid mx-auto mt-10 grid w-full max-w-[995px] gap-8 gap-y-10 px-0 sm:mt-12 sm:gap-x-[47px] sm:gap-y-[52px] md:mt-14 md:grid-cols-2"
+      >
         {filtered.map((project) => (
           <Link
             key={project.slug}
@@ -170,7 +187,7 @@ export function WorkProjectGrid({
               </div>
 
               <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                <h2 className="font-body text-[26px] font-light leading-[1.02] text-[#FAF3E8] not-italic sm:text-[30px] md:text-[34px]">
+                <h2 className="font-body text-[20px] font-medium leading-[1.08] text-[#FAF3E8] not-italic sm:text-[22px] md:text-[24px]">
                   {project.title}
                 </h2>
                 <p className="max-w-full text-left text-[13px] leading-[1.4] text-[#8A847B] sm:max-w-[250px] sm:text-right sm:text-[14px] sm:leading-[1.35]">
@@ -200,7 +217,7 @@ export function WorkProjectGrid({
             </article>
           </Link>
         ))}
-      </section>
+      </motion.section>
     </>
   );
 }

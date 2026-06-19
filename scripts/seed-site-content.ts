@@ -1,76 +1,122 @@
 /**
- * Creates or replaces site-wide singleton documents from lib/siteContentDefaults.ts.
+ * Creates or replaces site-wide singleton documents from lib/siteContentDefaults.ts
+ * and uploads all /public media to Sanity CDN.
  *
  * Usage:
  *   Set SANITY_API_WRITE_TOKEN in .env.local, then:
  *   npm run seed:sanity-site-content
  */
 
-import { createClient } from "@sanity/client";
 import { config } from "dotenv";
-import { readFileSync } from "node:fs";
-import { basename, resolve } from "node:path";
+import { resolve } from "node:path";
 
 import { siteContentDefaults } from "../lib/siteContentDefaults";
+import {
+  createUploadClient,
+  uploadPublicFile,
+  uploadPublicImage,
+} from "./lib/upload-public-asset";
 
 config({ path: resolve(process.cwd(), ".env") });
 config({ path: resolve(process.cwd(), ".env.local"), override: true });
 
-const DEFAULT_PROJECT_ID = "1fmk53vd";
-const DEFAULT_DATASET = "production";
-
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || DEFAULT_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || DEFAULT_DATASET;
-const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-23";
-const token = process.env.SANITY_API_WRITE_TOKEN;
-
-if (!token) {
-  console.error("Missing SANITY_API_WRITE_TOKEN (Editor token)");
-  process.exit(1);
-}
-
-const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  token,
-  useCdn: false,
-});
-
-const d = siteContentDefaults;
+const client = createUploadClient();
 const publicDir = resolve(process.cwd(), "public");
+const cache = new Map<string, Promise<unknown>>();
+const d = siteContentDefaults;
 
-async function uploadPublicImage(relativePath: string) {
-  try {
-    const absolutePath = resolve(publicDir, relativePath.replace(/^\//, ""));
-    const buffer = readFileSync(absolutePath);
-    const asset = await client.assets.upload("image", buffer, {
-      filename: basename(absolutePath),
-    });
+const BRAND_STRATEGY_PATHS = [
+  "/images/bento/top-1.webp",
+  "/images/bento/top-2.webp",
+  "/images/bento/middle-1.webp",
+  "/images/bento/middle-2.webp",
+  "/images/bento/middle-3.webp",
+  "/images/bento/bottom-1.webp",
+  "/images/bento/bottom-2.webp",
+];
 
-    return {
-      _type: "image" as const,
-      asset: { _type: "reference" as const, _ref: asset._id },
-    };
-  } catch {
-    console.warn(`Skip image upload (file missing): ${relativePath}`);
-    return undefined;
-  }
+async function uploadVideoUrl(path: string) {
+  const url = await uploadPublicFile(client, publicDir, path, cache, "file");
+  return typeof url === "string" ? url : undefined;
 }
 
 async function main() {
-  const [heroImage, bentoCocktailImage, bentoFoodImage] = await Promise.all([
-    uploadPublicImage("/images/HeroImage.png"),
-    uploadPublicImage("/images/bento/service-suite-cocktail.png"),
-    uploadPublicImage("/images/bento/service-suite-food.png"),
+  const [
+    heroImage,
+    bentoCocktailImage,
+    bentoFoodImage,
+    siteLogo,
+    homepageFlowDiagram,
+    homepageV2FlowDiagram,
+    heroVideoUrl,
+    analyticsVideoUrl,
+    heroPosterUrl,
+    analyticsPosterHome1Url,
+    analyticsPosterHome2Url,
+    showreelPosterUrl,
+  ] = await Promise.all([
+    uploadPublicImage(client, publicDir, "/images/HeroImage.png", cache),
+    uploadPublicImage(client, publicDir, "/images/bento/service-suite-cocktail.png", cache),
+    uploadPublicImage(client, publicDir, "/images/bento/service-suite-food.png", cache),
+    uploadPublicImage(client, publicDir, "/logos/sandspire.svg", cache),
+    uploadPublicImage(client, publicDir, "/images/Service Icon Group.svg", cache),
+    uploadPublicImage(client, publicDir, "/images/Service Icon Group.svg", cache),
+    uploadVideoUrl(d.homepage.heroVideoPath),
+    uploadVideoUrl(d.homepage.analyticsVideoPath),
+    uploadPublicFile(client, publicDir, d.homepage.heroVideoPosterPath, cache, "file").then((u) =>
+      typeof u === "string" ? u : undefined,
+    ),
+    uploadPublicFile(client, publicDir, d.homepage.analyticsVideoPosterPath, cache, "file").then(
+      (u) => (typeof u === "string" ? u : undefined),
+    ),
+    uploadPublicFile(client, publicDir, d.homepageV2.analyticsVideoPosterPath, cache, "file").then(
+      (u) => (typeof u === "string" ? u : undefined),
+    ),
+    uploadPublicFile(client, publicDir, d.homepageV2.showreelPosterPath, cache, "file").then((u) =>
+      typeof u === "string" ? u : undefined,
+    ),
   ]);
 
   const webDesignImagesRaw = await Promise.all(
-    d.homepage.webDesignImages.map((p) => uploadPublicImage(p)),
+    d.homepage.webDesignImages.map((p) => uploadPublicImage(client, publicDir, p, cache)),
   );
   const webDesignImages = webDesignImagesRaw
     .filter((img): img is NonNullable<typeof img> => Boolean(img))
     .map((img, i) => ({ ...img, _key: `web${i}` }));
+
+  const brandStrategyImagesRaw = await Promise.all(
+    BRAND_STRATEGY_PATHS.map((p) => uploadPublicImage(client, publicDir, p, cache)),
+  );
+  const brandStrategyImages = brandStrategyImagesRaw
+    .filter((img): img is NonNullable<typeof img> => Boolean(img))
+    .map((img, i) => ({ ...img, _key: `brand${i}` }));
+
+  const workScrollItems = await Promise.all(
+    d.homepageV2.workScrollItems.map(async (item) => {
+      const [videoPath, iconPath] = await Promise.all([
+        uploadVideoUrl(item.videoPath),
+        uploadPublicFile(client, publicDir, item.iconPath, cache, "file").then((u) =>
+          typeof u === "string" ? u : item.iconPath,
+        ),
+      ]);
+      const { tagGlow: _tagGlow, ...rest } = item;
+      return {
+        ...rest,
+        videoPath: videoPath ?? item.videoPath,
+        iconPath,
+      };
+    }),
+  );
+
+  const featuredCases = await Promise.all(
+    d.homepage.featuredCases.map(async (item) => {
+      const imageUrl = await uploadPublicFile(client, publicDir, item.imagePath, cache, "file");
+      return {
+        ...item,
+        imagePath: typeof imageUrl === "string" ? imageUrl : item.imagePath,
+      };
+    }),
+  );
 
   const siteSettings = {
     _id: "siteSettings",
@@ -92,6 +138,7 @@ async function main() {
     contactIntro: d.contact.intro,
     faqDefault: d.contact.faqDefault,
     faqHome2: d.contact.faqHome2,
+    ...(siteLogo ? { siteLogo } : {}),
   };
 
   const homepage = {
@@ -102,19 +149,20 @@ async function main() {
     heroSubheadline: d.homepage.heroSubheadline,
     heroBodyTitle: d.homepage.heroBodyTitle,
     heroBodyText: d.homepage.heroBodyText,
-    heroVideoPath: d.homepage.heroVideoPath,
-    heroVideoPosterPath: d.homepage.heroVideoPosterPath,
-    analyticsVideoPath: d.homepage.analyticsVideoPath,
-    analyticsVideoPosterPath: d.homepage.analyticsVideoPosterPath,
+    heroVideoPath: heroVideoUrl ?? d.homepage.heroVideoPath,
+    heroVideoPosterPath: heroPosterUrl ?? d.homepage.heroVideoPosterPath,
+    analyticsVideoPath: analyticsVideoUrl ?? d.homepage.analyticsVideoPath,
+    analyticsVideoPosterPath: analyticsPosterHome1Url ?? d.homepage.analyticsVideoPosterPath,
     heroServices: d.homepage.heroServices,
     whoTitle: d.homepage.whoTitle,
     whoBody: d.homepage.whoBody,
     servicesEyebrow: d.homepage.servicesEyebrow,
     servicesTitle: d.homepage.servicesTitle,
     caseStudiesTitle: d.homepage.caseStudiesTitle,
-    featuredCases: d.homepage.featuredCases,
+    featuredCases,
     serviceCards: d.homepage.serviceCards,
     ...(webDesignImages.length ? { webDesignImages } : {}),
+    ...(homepageFlowDiagram ? { serviceFlowDiagramImage: homepageFlowDiagram } : {}),
   };
 
   const homepageV2 = {
@@ -124,16 +172,20 @@ async function main() {
     ...(heroImage ? { heroImage } : {}),
     ...(bentoCocktailImage ? { bentoCocktailImage } : {}),
     ...(bentoFoodImage ? { bentoFoodImage } : {}),
+    ...(brandStrategyImages.length ? { brandStrategyImages } : {}),
+    ...(homepageV2FlowDiagram ? { serviceFlowDiagramImage: homepageV2FlowDiagram } : {}),
     heroImagePath: null,
     bentoCocktailImagePath: null,
     bentoFoodImagePath: null,
+    showreelVideoPath: heroVideoUrl ?? d.homepageV2.showreelVideoPath,
+    showreelPosterPath: showreelPosterUrl ?? d.homepageV2.showreelPosterPath,
+    analyticsVideoPath: analyticsVideoUrl ?? d.homepageV2.analyticsVideoPath,
+    analyticsVideoPosterPath: analyticsPosterHome2Url ?? d.homepageV2.analyticsVideoPosterPath,
     serviceCards: d.homepageV2.serviceCards.map((card) => ({
       title: card.title,
       flipDescription: card.flipDescription,
     })),
-    workScrollItems: d.homepageV2.workScrollItems.map(
-      ({ tagGlow: _tagGlow, ...item }) => item,
-    ),
+    workScrollItems,
   };
 
   const aboutPage = {
@@ -150,12 +202,14 @@ async function main() {
 
   const clientLogos = await Promise.all(
     d.clientLogos.map(async (logo) => {
-      const logoImage = await uploadPublicImage(logo.logoPath);
+      const logoImage = await uploadPublicImage(client, publicDir, logo.logoPath, cache);
       return {
         _id: `clientLogo-${logo.name.toLowerCase().replace(/\s+/g, "-")}`,
         _type: "clientLogo" as const,
-        ...logo,
+        name: logo.name,
+        order: logo.order,
         ...(logoImage ? { logoImage } : {}),
+        logoPath: null,
       };
     }),
   );
@@ -167,7 +221,7 @@ async function main() {
     console.log(`✓ ${doc._type} (${doc._id})`);
   }
 
-  console.log("\nDone. Open /studio to review and publish.");
+  console.log("\nDone. Media uploaded to Sanity CDN. Safe to remove matching /public files.");
 }
 
 main().catch((err) => {

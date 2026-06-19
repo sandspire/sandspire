@@ -12,9 +12,13 @@ const FLOW_EDGES = [
 
 type Props = {
   className?: string;
+  diagramSrc?: string;
 };
 
-export function HomePageV2ServiceFlowDiagram({ className }: Props) {
+export function HomePageV2ServiceFlowDiagram({
+  className,
+  diagramSrc = "/images/Service%20Icon%20Group.svg",
+}: Props) {
   return (
     <svg
       viewBox="0 0 239 143"
@@ -23,7 +27,7 @@ export function HomePageV2ServiceFlowDiagram({ className }: Props) {
       className={cn("h-[87px] w-auto opacity-95 sm:h-[102px] md:h-[117px] lg:h-[122px]", className)}
       aria-hidden
     >
-      <image href="/images/Service%20Icon%20Group.svg" width="239" height="143" />
+      <image href={diagramSrc} width="239" height="143" />
 
       {FLOW_EDGES.map((edge) => (
         <g key={edge.id}>

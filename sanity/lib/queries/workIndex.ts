@@ -70,17 +70,16 @@ function cardImageFromRow(
 ): string {
   const fb = getWorkProjectFallback(fallbackSlug);
   const fallbackImg = fb?.images?.resultWide ?? "";
-  const listPath = publicPath(row.listingImagePath);
-  if (listPath) return listPath;
   if (row.listingImage) {
     return imageUrl(row.listingImage, fallbackImg) || fallbackImg;
   }
-  if (fallbackImg) return fallbackImg;
-  const heroPath = publicPath(row.heroImagePath);
-  if (heroPath) return heroPath;
+  const listPath = publicPath(row.listingImagePath);
+  if (listPath) return listPath;
   if (row.heroImage) {
     return imageUrl(row.heroImage, fallbackImg) || fallbackImg;
   }
+  const heroPath = publicPath(row.heroImagePath);
+  if (heroPath) return heroPath;
   return fallbackImg;
 }
 

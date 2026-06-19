@@ -5,6 +5,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { sandspireNavLinks } from "@/components/sandspire/sandspireNav";
+import { BRAND_LOGO_SRC } from "@/lib/brandAssets";
 import { cn } from "@/lib/utils";
 
 const navLinkClass =
@@ -63,6 +64,7 @@ export type SiteNavBarProps = {
   ctaLabel?: string | null;
   logoLoading?: "eager" | "lazy";
   logoHref?: string;
+  logoSrc?: string;
   links?: { label: string; href: string }[];
 };
 
@@ -76,6 +78,7 @@ export function SiteNavBar({
   ctaLabel = "Get in touch",
   logoLoading = "lazy",
   logoHref = "/",
+  logoSrc = BRAND_LOGO_SRC,
   links = sandspireNavLinks,
 }: SiteNavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -115,7 +118,7 @@ export function SiteNavBar({
           onClick={() => setMenuOpen(false)}
         >
           <img
-            src="/logos/sandspire.svg"
+            src={logoSrc}
             alt="Sandspire"
             className="h-7 w-auto"
             loading={logoLoading}

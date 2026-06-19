@@ -27,6 +27,7 @@ export default async function Home() {
         ctaHref={site.nav.ctaHref}
         ctaLabel={site.nav.ctaLabel}
         logos={logos}
+        logoSrc={site.siteLogoPath}
       />
 
       <main>
@@ -40,14 +41,15 @@ export default async function Home() {
             analyticsVideoPath={homepage.analyticsVideoPath}
             analyticsVideoPosterPath={homepage.analyticsVideoPosterPath}
             webDesignImages={homepage.webDesignImages}
+            serviceFlowDiagramImagePath={homepage.serviceFlowDiagramImagePath}
           />
         </div>
 
         {/* Recent work — white section with rounded top corners */}
         <CaseStudies title={homepage.caseStudiesTitle} cases={homepage.featuredCases} />
         <ContactFAQ
+            variant="home2"
             faqItems={site.contact.faqDefault}
-            eyebrow={site.contact.eyebrow}
             headline={site.contact.headline}
             intro={site.contact.intro}
             phone={site.phone}

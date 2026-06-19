@@ -14,6 +14,7 @@ function defaultHomepageContent(): HomepageContent {
     featuredCases: [...d.featuredCases],
     serviceCards: [...d.serviceCards],
     webDesignImages: [...d.webDesignImages],
+    serviceFlowDiagramImagePath: d.serviceFlowDiagramImagePath,
   };
 }
 
@@ -23,6 +24,7 @@ type HeroProps = {
   ctaHref?: string;
   ctaLabel?: string;
   logos?: ClientLogo[];
+  logoSrc?: string;
 };
 
 export function Hero({
@@ -31,6 +33,7 @@ export function Hero({
   ctaHref = siteContentDefaults.nav.ctaHref,
   ctaLabel = siteContentDefaults.nav.ctaLabel,
   logos,
+  logoSrc,
 }: HeroProps) {
   const bodyTitleLines = content.heroBodyTitle.split("\n");
 
@@ -57,6 +60,7 @@ export function Hero({
             ctaHref={ctaHref}
             ctaLabel={ctaLabel}
             links={navLinks}
+            logoSrc={logoSrc}
             logoLoading="eager"
           />
 

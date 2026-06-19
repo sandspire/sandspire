@@ -17,6 +17,12 @@ export const siteSettings = defineType({
       type: "text",
       rows: 2,
     }),
+    defineField({
+      name: "siteLogo",
+      title: "Site logo",
+      type: "image",
+      description: "Sandspire logo used in the header and footer.",
+    }),
     defineField({ name: "phone", title: "Phone number", type: "string" }),
     defineField({ name: "email", title: "Email", type: "string" }),
     defineField({

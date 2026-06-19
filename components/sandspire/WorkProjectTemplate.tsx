@@ -1,6 +1,7 @@
 import { ContactFAQ } from "@/components/sandspire/ContactFAQ";
 import { SandspireHeader } from "@/components/sandspire/SandspireHeader";
 import { SiteFooter } from "@/components/sandspire/SiteFooter";
+import type { SiteSettingsContent } from "@/sanity/lib/queries/siteContent";
 
 const pillShadowByLabel: Record<string, string> = {
   Branding: "0 0 5.14px rgba(247, 148, 29, 0.25)",
@@ -56,7 +57,7 @@ function hasUsableProjectUrl(projectUrl: string) {
   }
 }
 
-export type WorkProjectTemplateProps = {
+export type WorkProjectContentProps = {
   serviceTags: string[];
   fieldLabel: string;
   industry: string;
@@ -83,6 +84,10 @@ export type WorkProjectTemplateProps = {
   galleryHeroTallAlt: string;
   resultTallSrc: string;
   resultTallAlt: string;
+};
+
+export type WorkProjectTemplateProps = WorkProjectContentProps & {
+  site: SiteSettingsContent;
 };
 
 export function WorkProjectTemplate({
@@ -112,13 +117,19 @@ export function WorkProjectTemplate({
   galleryHeroTallAlt,
   resultTallSrc,
   resultTallAlt,
+  site,
 }: WorkProjectTemplateProps) {
   const showVisitButton = hasUsableProjectUrl(projectUrl);
   const hasSecondGalleryImage = Boolean(galleryStackBottomSrc);
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
-      <SandspireHeader />
+    <div className="site-jakarta min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
+      <SandspireHeader
+        ctaHref={site.nav.ctaHref}
+        ctaLabel={site.nav.ctaLabel}
+        links={site.nav.links}
+        logoSrc={site.siteLogoPath}
+      />
 
       <main>
         <section className="relative overflow-hidden border-b border-white/10">
@@ -165,28 +176,18 @@ export function WorkProjectTemplate({
                     <TagPill key={category} label={category} />
                   ))}
                 </div>
-                <div className="space-y-3.5 font-display text-[12.5px] font-light leading-[1.2]">
+                <div className="space-y-3.5 font-[family-name:var(--font-body)] text-[12.5px] font-normal leading-[1.2] tracking-[0]">
                   <div>
-                    <p className="tracking-[-0.87px] text-[#818181]">
-                      {fieldLabel}
-                    </p>
-                    <p className="mt-2.5 tracking-[-0.5px] text-[#e6ddd0]">
-                      {industry}
-                    </p>
+                    <p className="text-[#818181]">{fieldLabel}</p>
+                    <p className="mt-2.5 text-[#e6ddd0]">{industry}</p>
                   </div>
                   <div>
-                    <p className="tracking-[-0.87px] text-[#818181]">
-                      {locationLabel}
-                    </p>
-                    <p className="mt-2.5 tracking-[-0.5px] text-[#e6ddd0]">
-                      {location}
-                    </p>
+                    <p className="text-[#818181]">{locationLabel}</p>
+                    <p className="mt-2.5 text-[#e6ddd0]">{location}</p>
                   </div>
                   <div>
-                    <p className="tracking-[-0.87px] text-[#818181]">About</p>
-                    <p className="mt-2.5 max-w-[249px] tracking-[-0.5px] text-[#e6ddd0]">
-                      {about}
-                    </p>
+                    <p className="text-[#818181]">About</p>
+                    <p className="mt-2.5 max-w-[249px] text-[#e6ddd0]">{about}</p>
                   </div>
                 </div>
                 {showVisitButton ? (
@@ -210,10 +211,10 @@ export function WorkProjectTemplate({
           <div className="mx-auto w-full max-w-[1220px] px-6 lg:px-10">
             <div className="mx-auto flex w-full max-w-[773px] flex-col gap-[72px] md:gap-[88px]">
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-display text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:text-[36px] md:leading-[45px]">
+                <h2 className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]">
                   {challengeTitle}
                 </h2>
-                <p className="max-w-[397px] text-[17px] leading-[1.67] text-[#171513] md:text-[18px] md:leading-[30px]">
+                <p className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]">
                   {challengeBody}
                 </p>
               </div>
@@ -262,10 +263,10 @@ export function WorkProjectTemplate({
               </div>
 
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-display text-[32px] font-light leading-[1.15] tracking-[-1.13px] md:w-[232px] md:text-[36px] md:leading-[45px]">
+                <h2 className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]">
                   {solutionTitle}
                 </h2>
-                <p className="max-w-[397px] text-[17px] leading-[1.67] text-[#171513] md:text-[18px] md:leading-[30px]">
+                <p className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]">
                   {solutionBody}
                 </p>
               </div>
@@ -274,8 +275,23 @@ export function WorkProjectTemplate({
         </section>
       </main>
 
-      <ContactFAQ />
-      <SiteFooter />
+      <ContactFAQ
+        variant="home2"
+        faqItems={site.contact.faqDefault}
+        headline={site.contact.headline}
+        intro={site.contact.intro}
+        phone={site.phone}
+        socialLinks={site.footer.socialLinks}
+      />
+      <SiteFooter
+        logoSrc={site.siteLogoPath}
+        taglineLine1={site.footer.taglineLine1}
+        taglineLine2={site.footer.taglineLine2}
+        blurb={site.footer.blurb}
+        copyright={site.footer.copyright}
+        socialLinks={site.footer.socialLinks}
+        navLinks={site.nav.links}
+      />
     </div>
   );
 }

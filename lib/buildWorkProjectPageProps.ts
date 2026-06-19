@@ -1,6 +1,6 @@
 import type { SanityImageSource } from "@sanity/image-url";
 
-import type { WorkProjectTemplateProps } from "@/components/sandspire/WorkProjectTemplate";
+import type { WorkProjectContentProps } from "@/components/sandspire/WorkProjectTemplate";
 import type { WorkProjectDefaults } from "@/lib/workProjectDefaults";
 import type { WorkProjectDocumentFields } from "@/sanity/lib/queries/workProject";
 import { urlFor } from "@/sanity/lib/image";
@@ -50,9 +50,9 @@ function imageSrc({
   fallback: string;
   width?: number;
 }) {
+  if (docImage) return imageUrl(docImage, fallback, width);
   const preferredPath = publicPath(docPath);
   if (preferredPath) return preferredPath;
-  if (docImage) return imageUrl(docImage, fallback, width);
   return fallback;
 }
 
@@ -67,9 +67,9 @@ function optionalImageSrc({
   fallback: string | null;
   width?: number;
 }) {
+  if (docImage) return imageUrl(docImage, fallback ?? "", width);
   const preferredPath = publicPath(docPath);
   if (preferredPath) return preferredPath;
-  if (docImage) return imageUrl(docImage, fallback ?? "", width);
   return fallback;
 }
 
@@ -98,7 +98,7 @@ function altBase(
 function buildDocOnlyProps(
   slug: string,
   doc: WorkProjectDocumentFields,
-): WorkProjectTemplateProps | null {
+): WorkProjectContentProps | null {
   const heroFallback = "";
   const hero = imageSrc({
     docPath: doc.heroImagePath,
@@ -169,7 +169,7 @@ export function buildWorkProjectPageProps(
   slug: string,
   doc: WorkProjectDocumentFields | null,
   d: WorkProjectDefaults | undefined,
-): WorkProjectTemplateProps | null {
+): WorkProjectContentProps | null {
   if (!doc && !d) return null;
   if (doc && !d) {
     return buildDocOnlyProps(slug, doc);

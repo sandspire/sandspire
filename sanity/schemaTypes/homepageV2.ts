@@ -71,6 +71,19 @@ export const homepageV2 = defineType({
       title: "Food photo path (legacy fallback)",
       type: "string",
     }),
+    defineField({
+      name: "brandStrategyImages",
+      title: "Brand Strategy cascade images",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+      description: "Seven photos in the Brand Strategy bento card on /home-2.",
+    }),
+    defineField({
+      name: "serviceFlowDiagramImage",
+      title: "AI Automation diagram",
+      type: "image",
+      description: "Service flow icon diagram in the Service Suite bento.",
+    }),
   ],
   preview: {
     prepare() {

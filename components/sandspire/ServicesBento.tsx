@@ -1,10 +1,30 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
+import { HomePageV2ServiceFlowDiagram } from "@/components/sandspire/HomePageV2ServiceFlowDiagram";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { WebDesignPortfolioCascade } from "@/components/sandspire/WebDesignPortfolioCascade";
 import type { ServiceCardContent } from "@/lib/siteContentDefaults";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
+import { cn } from "@/lib/utils";
+
+const bentoMobileClass =
+  "relative h-[120px] overflow-hidden rounded-[14px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25)]";
+
+function webDesignImageRows(images: string[]) {
+  if (images.length >= 9) {
+    return [images.slice(0, 3), images.slice(3, 6), images.slice(6, 9)];
+  }
+  if (images.length >= 6) {
+    return [images.slice(0, 2), images.slice(2, 4), images.slice(4, 6)];
+  }
+  const rows = [
+    images.slice(0, 2),
+    images.slice(2, 4),
+    images.slice(4, 6),
+  ].filter((row) => row.length > 0);
+  return rows.length ? rows : [[], [], []];
+}
 
 type ServicesBentoProps = {
   eyebrow?: string;
@@ -12,8 +32,9 @@ type ServicesBentoProps = {
   serviceCards?: ServiceCardContent[];
   analyticsVideoPath?: string;
   analyticsVideoPosterPath?: string;
-  /** Web Design card preview images (Sanity-editable, falls back to /public). */
+  /** Web Design card preview images (Sanity CDN). */
   webDesignImages?: string[];
+  serviceFlowDiagramImagePath?: string;
 };
 
 function findCard(cards: ServiceCardContent[], title: string) {
@@ -27,25 +48,15 @@ export function ServicesBento({
   analyticsVideoPath = siteContentDefaults.homepage.analyticsVideoPath,
   analyticsVideoPosterPath = siteContentDefaults.homepage.analyticsVideoPosterPath,
   webDesignImages: webDesignImagesProp,
+  serviceFlowDiagramImagePath = siteContentDefaults.homepage.serviceFlowDiagramImagePath,
 }: ServicesBentoProps) {
   const analyticsCard = serviceCards[0];
   const aiCard = findCard(serviceCards, "AI Automation");
   const webCard = findCard(serviceCards, "Web Design");
   const socialCard = findCard(serviceCards, "Social Media Marketing");
   const analyticsTitleLines = (analyticsCard?.title ?? "See real results\nyou can measure").split("\n");
-  const webDesignImages = webDesignImagesProp?.length
-    ? webDesignImagesProp
-    : [
-        "/images/bento-web/top1-web.webp",
-        "/images/bento-web/top2-web.webp",
-        "/images/bento-web/top3-web.webp",
-        "/images/bento-web/middle1-web.webp",
-        "/images/bento-web/middle2-web.webp",
-        "/images/bento-web/bottom1-web.webp",
-        "/images/bento-web/bottom2-web.webp",
-        "/images/bento-web/middle%203-web.webp",
-        "/images/bento-web/middle%204-web.webp",
-      ];
+  const webDesignImages = webDesignImagesProp?.length ? webDesignImagesProp : [];
+  const diagramSrc = serviceFlowDiagramImagePath?.trim() || "/images/Service%20Icon%20Group.svg";
 
   return (
     <section
@@ -60,7 +71,44 @@ export function ServicesBento({
           {title}
         </h2>
 
-        <div className="mt-8 max-md:pt-2 grid gap-4 lg:grid-cols-[minmax(0,760px)_minmax(252px,380px)] lg:items-stretch lg:gap-4 xl:mt-10 2xl:gap-5">
+        {/* Mobile — compact 3-column bento (matches /home-2 density) */}
+        <div className="services-bento-mobile mt-8 grid grid-cols-3 gap-x-2 gap-y-1.5 min-[554px]:hidden sm:gap-x-2.5">
+          <MobileAnalyticsCard
+            className="col-span-2"
+            titleLines={analyticsTitleLines}
+            analyticsVideoPath={analyticsVideoPath}
+            analyticsVideoPosterPath={analyticsVideoPosterPath}
+          />
+          <MobileDiagramCard diagramSrc={diagramSrc} />
+
+          <MobileWebDesignCard
+            className="col-span-2"
+            title={webCard?.title ?? "Web Design"}
+            priceLine={webCard?.priceLine ?? "From AED 5,000"}
+            imageRows={webDesignImageRows(webDesignImages)}
+          />
+          <MobileSocialCard
+            title={socialCard?.title ?? "Social Media Marketing"}
+            priceLine={socialCard?.priceLine ?? "From AED 5,000"}
+            analyticsVideoPath={analyticsVideoPath}
+            analyticsVideoPosterPath={analyticsVideoPosterPath}
+          />
+
+          <MobileServiceTile
+            title={aiCard?.title ?? "AI Automation"}
+            priceLine={aiCard?.priceLine ?? "From AED 10,000"}
+          />
+          <MobileServiceTile
+            title={webCard?.title ?? "Web Design"}
+            priceLine={webCard?.priceLine ?? "From AED 5,000"}
+          />
+          <MobileServiceTile
+            title={socialCard?.title ?? "Social Media Marketing"}
+            priceLine={socialCard?.priceLine ?? "From AED 5,000"}
+          />
+        </div>
+
+        <div className="mt-8 hidden max-md:pt-2 min-[554px]:grid gap-4 lg:grid-cols-[minmax(0,760px)_minmax(252px,380px)] lg:items-stretch lg:gap-4 xl:mt-10 2xl:gap-5">
           <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-5 self-stretch xl:h-full">
             <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2 md:gap-4 md:items-stretch">
               <ServiceMediaCard
@@ -108,7 +156,7 @@ export function ServicesBento({
                 showPattern
               >
                 <Image
-                  src="/images/Service%20Icon%20Group.svg"
+                  src={diagramSrc}
                   alt=""
                   width={246}
                   height={210}
@@ -183,6 +231,193 @@ export function ServicesBento({
         </div>
       </ScrollReveal>
     </section>
+  );
+}
+
+function MobileServiceTile({
+  title,
+  priceLine,
+  className,
+}: {
+  title: string;
+  priceLine?: string;
+  className?: string;
+}) {
+  return (
+    <article
+      className={cn(
+        bentoMobileClass,
+        "flex flex-col justify-between bg-[#141414] p-[11px]",
+        className,
+      )}
+      style={{
+        backgroundImage:
+          "linear-gradient(140deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
+      }}
+    >
+      <h3 className="font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.45] text-[#faf3e8] sm:text-[12px]">
+        {title.replace("\n", " ")}
+      </h3>
+      {priceLine ? (
+        <p className="font-[family-name:var(--font-body)] text-[10px] font-normal text-white/70 sm:text-[11px]">
+          {priceLine}
+        </p>
+      ) : null}
+    </article>
+  );
+}
+
+function MobileAnalyticsCard({
+  titleLines,
+  analyticsVideoPath,
+  analyticsVideoPosterPath,
+  className,
+}: {
+  titleLines: string[];
+  analyticsVideoPath: string;
+  analyticsVideoPosterPath: string;
+  className?: string;
+}) {
+  return (
+    <article className={cn(bentoMobileClass, "bg-[#141414]", className)}>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <div className="absolute bottom-0 left-1/2 aspect-square w-[155%] -translate-x-1/2 translate-y-[50%] rounded-full bg-gradient-to-t from-[#e63b12] via-[#ff7a18] to-[#ffd23f]" />
+      </div>
+      <div className="absolute inset-x-0 top-2 z-10 px-[11px]">
+        <h3 className="font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+          {titleLines.map((line, i) => (
+            <span key={i}>
+              {line}
+              {i < titleLines.length - 1 ? <br /> : null}
+            </span>
+          ))}
+        </h3>
+      </div>
+      <div className="absolute inset-x-0 top-8 bottom-0 z-10">
+        <DeferredVideo
+          className="absolute bottom-0 left-1/2 h-[95px] w-[88px] -translate-x-1/2 rounded-t-[14px] rounded-b-none object-cover object-top shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
+          src={analyticsVideoPath}
+          poster={analyticsVideoPosterPath}
+          autoPlay
+          muted
+          loop
+          playsInline
+          loadStrategy="visible"
+        />
+      </div>
+    </article>
+  );
+}
+
+function MobileDiagramCard({
+  diagramSrc,
+  className,
+}: {
+  diagramSrc: string;
+  className?: string;
+}) {
+  return (
+    <article
+      className={cn(
+        bentoMobileClass,
+        "flex items-center justify-center bg-[#0b1013] px-[5px]",
+        className,
+      )}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-40 mix-blend-lighten"
+        aria-hidden
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse 80% 60% at 30% 20%, rgba(255,119,0,0.35), transparent 60%), radial-gradient(ellipse 70% 50% at 80% 80%, rgba(78,120,255,0.2), transparent 55%)",
+        }}
+      />
+      <HomePageV2ServiceFlowDiagram diagramSrc={diagramSrc} className="relative z-10 h-[60px] sm:h-[64px]" />
+    </article>
+  );
+}
+
+function MobileWebDesignCard({
+  title,
+  priceLine,
+  imageRows,
+  className,
+}: {
+  title: string;
+  priceLine?: string;
+  imageRows: string[][];
+  className?: string;
+}) {
+  return (
+    <article className={cn(bentoMobileClass, "bg-[#e07725]", className)}>
+      <WebDesignPortfolioCascade
+        imageRows={imageRows}
+        className="absolute inset-0"
+        rows={3}
+        maxPerRow={3}
+        variant="compact"
+      />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-12 bg-gradient-to-b from-black/75 to-transparent" />
+      <div className="relative z-[2] p-[11px]">
+        {priceLine ? (
+          <p className="font-[family-name:var(--font-body)] text-[10px] font-normal text-white/90 sm:text-[11px]">
+            {priceLine}
+          </p>
+        ) : null}
+        <h3 className="mt-0.5 font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+          {title}
+        </h3>
+      </div>
+    </article>
+  );
+}
+
+function MobileSocialCard({
+  title,
+  priceLine,
+  analyticsVideoPath,
+  analyticsVideoPosterPath,
+  className,
+}: {
+  title: string;
+  priceLine?: string;
+  analyticsVideoPath: string;
+  analyticsVideoPosterPath: string;
+  className?: string;
+}) {
+  return (
+    <article className={cn(bentoMobileClass, "bg-[#140505]", className)}>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(122deg, rgba(255,252,252,0.12) 2.12%, rgba(255,120,70,0.14) 42%, rgba(16,16,16,0.18) 97.84%)",
+        }}
+      />
+      <div className="pointer-events-none absolute -left-[28%] -top-[20%] h-[125%] w-[135%] bg-[radial-gradient(ellipse_58%_56%_at_42%_92%,rgba(255,100,45,0.72)_0%,rgba(195,45,22,0.48)_38%,transparent_72%)]" />
+      <div className="absolute inset-x-0 top-2 z-10 px-[11px]">
+        {priceLine ? (
+          <p className="font-[family-name:var(--font-body)] text-[10px] font-normal text-white/90 sm:text-[11px]">
+            {priceLine}
+          </p>
+        ) : null}
+        <h3 className="mt-0.5 font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+          {title.replace("\n", " ")}
+        </h3>
+      </div>
+      <div className="absolute inset-x-0 bottom-0 top-10 z-[1] flex items-end justify-center overflow-hidden pb-1">
+        <DeferredVideo
+          className="h-[78px] w-[56px] rounded-[12px] object-cover object-bottom shadow-[0_3px_12px_rgba(0,0,0,0.44)]"
+          src={analyticsVideoPath}
+          poster={analyticsVideoPosterPath}
+          autoPlay
+          muted
+          loop
+          playsInline
+          loadStrategy="visible"
+        />
+      </div>
+    </article>
   );
 }
 
