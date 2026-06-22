@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
@@ -109,7 +109,7 @@ function WorkScrollCardHeader({ iconSrc, label }: { iconSrc: string; label: stri
     <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-[13px] pt-[10px]">
       <div className="flex min-w-0 items-center gap-[7px]">
         <div className="relative size-[27px] shrink-0 overflow-hidden rounded-full bg-black/20">
-          <img src={iconSrc} alt="" className="size-full object-cover" />
+          <img src={iconSrc} alt="" className="size-full object-contain" />
         </div>
         <span className="truncate font-body text-[10px] font-normal tracking-[-0.025em] text-white not-italic">
           {label}

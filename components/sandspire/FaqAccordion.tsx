@@ -1,21 +1,32 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import * as React from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
-export function FaqAccordion({
-  items,
-}: {
-  items: Array<{
-    question: string;
-    answer?: string;
-  }>;
-}) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const accordionRef = useRef<HTMLDivElement | null>(null);
+import { cn } from "@/lib/utils";
 
-  const normalizedItems = useMemo(() => items, [items]);
+const panelSpring = { type: "spring" as const, stiffness: 150, damping: 22 };
 
-  useEffect(() => {
+type FaqItem = {
+  question: string;
+  answer?: string;
+};
+
+type FaqAccordionProps = {
+  items: FaqItem[];
+  className?: string;
+};
+
+/**
+ * FAQ accordion with Animate UI–style spring expand/collapse.
+ * @see https://animate-ui.com/docs/components/base/accordion
+ */
+export function FaqAccordion({ items, className }: FaqAccordionProps) {
+  const [openIndex, setOpenIndex] = React.useState<number | null>(null);
+  const accordionRef = React.useRef<HTMLDivElement | null>(null);
+  const reduceMotion = useReducedMotion();
+
+  React.useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
       if (
         accordionRef.current &&
@@ -27,17 +38,15 @@ export function FaqAccordion({
     };
 
     document.addEventListener("pointerdown", handlePointerDown);
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-    };
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, []);
 
   return (
     <div
       ref={accordionRef}
-      className="grid w-full max-w-[1017px] grid-cols-1 gap-5 md:grid-cols-2 md:gap-x-[22px] md:gap-y-5"
+      className={cn("grid w-full max-w-[1017px] grid-cols-1 gap-5", className)}
     >
-      {normalizedItems.map((item, idx) => {
+      {items.map((item, idx) => {
         const isOpen = openIndex === idx;
 
         return (
@@ -51,33 +60,45 @@ export function FaqAccordion({
               onClick={() => setOpenIndex((prev) => (prev === idx ? null : idx))}
               aria-expanded={isOpen}
             >
-              <span
+              <motion.span
                 aria-hidden
-                className={[
-                  "inline-flex h-[19px] w-[19px] shrink-0 items-center justify-center text-[15px] font-light leading-none text-[#e6ddd0] shadow-[0_4px_4px_rgba(0,0,0,0.25)]",
-                  "transition-transform duration-200",
-                  isOpen ? "rotate-45" : "rotate-0",
-                ].join(" ")}
+                className="inline-flex h-[19px] w-[19px] shrink-0 items-center justify-center text-[15px] font-light leading-none text-[#e6ddd0] shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
+                animate={{ rotate: isOpen ? 45 : 0 }}
+                transition={panelSpring}
               >
                 +
-              </span>
+              </motion.span>
               <span className="font-[family-name:var(--font-body)] text-[15px] font-light leading-snug tracking-[-0.02em] text-[#e6ddd0]">
                 {item.question}
               </span>
             </button>
 
-            <div
-              className={[
-                "transition-[max-height,opacity,padding] duration-200",
-                isOpen ? "max-h-52 opacity-100 px-8 pb-6 pt-0" : "max-h-0 opacity-0",
-              ].join(" ")}
-            >
+            <AnimatePresence initial={false}>
               {isOpen ? (
-                <p className="border-t border-white/10 pt-4 text-[14px] leading-relaxed text-[#9c9c9c]">
-                  {item.answer ?? ""}
-                </p>
+                <motion.div
+                  key="panel"
+                  initial={
+                    reduceMotion
+                      ? { height: "auto", opacity: 1 }
+                      : { height: 0, opacity: 0, y: 12 }
+                  }
+                  animate={{ height: "auto", opacity: 1, y: 0 }}
+                  exit={
+                    reduceMotion
+                      ? { height: 0, opacity: 0 }
+                      : { height: 0, opacity: 0, y: 12 }
+                  }
+                  transition={reduceMotion ? { duration: 0.15 } : panelSpring}
+                  className="overflow-hidden"
+                >
+                  <div className="px-8 pb-6 pt-0">
+                    <p className="border-t border-white/10 pt-4 text-[14px] leading-relaxed text-[#9c9c9c]">
+                      {item.answer ?? ""}
+                    </p>
+                  </div>
+                </motion.div>
               ) : null}
-            </div>
+            </AnimatePresence>
           </div>
         );
       })}

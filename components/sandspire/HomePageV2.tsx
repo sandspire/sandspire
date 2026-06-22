@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import type { ReactNode } from "react";
 
 import { ContactFAQ } from "@/components/sandspire/ContactFAQ";
@@ -8,6 +8,7 @@ import { HomePageV2ServiceSuite } from "@/components/sandspire/HomePageV2Service
 import { HomePageV2Showreel } from "@/components/sandspire/HomePageV2Showreel";
 import { HomePageV2WorkScroll } from "@/components/sandspire/HomePageV2WorkScroll";
 import { LogoMarquee } from "@/components/sandspire/LogoMarquee";
+import { RevealText } from "@/components/sandspire/RevealText";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { SiteFooter } from "@/components/sandspire/SiteFooter";
 import { SiteNavBar } from "@/components/sandspire/SiteNavBar";
@@ -83,13 +84,23 @@ export function HomePageV2({
             <div className="pointer-events-none absolute inset-0 rounded-b-[32px] bg-gradient-to-b from-black/40 via-black/22 to-black/48 lg:rounded-b-[48px]" />
 
             <div className="relative z-10 flex h-full flex-col justify-center px-6 font-body home2-hero lg:px-8">
-              <ScrollReveal className="mx-auto w-full max-w-[554px] text-center">
-                <h1 className="font-display text-[clamp(2.5rem,6.5vw,4.7rem)] font-light leading-[0.95] tracking-[-0.05em] text-white">
-                  {content.heroHeadline}
-                </h1>
-                <p className="mt-6 text-[18px] font-normal leading-[1.4] text-[#faf3e8] sm:text-[20px]">
-                  {content.heroSubheadline}
-                </p>
+              <div className="mx-auto w-full max-w-[554px] text-center">
+                <RevealText
+                  tag="h1"
+                  variant="headline"
+                  text={content.heroHeadline}
+                  textAlign="center"
+                  rootMargin="0px"
+                  className="font-display text-[clamp(2.5rem,6.5vw,4.7rem)] font-light leading-[0.95] tracking-[-0.05em] text-white"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={content.heroSubheadline}
+                  textAlign="center"
+                  rootMargin="0px"
+                  className="mt-6 text-[18px] font-normal leading-[1.4] text-[#faf3e8] sm:text-[20px]"
+                />
                 <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                   <OutlineButton href={content.heroPrimaryCtaHref}>
                     {content.heroPrimaryCtaLabel}
@@ -101,7 +112,7 @@ export function HomePageV2({
                     {content.heroSecondaryCtaLabel}
                   </Link>
                 </div>
-              </ScrollReveal>
+              </div>
             </div>
           </div>
 
@@ -115,12 +126,20 @@ export function HomePageV2({
           <div className="relative z-[1] mx-auto w-full max-w-[935px] overflow-visible">
             <div className="work-scroll-stage relative overflow-visible">
               <div className="relative z-20 flex flex-col items-center gap-[5px] px-2 pb-4 pt-1 text-center">
-                <h2 className="home2-section-title font-display text-[clamp(2.5rem,5vw,3.4375rem)] font-normal leading-[1.44] text-white [text-shadow:0_4.35px_4.35px_rgba(0,0,0,0.79)]">
-                  {content.workTitle}
-                </h2>
-                <p className="max-w-[373px] font-body text-[18px] font-medium tracking-[-0.06em] text-[#faf3e8] sm:text-[20px] sm:leading-[1.36]">
-                  {content.workSubtitle}
-                </p>
+                <RevealText
+                  tag="h2"
+                  variant="headline"
+                  text={content.workTitle}
+                  textAlign="center"
+                  className="home2-section-title font-display text-[clamp(2.5rem,5vw,3.4375rem)] font-normal leading-[1.44] text-white [text-shadow:0_4.35px_4.35px_rgba(0,0,0,0.79)]"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={content.workSubtitle}
+                  textAlign="center"
+                  className="max-w-[373px] font-body text-[18px] font-medium tracking-[-0.06em] text-[#faf3e8] sm:text-[20px] sm:leading-[1.36]"
+                />
               </div>
 
               <HomePageV2WorkScroll items={content.workScrollItems} />

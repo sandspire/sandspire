@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SandspireHeaderFromCms } from "@/components/sandspire/SandspireHeaderFromCms";
+import { RevealText } from "@/components/sandspire/RevealText";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { SiteFooterFromCms } from "@/components/sandspire/SiteFooterFromCms";
 import { getAboutPageContent, getHomepageV2Content } from "@/sanity/lib/queries/siteContent";
@@ -46,9 +47,12 @@ export default async function AboutPage() {
               </div>
 
               <div>
-                <h1 className="max-w-[720px] font-[family-name:var(--font-body)] text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-[#faf3e8]">
-                  {content.headline}
-                </h1>
+                <RevealText
+                  tag="h1"
+                  variant="headline"
+                  text={content.headline}
+                  className="max-w-[720px] font-[family-name:var(--font-body)] text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-[#faf3e8]"
+                />
               </div>
             </div>
           </ScrollReveal>
@@ -56,22 +60,34 @@ export default async function AboutPage() {
           <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-2 lg:gap-20">
             <ScrollReveal delay={0.08}>
               <section>
-                <h2 className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]">
-                  {content.section1Title}
-                </h2>
-                <p className="mt-4 text-[16px] font-normal leading-[1.6] tracking-[0] text-[#c9c2b8] lg:text-[17px]">
-                  {content.section1Body}
-                </p>
+                <RevealText
+                  tag="h2"
+                  variant="headline"
+                  text={content.section1Title}
+                  className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={content.section1Body}
+                  className="mt-4 text-[16px] font-normal leading-[1.6] tracking-[0] text-[#c9c2b8] lg:text-[17px]"
+                />
               </section>
             </ScrollReveal>
             <ScrollReveal delay={0.14}>
               <section>
-                <h2 className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]">
-                  {content.section2Title}
-                </h2>
-                <p className="mt-4 text-[16px] font-normal leading-[1.6] tracking-[0] text-[#c9c2b8] lg:text-[17px]">
-                  {content.section2Body}
-                </p>
+                <RevealText
+                  tag="h2"
+                  variant="headline"
+                  text={content.section2Title}
+                  className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={content.section2Body}
+                  className="mt-4 text-[16px] font-normal leading-[1.6] tracking-[0] text-[#c9c2b8] lg:text-[17px]"
+                />
               </section>
             </ScrollReveal>
           </div>

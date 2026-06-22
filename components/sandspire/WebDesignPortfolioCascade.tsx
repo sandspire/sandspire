@@ -15,6 +15,8 @@ type Props = {
   pauseOnHover?: boolean;
   /** Tighter, centered layout for home-2 service bento. */
   variant?: "default" | "compact";
+  /** Scale to fit the 120px homepage mobile bento without clipping. */
+  fitMobileBento?: boolean;
 };
 
 const compactTileMaxHeight =
@@ -46,6 +48,7 @@ export function WebDesignPortfolioCascade({
   maxPerRow = 2,
   pauseOnHover = true,
   variant = "default",
+  fitMobileBento = false,
 }: Props) {
   const isCompact = variant === "compact";
   const rowArraysRaw: string[][] =
@@ -119,7 +122,9 @@ export function WebDesignPortfolioCascade({
       className={cn(
         "relative h-full min-h-0 w-full overflow-hidden",
         isCompact
-          ? "[perspective-origin:50%_50%]"
+          ? fitMobileBento
+            ? "[perspective-origin:50%_68%]"
+            : "[perspective-origin:50%_50%]"
           : "max-md:[perspective-origin:50%_45%] md:[perspective-origin:50%_50%]",
         className,
       )}
@@ -145,8 +150,10 @@ export function WebDesignPortfolioCascade({
             className={cn(
               "will-change-transform",
               isCompact
-                ? "origin-center [transform:scale(0.95)] sm:[transform:scale(1)] md:[transform:scale(1.05)] lg:[transform:scale(1.11)]"
-                  : "origin-center [transform:scale(1.2)] md:[transform:scale(0.6)]",
+                ? fitMobileBento
+                  ? "origin-[50%_78%] [transform:scale(0.54)]"
+                  : "origin-center [transform:scale(0.95)] sm:[transform:scale(1)] md:[transform:scale(1.05)] lg:[transform:scale(1.11)]"
+                : "origin-center [transform:scale(1.2)] md:[transform:scale(0.6)]",
             )}
             style={{ transformStyle: "preserve-3d" }}
           >

@@ -1,9 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import { useRef, type RefObject } from "react";
+import { Link } from "next-view-transitions";
 
 import { BRAND_LOGO_SRC } from "@/lib/brandAssets";
 import { HomePageV2GradientBackdrop } from "@/components/sandspire/HomePageV2HeroBackground";
+import { RevealText } from "@/components/sandspire/RevealText";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
-import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { StickyScrollShell } from "@/components/ui/sticky-scroll-shell";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +47,7 @@ function FooterContent({
   blurb,
   copyright,
   logoSrc = BRAND_LOGO_SRC,
+  scrollTriggerRef,
 }: {
   isHome2: boolean;
   menu: ReturnType<typeof footerMenu>;
@@ -53,12 +57,20 @@ function FooterContent({
   blurb: string;
   copyright: string;
   logoSrc?: string;
+  scrollTriggerRef?: RefObject<HTMLDivElement | null>;
 }) {
   const linkClass = isHome2 ? footerLinkClassHome2 : footerLinkClass;
+  const stickyReveal =
+    scrollTriggerRef != null
+      ? {
+          scrollTriggerRef,
+          scrollTriggerStart: "bottom bottom",
+        }
+      : {};
 
   return (
-    <ScrollReveal className="mx-auto w-full max-w-[1180px]">
-      <div className="mx-auto flex w-full max-w-[940px] flex-col justify-between gap-10 lg:h-[210px] lg:flex-row lg:gap-[320px]">
+    <div className="mx-auto w-full max-w-[1180px]">
+      <div className="mx-auto flex w-full max-w-[940px] flex-col justify-between gap-10 lg:flex-row lg:gap-[320px]">
         <div className="w-full max-w-[380px] space-y-4">
           <img
             src={logoSrc}
@@ -67,24 +79,26 @@ function FooterContent({
             loading="lazy"
             decoding="async"
           />
-          <p
+          <RevealText
+            tag="p"
+            variant="tagline"
+            text={`${taglineLine1}\n${taglineLine2}`}
             className={cn(
-              "font-body text-[28px] font-light leading-[1.05]",
+              "whitespace-pre-line font-body text-[28px] font-light leading-[1.15]",
               isHome2 ? "text-[#faf3e8]" : "text-[#FAF3E8]",
             )}
-          >
-            {taglineLine1}
-            <br />
-            {taglineLine2}
-          </p>
-          <p
+            {...stickyReveal}
+          />
+          <RevealText
+            tag="p"
+            variant="paragraph"
+            text={blurb}
             className={cn(
               "max-w-[380px] text-[15px] font-normal leading-[1.4]",
               isHome2 ? "text-[#faf3e8]/90" : "text-[#FAF3E8]",
             )}
-          >
-            {blurb}
-          </p>
+            {...stickyReveal}
+          />
           <p className={cn("text-[12px]", isHome2 ? "text-[#faf3e8]/65" : "text-[#BEB7B7]")}>
             {copyright}
           </p>
@@ -92,9 +106,13 @@ function FooterContent({
 
         <div className="flex w-full max-w-[280px] flex-col gap-10 sm:max-w-none sm:flex-row sm:gap-12 lg:max-w-[320px]">
           <div className="min-w-0 sm:min-w-[100px]">
-            <p className={cn("text-[18px] font-light", isHome2 ? "text-[#ff5e00]" : "text-[#F7941D]")}>
-              Menu
-            </p>
+            <RevealText
+              tag="p"
+              variant="eyebrow"
+              text="Menu"
+              className={cn("text-[18px] font-light", isHome2 ? "text-[#ff5e00]" : "text-[#F7941D]")}
+              {...stickyReveal}
+            />
             <ul className="mt-1 space-y-1.5">
               {menu.map((l) => (
                 <li key={l.label}>
@@ -107,9 +125,13 @@ function FooterContent({
           </div>
 
           <div className="min-w-0 sm:min-w-[100px]">
-            <p className={cn("text-[18px] font-light", isHome2 ? "text-[#ff5e00]" : "text-[#F7941D]")}>
-              Social
-            </p>
+            <RevealText
+              tag="p"
+              variant="eyebrow"
+              text="Social"
+              className={cn("text-[18px] font-light", isHome2 ? "text-[#ff5e00]" : "text-[#F7941D]")}
+              {...stickyReveal}
+            />
             <ul className="mt-1 space-y-1.5">
               {socialLinks.map((l) => (
                 <li key={l.label}>
@@ -122,7 +144,7 @@ function FooterContent({
           </div>
         </div>
       </div>
-    </ScrollReveal>
+    </div>
   );
 }
 
@@ -141,26 +163,30 @@ export function SiteFooter({
   const isHome2 = variant === "home2";
   const useSticky = sticky || isHome2;
   const menu = footerMenu(homeHref, navLinks);
+  const stickyTrackRef = useRef<HTMLDivElement>(null);
+
+  const footerContentProps = {
+    isHome2,
+    menu,
+    socialLinks,
+    taglineLine1,
+    taglineLine2,
+    blurb,
+    copyright,
+    logoSrc,
+    scrollTriggerRef: useSticky ? stickyTrackRef : undefined,
+  };
 
   const inner = (
     <div
       className={cn(
-        "relative flex size-full flex-col justify-center overflow-hidden px-6 py-[80px] lg:px-0",
+        "relative flex size-full flex-col justify-center px-6 py-[80px] lg:px-0",
         isHome2 ? "bg-[#0d0d0d] font-body text-[#faf3e8]" : "bg-[#0D0D0D] text-[#FAF3E8]",
       )}
     >
       {isHome2 ? <HomePageV2GradientBackdrop variant="footer" /> : null}
       <div className="relative z-10">
-        <FooterContent
-          isHome2={isHome2}
-          menu={menu}
-          socialLinks={socialLinks}
-          taglineLine1={taglineLine1}
-          taglineLine2={taglineLine2}
-          blurb={blurb}
-          copyright={copyright}
-          logoSrc={logoSrc}
-        />
+        <FooterContent {...footerContentProps} />
       </div>
     </div>
   );
@@ -169,6 +195,7 @@ export function SiteFooter({
     <footer id="footer" className="w-full">
       {useSticky ? (
         <StickyScrollShell
+          ref={stickyTrackRef}
           heightClass={FOOTER_STICKY_HEIGHT}
           pin="bottom"
           stickyBottomClass={FOOTER_STICKY_OFFSET}
@@ -176,19 +203,10 @@ export function SiteFooter({
           {inner}
         </StickyScrollShell>
       ) : (
-        <div className={cn("relative w-full overflow-hidden px-6 py-[80px] lg:px-0", isHome2 ? "bg-[#0d0d0d] font-body text-[#faf3e8]" : "bg-[#0D0D0D] text-[#FAF3E8]")}>
+        <div className={cn("relative w-full px-6 py-[80px] lg:px-0", isHome2 ? "bg-[#0d0d0d] font-body text-[#faf3e8]" : "bg-[#0D0D0D] text-[#FAF3E8]")}>
           {isHome2 ? <HomePageV2GradientBackdrop variant="footer" /> : null}
           <div className="relative z-10">
-            <FooterContent
-          isHome2={isHome2}
-          menu={menu}
-          socialLinks={socialLinks}
-          taglineLine1={taglineLine1}
-          taglineLine2={taglineLine2}
-          blurb={blurb}
-          copyright={copyright}
-          logoSrc={logoSrc}
-        />
+            <FooterContent {...footerContentProps} />
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { SandspireHeaderFromCms } from "@/components/sandspire/SandspireHeaderFromCms";
 import { SiteFooterFromCms } from "@/components/sandspire/SiteFooterFromCms";
 

@@ -1,7 +1,12 @@
+import Image from "next/image";
+
 import { ContactFAQ } from "@/components/sandspire/ContactFAQ";
+import { RevealText } from "@/components/sandspire/RevealText";
+import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { SandspireHeader } from "@/components/sandspire/SandspireHeader";
 import { SiteFooter } from "@/components/sandspire/SiteFooter";
 import type { SiteSettingsContent } from "@/sanity/lib/queries/siteContent";
+import { workProjectTransitionName } from "@/lib/viewTransitionNames";
 
 const pillShadowByLabel: Record<string, string> = {
   Branding: "0 0 5.14px rgba(247, 148, 29, 0.25)",
@@ -16,11 +21,46 @@ function pillShadow(label: string) {
 function TagPill({ label }: { label: string }) {
   return (
     <span
-      className="inline-flex h-8 items-center justify-center rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0] transition-[transform,box-shadow] duration-200 ease-out will-change-transform hover:scale-[1.04] active:scale-[0.97]"
+      className="inline-flex h-8 items-center justify-center rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0]"
       style={{ boxShadow: pillShadow(label) }}
     >
       {label}
     </span>
+  );
+}
+
+function ProjectMetaRow({
+  label,
+  value,
+  valueClassName = "",
+  align = "baseline",
+}: {
+  label: string;
+  value: string;
+  valueClassName?: string;
+  align?: "baseline" | "start";
+}) {
+  return (
+    <div
+      className={
+        align === "start"
+          ? "flex items-start gap-x-12"
+          : "flex items-baseline gap-x-12"
+      }
+    >
+      <RevealText
+        tag="p"
+        variant="eyebrow"
+        text={label}
+        className="w-[120px] shrink-0 text-[#818181]"
+      />
+      <RevealText
+        tag="p"
+        variant="paragraph"
+        text={value}
+        className={`min-w-0 flex-1 text-[#e6ddd0] ${valueClassName}`.trim()}
+      />
+    </div>
   );
 }
 
@@ -57,6 +97,32 @@ function hasUsableProjectUrl(projectUrl: string) {
   }
 }
 
+function ProjectImage({
+  src,
+  alt,
+  priority = false,
+  className = "h-auto w-full",
+  sizes = "(max-width: 1024px) 100vw, 498px",
+}: {
+  src: string;
+  alt: string;
+  priority?: boolean;
+  className?: string;
+  sizes?: string;
+}) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={1200}
+      height={1500}
+      sizes={sizes}
+      className={className}
+      priority={priority}
+    />
+  );
+}
+
 export type WorkProjectContentProps = {
   serviceTags: string[];
   fieldLabel: string;
@@ -88,6 +154,7 @@ export type WorkProjectContentProps = {
 
 export type WorkProjectTemplateProps = WorkProjectContentProps & {
   site: SiteSettingsContent;
+  slug?: string;
 };
 
 export function WorkProjectTemplate({
@@ -118,6 +185,7 @@ export function WorkProjectTemplate({
   resultTallSrc,
   resultTallAlt,
   site,
+  slug,
 }: WorkProjectTemplateProps) {
   const showVisitButton = hasUsableProjectUrl(projectUrl);
   const hasSecondGalleryImage = Boolean(galleryStackBottomSrc);
@@ -146,60 +214,63 @@ export function WorkProjectTemplate({
 
           <div className="relative mx-auto w-full max-w-[1220px] px-6 pb-0 pt-8 md:pt-12 lg:px-10">
             <div className="mx-auto flex max-w-[1100px] flex-col-reverse items-center gap-10 lg:flex-row lg:justify-center lg:gap-[72px] xl:gap-[100px]">
-              <div className="w-full max-w-[418px] shrink-0 rounded-t-[28px] bg-[rgba(217,217,217,0.2)] px-2 pb-0 pt-1 transition-[box-shadow,transform] duration-300 ease-out lg:hover:-translate-y-0.5 lg:hover:shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
+              <div
+                className="w-full max-w-[418px] shrink-0 rounded-t-[28px] bg-[rgba(217,217,217,0.2)] px-1 pb-0 pt-0.5"
+                style={slug ? { viewTransitionName: workProjectTransitionName(slug) } : undefined}
+              >
                 <div className="relative w-full overflow-hidden rounded-t-[24px] bg-[#1f1f1f]">
-                  <img
+                  <ProjectImage
                     src={heroSrc}
                     alt={heroAlt}
-                    className="block h-auto w-full"
-                    fetchPriority="high"
-                    decoding="async"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 418px"
                   />
                 </div>
               </div>
 
               <div className="flex w-full max-w-[min(100%,320px)] flex-col gap-[22px] sm:max-w-[260px] lg:shrink-0">
                 {logoSrc ? (
-                  <img
-                    src={logoSrc}
-                    alt={logoAlt}
-                    className={`h-[30px] w-auto max-w-[140px] object-contain object-left transition-opacity duration-200 hover:opacity-85 ${invertLogo ? "brightness-0 invert" : ""}`}
-                    decoding="async"
-                  />
+                  <div className="w-full min-h-[30px]">
+                    <img
+                      src={logoSrc}
+                      alt={logoAlt}
+                      className={`block h-[30px] w-auto max-w-full object-contain object-left ${invertLogo ? "brightness-0 invert" : ""}`}
+                      decoding="async"
+                    />
+                  </div>
                 ) : (
-                  <p className="font-display text-[26px] font-light leading-tight tracking-[-0.04em] text-[#e6ddd0]">
-                    {wordmarkTitle}
-                  </p>
+                  <RevealText
+                    tag="p"
+                    variant="headline"
+                    text={wordmarkTitle}
+                    className="font-display text-[26px] font-light leading-tight tracking-[-0.04em] text-[#e6ddd0]"
+                  />
                 )}
-                <div className="flex flex-wrap gap-2.5">
+                <ScrollReveal className="flex flex-wrap gap-2.5" delay={0.04}>
                   {serviceTags.map((category) => (
                     <TagPill key={category} label={category} />
                   ))}
-                </div>
-                <div className="space-y-3.5 font-[family-name:var(--font-body)] text-[12.5px] font-normal leading-[1.2] tracking-[0]">
-                  <div>
-                    <p className="text-[#818181]">{fieldLabel}</p>
-                    <p className="mt-2.5 text-[#e6ddd0]">{industry}</p>
-                  </div>
-                  <div>
-                    <p className="text-[#818181]">{locationLabel}</p>
-                    <p className="mt-2.5 text-[#e6ddd0]">{location}</p>
-                  </div>
-                  <div>
-                    <p className="text-[#818181]">About</p>
-                    <p className="mt-2.5 max-w-[249px] text-[#e6ddd0]">{about}</p>
-                  </div>
-                </div>
+                </ScrollReveal>
+                <ScrollReveal className="space-y-3.5 font-[family-name:var(--font-body)] text-[12.5px] font-normal leading-[1.2] tracking-[0]" delay={0.08}>
+                  <ProjectMetaRow label={fieldLabel} value={industry} />
+                  <ProjectMetaRow label={locationLabel} value={location} />
+                  <ProjectMetaRow
+                    label="About"
+                    value={about}
+                    align="start"
+                    valueClassName="max-w-[249px]"
+                  />
+                </ScrollReveal>
                 {showVisitButton ? (
                   <a
                     href={projectUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/cta inline-flex h-8 w-fit items-center justify-center gap-2.5 rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[-0.99px] text-[#e6ddd0] transition-all duration-200 ease-out hover:-translate-y-px hover:bg-[rgba(27,27,27,0.42)] active:translate-y-0 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e6ddd0]/50"
+                    className="group/cta inline-flex h-8 w-fit items-center justify-center gap-2.5 rounded-full bg-[rgba(27,27,27,0.2)] px-4 text-[12.5px] font-light tracking-[0] text-[#e6ddd0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e6ddd0]/50"
                     style={{ boxShadow: pillShadowByLabel["Web Development"] }}
                   >
                     {ctaLabel}
-                    <ExternalLinkGlyph className="text-[#e6ddd0] transition-transform duration-200 ease-out group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-px" />
+                    <ExternalLinkGlyph className="text-[#e6ddd0]" />
                   </a>
                 ) : null}
               </div>
@@ -211,64 +282,74 @@ export function WorkProjectTemplate({
           <div className="mx-auto w-full max-w-[1220px] px-6 lg:px-10">
             <div className="mx-auto flex w-full max-w-[773px] flex-col gap-[72px] md:gap-[88px]">
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]">
-                  {challengeTitle}
-                </h2>
-                <p className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]">
-                  {challengeBody}
-                </p>
+                <RevealText
+                  tag="h2"
+                  variant="headline"
+                  text={challengeTitle}
+                  className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={challengeBody}
+                  className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]"
+                />
               </div>
 
               <div className="flex w-full flex-col gap-5 md:flex-row md:items-start md:gap-[21px]">
-                <div className="flex w-full flex-col gap-6 md:w-[255px] md:shrink-0">
-                  <div className="group relative w-full overflow-hidden rounded-[14px] bg-[#faf3e8] md:w-[255px]">
-                    <img
+                <ScrollReveal
+                  className="flex w-full flex-col gap-6 md:w-[255px] md:shrink-0"
+                  delay={0.06}
+                >
+                  <div className="relative w-full overflow-hidden rounded-[14px] bg-[#faf3e8] md:w-[255px]">
+                    <ProjectImage
                       src={galleryStackTopSrc}
                       alt={galleryStackTopAlt}
-                      className="block h-auto w-full origin-center transition-[transform,filter] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.02] group-hover:brightness-[1.02]"
-                      loading="lazy"
-                      decoding="async"
+                      sizes="(max-width: 768px) 100vw, 255px"
                     />
                   </div>
                   {hasSecondGalleryImage ? (
-                    <div className="group relative w-full overflow-hidden rounded-[14px] bg-[#faf3e8] md:w-[255px]">
-                      <img
+                    <div className="relative w-full overflow-hidden rounded-[14px] bg-[#faf3e8] md:w-[255px]">
+                      <ProjectImage
                         src={galleryStackBottomSrc!}
                         alt={galleryStackBottomAlt}
-                        className="block h-auto w-full origin-center transition-[transform,filter] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.02] group-hover:brightness-[1.02]"
-                        loading="lazy"
-                        decoding="async"
+                        sizes="(max-width: 768px) 100vw, 255px"
                       />
                     </div>
                   ) : null}
-                  <div className="group relative w-full overflow-hidden rounded-[14px] bg-[#faf3e8] md:w-[255px]">
-                    <img
+                  <div className="relative w-full overflow-hidden rounded-[14px] bg-[#faf3e8] md:w-[255px]">
+                    <ProjectImage
                       src={resultTallSrc}
                       alt={resultTallAlt}
-                      className="block h-auto w-full origin-center transition-[transform,filter] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.02] group-hover:brightness-[1.02]"
-                      loading="lazy"
-                      decoding="async"
+                      sizes="(max-width: 768px) 100vw, 255px"
                     />
                   </div>
-                </div>
-                <div className="group relative w-full flex-1 overflow-hidden rounded-[14px] bg-[#faf3e8] md:max-w-[498px]">
-                  <img
+                </ScrollReveal>
+                <ScrollReveal
+                  className="relative w-full flex-1 overflow-hidden rounded-[14px] bg-[#faf3e8] md:max-w-[498px]"
+                  delay={0.12}
+                >
+                  <ProjectImage
                     src={galleryHeroTallSrc}
                     alt={galleryHeroTallAlt}
-                    className="block h-auto w-full origin-center transition-[transform,filter] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.015] group-hover:brightness-[1.02]"
-                    loading="lazy"
-                    decoding="async"
+                    sizes="(max-width: 768px) 100vw, 498px"
                   />
-                </div>
+                </ScrollReveal>
               </div>
 
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]">
-                  {solutionTitle}
-                </h2>
-                <p className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]">
-                  {solutionBody}
-                </p>
+                <RevealText
+                  tag="h2"
+                  variant="headline"
+                  text={solutionTitle}
+                  className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={solutionBody}
+                  className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]"
+                />
               </div>
             </div>
           </div>

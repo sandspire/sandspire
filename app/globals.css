@@ -17,8 +17,8 @@
   --radius-md: 8px;
   --radius-lg: 16px;
   --radius-full: 9999px;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: #0d0d0d;
+  --foreground: #faf3e8;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -208,7 +208,7 @@ main :is(h1, h2, h3, h4, h5, h6) {
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-50% - 57px));
+    transform: translateX(-50%);
   }
 }
 
@@ -293,5 +293,70 @@ main :is(h1, h2, h3, h4, h5, h6) {
   }
   html {
     @apply font-sans;
+  }
+}
+
+.split-char,
+.split-word,
+.split-line {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* View Transitions API — cinematic page cross-fades (Studio Namma–style)
+   https://developer.chrome.com/docs/web-platform/view-transitions */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    background-color: #0d0d0d;
+  }
+
+  ::view-transition-old(root) {
+    animation: sandspire-page-out 0.55s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  }
+
+  ::view-transition-new(root) {
+    animation: sandspire-page-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  ::view-transition-group(*) {
+    animation-duration: 0.65s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    mix-blend-mode: normal;
+  }
+}
+
+@keyframes sandspire-page-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(0.985);
+  }
+}
+
+@keyframes sandspire-page-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(14px) scale(1.012);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
   }
 }

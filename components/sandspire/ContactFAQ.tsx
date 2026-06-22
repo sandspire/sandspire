@@ -1,7 +1,8 @@
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { ContactForm } from "@/components/sandspire/ContactForm";
 import { FaqAccordion } from "@/components/sandspire/FaqAccordion";
-import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
+import { RevealText } from "@/components/sandspire/RevealText";
+import { SandspireBorderGlow } from "@/components/sandspire/SandspireBorderGlow";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
 import { cn } from "@/lib/utils";
 
@@ -43,26 +44,40 @@ export function ContactFAQ({
       )}
     >
       <div className="mx-auto flex w-full max-w-[1013px] flex-col items-center gap-14 sm:gap-16 lg:gap-[120px] xl:gap-[140px]">
-        <ScrollReveal className="flex w-full flex-col items-start justify-between gap-10 sm:gap-12 lg:flex-row lg:gap-8">
+        <div className="flex w-full flex-col items-start justify-between gap-10 sm:gap-12 lg:flex-row lg:gap-8">
           <div className="flex w-full max-w-[508px] flex-col gap-8 sm:gap-10 lg:gap-14">
             <div className="flex flex-col gap-4 sm:gap-5">
               {!isHome2 ? (
-                <p className="font-[family-name:var(--font-body)] text-[15px] font-medium leading-[1.4] tracking-[0] text-[#ff5e00] sm:text-[17px]">
-                  {eyebrow}
-                </p>
+                <RevealText
+                  tag="p"
+                  variant="eyebrow"
+                  text={eyebrow}
+                  className="font-[family-name:var(--font-body)] text-[15px] font-medium leading-[1.4] tracking-[0] text-[#ff5e00] sm:text-[17px]"
+                />
               ) : null}
               <div className="flex flex-col gap-5 sm:gap-6">
-                <h2 className="font-[family-name:var(--font-body)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]">
-                  {headline}
-                </h2>
-                <p className="max-w-full text-[15px] font-normal leading-[1.5] tracking-[0] text-[#818181] sm:text-[16px] lg:max-w-[320px] lg:text-[17px]">
-                  {intro}
-                </p>
+                <RevealText
+                  tag="h2"
+                  variant="headline"
+                  text={headline}
+                  className="font-[family-name:var(--font-body)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]"
+                />
+                <RevealText
+                  tag="p"
+                  variant="paragraph"
+                  text={intro}
+                  className="max-w-full text-[15px] font-normal leading-[1.5] tracking-[0] text-[#818181] sm:text-[16px] lg:max-w-[320px] lg:text-[17px]"
+                />
                 <a
                   href={`tel:${phone.replace(/\s/g, "")}`}
-                  className="inline-flex text-[15px] font-medium leading-[1.45] tracking-[0] text-[#faf3e8] transition-colors duration-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/50 sm:text-[17px]"
+                  className="inline-flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/50"
                 >
-                  {phone}
+                  <RevealText
+                    tag="span"
+                    variant="paragraph"
+                    text={phone}
+                    className="text-[15px] font-medium leading-[1.45] tracking-[0] text-[#faf3e8] sm:text-[17px]"
+                  />
                 </a>
               </div>
             </div>
@@ -81,23 +96,33 @@ export function ContactFAQ({
             </div>
           </div>
 
-          <div className="w-full max-w-[505px] shrink-0 rounded-[24px] border border-[#919191] bg-[rgba(85,85,85,0.08)] px-4 pb-7 pt-4 transition-[box-shadow,border-color] duration-300 ease-out hover:border-[#a8a8a8] hover:shadow-[0_12px_40px_rgba(0,0,0,0.25)] sm:rounded-[30px] sm:px-6 sm:pb-8 sm:pt-5 lg:min-h-[433px] lg:px-7">
+          <div className="w-full max-w-[505px] shrink-0 rounded-[24px] border border-[#919191] bg-[rgba(85,85,85,0.08)] px-4 pb-7 pt-4 sm:rounded-[30px] sm:px-6 sm:pb-8 sm:pt-5 lg:min-h-[433px] lg:px-7">
             <ContactForm className="font-body" hideFormNote flatSubmit />
           </div>
-        </ScrollReveal>
+        </div>
 
-        <ScrollReveal className="flex w-full flex-col items-center gap-10 sm:gap-12 lg:gap-14" delay={0.12}>
-          <h3 className="text-center font-[family-name:var(--font-body)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]">
-            Frequently Asked Questions
-          </h3>
+        <div className="flex w-full flex-col items-center gap-10 sm:gap-12 lg:gap-14">
+          <RevealText
+            tag="h3"
+            variant="headline"
+            text="Frequently Asked Questions"
+            textAlign="center"
+            className="text-center font-[family-name:var(--font-body)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]"
+          />
           <FaqAccordion items={faqItems} />
           <a
             href={contactMoreQuestionsHref}
-            className="text-center font-[family-name:var(--font-body)] text-sm font-normal tracking-[0] text-[#e6ddd0] underline decoration-solid underline-offset-4 transition-colors duration-200 hover:text-white"
+            className="text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#faf3e8]/50"
           >
-            Have more questions? Contact us
+            <RevealText
+              tag="span"
+              variant="paragraph"
+              text="Have more questions? Contact us"
+              textAlign="center"
+              className="font-[family-name:var(--font-body)] text-sm font-normal tracking-[0] text-[#e6ddd0] underline decoration-solid underline-offset-4"
+            />
           </a>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );
@@ -139,22 +164,29 @@ function SocialIcon({
   children: React.ReactNode;
   variant?: "default" | "muted";
 }) {
-  const className = [
-    "inline-flex size-[46px] items-center justify-center rounded-[32px] text-[#faf3e8] transition-all duration-200 ease-out hover:scale-110 hover:ring-2 hover:ring-white/20 active:scale-95 sm:size-[50px]",
-    variant === "muted" ? "bg-[rgba(13,13,13,0.4)]" : "bg-black/30 ring-1 ring-white/10",
-  ].join(" ");
+  const bg = variant === "muted" ? "rgba(13,13,13,0.4)" : "rgba(0,0,0,0.3)";
+  const innerClassName =
+    "inline-flex size-[46px] items-center justify-center text-[#faf3e8] sm:size-[50px]";
 
-  if (href.startsWith("/")) {
-    return (
-      <Link href={href} aria-label={label} className={className}>
-        {children}
-      </Link>
-    );
-  }
-
-  return (
-    <a href={href} aria-label={label} className={className}>
+  const icon = href.startsWith("/") ? (
+    <Link href={href} aria-label={label} className={innerClassName}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} aria-label={label} className={innerClassName}>
       {children}
     </a>
+  );
+
+  return (
+    <SandspireBorderGlow
+      inline
+      borderRadius={32}
+      backgroundColor={bg}
+      glowRadius={16}
+      fillOpacity={0.35}
+    >
+      {icon}
+    </SandspireBorderGlow>
   );
 }

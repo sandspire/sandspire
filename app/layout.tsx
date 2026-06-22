@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import { Playfair_Display, Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import { AgentationProvider } from "@/components/AgentationProvider";
+import { SandspirePageTransitions } from "@/components/sandspire/SandspirePageTransitions";
+import { SiteLenis } from "@/components/sandspire/SiteLenis";
 import { cn } from "@/lib/utils";
 import { getSiteSettings } from "@/sanity/lib/queries/siteContent";
 
@@ -48,13 +50,18 @@ export default function RootLayout({
         colitezSerif.variable,
         playfairDisplay.variable,
         plusJakartaSans.variable,
-        "font-sans",
+        "bg-[#0d0d0d] font-sans",
         geist.variable,
       )}
       suppressHydrationWarning
     >
-      <body className="font-[family-name:var(--font-body)] antialiased">
-        {children}
+      <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+      </head>
+      <body className="bg-[#0d0d0d] font-[family-name:var(--font-body)] text-[#faf3e8] antialiased">
+        <SandspirePageTransitions>
+          <SiteLenis>{children}</SiteLenis>
+        </SandspirePageTransitions>
         <AgentationProvider />
       </body>
     </html>

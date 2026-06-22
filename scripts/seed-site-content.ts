@@ -12,6 +12,7 @@ import { resolve } from "node:path";
 
 import { siteContentDefaults } from "../lib/siteContentDefaults";
 import {
+  createSanityAssetIndex,
   createUploadClient,
   uploadPublicFile,
   uploadPublicImage,
@@ -35,12 +36,17 @@ const BRAND_STRATEGY_PATHS = [
   "/images/bento/bottom-2.webp",
 ];
 
-async function uploadVideoUrl(path: string) {
-  const url = await uploadPublicFile(client, publicDir, path, cache, "file");
+async function uploadVideoUrl(path: string, assetIndex: Awaited<ReturnType<typeof createSanityAssetIndex>>) {
+  const url = await uploadPublicFile(client, publicDir, path, cache, "file", assetIndex);
   return typeof url === "string" ? url : undefined;
 }
 
 async function main() {
+  const assetIndex = await createSanityAssetIndex(client);
+  console.log(
+    `CDN index: ${assetIndex.imageRefByFilename.size} images, ${assetIndex.fileUrlByFilename.size} files\n`,
+  );
+
   const [
     heroImage,
     bentoCocktailImage,
@@ -55,37 +61,37 @@ async function main() {
     analyticsPosterHome2Url,
     showreelPosterUrl,
   ] = await Promise.all([
-    uploadPublicImage(client, publicDir, "/images/HeroImage.png", cache),
-    uploadPublicImage(client, publicDir, "/images/bento/service-suite-cocktail.png", cache),
-    uploadPublicImage(client, publicDir, "/images/bento/service-suite-food.png", cache),
-    uploadPublicImage(client, publicDir, "/logos/sandspire.svg", cache),
-    uploadPublicImage(client, publicDir, "/images/Service Icon Group.svg", cache),
-    uploadPublicImage(client, publicDir, "/images/Service Icon Group.svg", cache),
-    uploadVideoUrl(d.homepage.heroVideoPath),
-    uploadVideoUrl(d.homepage.analyticsVideoPath),
-    uploadPublicFile(client, publicDir, d.homepage.heroVideoPosterPath, cache, "file").then((u) =>
+    uploadPublicImage(client, publicDir, "/images/HeroImage.png", cache, assetIndex),
+    uploadPublicImage(client, publicDir, "/images/bento/service-suite-cocktail.png", cache, assetIndex),
+    uploadPublicImage(client, publicDir, "/images/bento/service-suite-food.png", cache, assetIndex),
+    uploadPublicImage(client, publicDir, "/logos/sandspire.svg", cache, assetIndex),
+    uploadPublicImage(client, publicDir, "/images/Service Icon Group.svg", cache, assetIndex),
+    uploadPublicImage(client, publicDir, "/images/Service Icon Group.svg", cache, assetIndex),
+    uploadVideoUrl(d.homepage.heroVideoPath, assetIndex),
+    uploadVideoUrl(d.homepage.analyticsVideoPath, assetIndex),
+    uploadPublicFile(client, publicDir, d.homepage.heroVideoPosterPath, cache, "file", assetIndex).then((u) =>
       typeof u === "string" ? u : undefined,
     ),
-    uploadPublicFile(client, publicDir, d.homepage.analyticsVideoPosterPath, cache, "file").then(
+    uploadPublicFile(client, publicDir, d.homepage.analyticsVideoPosterPath, cache, "file", assetIndex).then(
       (u) => (typeof u === "string" ? u : undefined),
     ),
-    uploadPublicFile(client, publicDir, d.homepageV2.analyticsVideoPosterPath, cache, "file").then(
+    uploadPublicFile(client, publicDir, d.homepageV2.analyticsVideoPosterPath, cache, "file", assetIndex).then(
       (u) => (typeof u === "string" ? u : undefined),
     ),
-    uploadPublicFile(client, publicDir, d.homepageV2.showreelPosterPath, cache, "file").then((u) =>
+    uploadPublicFile(client, publicDir, d.homepageV2.showreelPosterPath, cache, "file", assetIndex).then((u) =>
       typeof u === "string" ? u : undefined,
     ),
   ]);
 
   const webDesignImagesRaw = await Promise.all(
-    d.homepage.webDesignImages.map((p) => uploadPublicImage(client, publicDir, p, cache)),
+    d.homepage.webDesignImages.map((p) => uploadPublicImage(client, publicDir, p, cache, assetIndex)),
   );
   const webDesignImages = webDesignImagesRaw
     .filter((img): img is NonNullable<typeof img> => Boolean(img))
     .map((img, i) => ({ ...img, _key: `web${i}` }));
 
   const brandStrategyImagesRaw = await Promise.all(
-    BRAND_STRATEGY_PATHS.map((p) => uploadPublicImage(client, publicDir, p, cache)),
+    BRAND_STRATEGY_PATHS.map((p) => uploadPublicImage(client, publicDir, p, cache, assetIndex)),
   );
   const brandStrategyImages = brandStrategyImagesRaw
     .filter((img): img is NonNullable<typeof img> => Boolean(img))
@@ -94,8 +100,8 @@ async function main() {
   const workScrollItems = await Promise.all(
     d.homepageV2.workScrollItems.map(async (item) => {
       const [videoPath, iconPath] = await Promise.all([
-        uploadVideoUrl(item.videoPath),
-        uploadPublicFile(client, publicDir, item.iconPath, cache, "file").then((u) =>
+        uploadVideoUrl(item.videoPath, assetIndex),
+        uploadPublicFile(client, publicDir, item.iconPath, cache, "file", assetIndex).then((u) =>
           typeof u === "string" ? u : item.iconPath,
         ),
       ]);
@@ -110,7 +116,7 @@ async function main() {
 
   const featuredCases = await Promise.all(
     d.homepage.featuredCases.map(async (item) => {
-      const imageUrl = await uploadPublicFile(client, publicDir, item.imagePath, cache, "file");
+      const imageUrl = await uploadPublicFile(client, publicDir, item.imagePath, cache, "file", assetIndex);
       return {
         ...item,
         imagePath: typeof imageUrl === "string" ? imageUrl : item.imagePath,
@@ -202,7 +208,7 @@ async function main() {
 
   const clientLogos = await Promise.all(
     d.clientLogos.map(async (logo) => {
-      const logoImage = await uploadPublicImage(client, publicDir, logo.logoPath, cache);
+      const logoImage = await uploadPublicImage(client, publicDir, logo.logoPath, cache, assetIndex);
       return {
         _id: `clientLogo-${logo.name.toLowerCase().replace(/\s+/g, "-")}`,
         _type: "clientLogo" as const,
