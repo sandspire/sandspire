@@ -81,7 +81,7 @@ export function Hero({
                     variant="headline"
                     text={content.heroHeadline}
                     rootMargin="0px"
-                    className="mt-1 font-[family-name:var(--font-body)] not-italic text-[clamp(2.35rem,9vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-white"
+                    className="mt-1 font-[family-name:var(--font-display)] not-italic text-[clamp(2.35rem,9vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.02em] text-white"
                   />
                 </div>
 

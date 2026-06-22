@@ -60,7 +60,7 @@ export function ContactFAQ({
                   tag="h2"
                   variant="headline"
                   text={headline}
-                  className="font-[family-name:var(--font-body)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]"
+                  className="font-[family-name:var(--font-display)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]"
                 />
                 <RevealText
                   tag="p"
@@ -107,7 +107,7 @@ export function ContactFAQ({
             variant="headline"
             text="Frequently Asked Questions"
             textAlign="center"
-            className="text-center font-[family-name:var(--font-body)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]"
+            className="text-center font-[family-name:var(--font-display)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]"
           />
           <FaqAccordion items={faqItems} />
           <a

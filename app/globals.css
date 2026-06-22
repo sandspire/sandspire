@@ -59,7 +59,7 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
   --font-sans: var(--font-sans);
-  --font-display: var(--font-colitez), var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-display: var(--font-body), system-ui, sans-serif;
   --animate-marquee: marquee 30s linear infinite;
   --animate-marquee-reverse: marquee-reverse 30s linear infinite;
   --font-heading: var(--font-display);
@@ -120,7 +120,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
 }
 
 main :is(h1, h2, h3, h4, h5, h6) {
@@ -129,7 +129,7 @@ main :is(h1, h2, h3, h4, h5, h6) {
 
 @utility font-display {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
 }
 
 @utility font-body {
@@ -137,35 +137,31 @@ main :is(h1, h2, h3, h4, h5, h6) {
   font-style: normal;
 }
 
-#services .services-bento-mobile :is(h3, p) {
+#services .services-bento-mobile :is(p) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
 }
 
 /* Home-2 Service Suite bento cards: Jakarta on card copy (not the section title). */
-#services .service-suite-bento :is(h3, h4, h5, h6, p, span, button, a, li, label) {
+#services .service-suite-bento :is(p, span, button, a, li, label) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
 }
 
-.home2-hero :is(h1, p, a, button) {
+.home2-hero :is(p, a, button) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
 }
 
-#contact :is(h2, h3, p, span, button, a, li, label, input, textarea),
-#footer :is(h2, h3, p, span, button, a, li, label) {
+#contact :is(p, span, button, a, li, label, input, textarea),
+#footer :is(p, span, button, a, li, label) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
 }
 
-.site-jakarta :is(h1, h2, h3, h4, h5, h6),
-.site-jakarta .font-display {
-  font-family: var(--font-body), system-ui, sans-serif !important;
-  font-style: normal !important;
-}
+/* Headings and body both use Plus Jakarta Sans (--font-display = --font-body). */
 
-#work .work-scroll-sidebar :is(h3, p, a) {
+#work .work-scroll-sidebar :is(p, a) {
   font-family: var(--font-body), system-ui, sans-serif;
   font-style: normal;
 }
@@ -187,17 +183,9 @@ main :is(h1, h2, h3, h4, h5, h6) {
   }
 }
 
-.work-project-grid h2 {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-style: normal;
-}
+/* .work-project-grid h2 uses Plus Jakarta via the global heading rule. */
 
-/* Web & AI homepage (/): no italic serif anywhere — use Plus Jakarta Sans for every title. */
-.home-web :is(h1, h2, h3, h4, h5, h6),
-.home-web .font-display {
-  font-family: var(--font-body), system-ui, sans-serif !important;
-  font-style: normal !important;
-}
+/* Web & AI homepage titles use Plus Jakarta via the global heading rule. */
 
 .home2-section-title {
   letter-spacing: -2px;

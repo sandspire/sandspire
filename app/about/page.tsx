@@ -51,7 +51,7 @@ export default async function AboutPage() {
                   tag="h1"
                   variant="headline"
                   text={content.headline}
-                  className="max-w-[720px] font-[family-name:var(--font-body)] text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-[#faf3e8]"
+                  className="max-w-[720px] font-[family-name:var(--font-display)] text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-[#faf3e8]"
                 />
               </div>
             </div>
@@ -64,7 +64,7 @@ export default async function AboutPage() {
                   tag="h2"
                   variant="headline"
                   text={content.section1Title}
-                  className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]"
+                  className="font-[family-name:var(--font-display)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]"
                 />
                 <RevealText
                   tag="p"
@@ -80,7 +80,7 @@ export default async function AboutPage() {
                   tag="h2"
                   variant="headline"
                   text={content.section2Title}
-                  className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]"
+                  className="font-[family-name:var(--font-display)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]"
                 />
                 <RevealText
                   tag="p"

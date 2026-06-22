@@ -28,7 +28,7 @@ export function CaseStudies({
             variant="headline"
             text={title}
             textAlign="center"
-            className="w-full text-center font-[family-name:var(--font-body)] text-[clamp(1.65rem,3.4vw,2.45rem)] font-light leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]"
+            className="w-full text-center font-[family-name:var(--font-display)] text-[clamp(1.65rem,3.4vw,2.45rem)] font-light leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]"
           />
         </div>
 
@@ -62,7 +62,7 @@ export function CaseStudies({
                       tag="h3"
                       variant="headline"
                       text={c.title}
-                      className="font-[family-name:var(--font-body)] text-[clamp(1.35rem,2.5vw,1.75rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]"
+                      className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,2.5vw,1.75rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]"
                     />
                     <RevealText
                       tag="p"

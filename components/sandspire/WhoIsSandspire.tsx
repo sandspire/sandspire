@@ -18,7 +18,7 @@ export function WhoIsSandspire({
             tag="h2"
             variant="headline"
             text={title}
-            className="font-[family-name:var(--font-body)] not-italic text-[32px] font-light leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[34px]"
+            className="font-[family-name:var(--font-display)] not-italic text-[32px] font-light leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[34px]"
           />
         </div>
         <div className="min-h-[78px]">

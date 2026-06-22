@@ -286,7 +286,7 @@ export function WorkProjectTemplate({
                   tag="h2"
                   variant="headline"
                   text={challengeTitle}
-                  className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]"
+                  className="shrink-0 font-[family-name:var(--font-display)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]"
                 />
                 <RevealText
                   tag="p"
@@ -342,7 +342,7 @@ export function WorkProjectTemplate({
                   tag="h2"
                   variant="headline"
                   text={solutionTitle}
-                  className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]"
+                  className="shrink-0 font-[family-name:var(--font-display)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]"
                 />
                 <RevealText
                   tag="p"

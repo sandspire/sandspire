@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Playfair_Display, Plus_Jakarta_Sans, Geist } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AgentationProvider } from "@/components/AgentationProvider";
 import { SandspirePageTransitions } from "@/components/sandspire/SandspirePageTransitions";
@@ -8,22 +7,7 @@ import { SiteLenis } from "@/components/sandspire/SiteLenis";
 import { cn } from "@/lib/utils";
 import { getSiteSettings } from "@/sanity/lib/queries/siteContent";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
-
-const colitezSerif = localFont({
-  src: "./fonts/ColitezSerif-Italic.otf",
-  variable: "--font-colitez",
-  display: "swap",
-  weight: "400",
-  style: "italic",
-});
-
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
+// Plus Jakarta Sans powers all copy — headings (--font-display) and body.
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-body",
@@ -46,13 +30,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(
-        colitezSerif.variable,
-        playfairDisplay.variable,
-        plusJakartaSans.variable,
-        "bg-[#0d0d0d] font-sans",
-        geist.variable,
-      )}
+      className={cn(plusJakartaSans.variable, "bg-[#0d0d0d] font-body")}
       suppressHydrationWarning
     >
       <head>
