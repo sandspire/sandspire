@@ -52,7 +52,7 @@ export function ContactFAQ({
                 </p>
               ) : null}
               <div className="flex flex-col gap-5 sm:gap-6">
-                <h2 className="font-[family-name:var(--font-body)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]">
+                <h2 className="font-[family-name:var(--font-display)] text-[clamp(1.65rem,5.5vw,2.375rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-[#faf3e8]">
                   {headline}
                 </h2>
                 <p className="max-w-full text-[15px] font-normal leading-[1.5] tracking-[0] text-[#818181] sm:text-[16px] lg:max-w-[320px] lg:text-[17px]">
@@ -87,7 +87,7 @@ export function ContactFAQ({
         </ScrollReveal>
 
         <ScrollReveal className="flex w-full flex-col items-center gap-10 sm:gap-12 lg:gap-14" delay={0.12}>
-          <h3 className="text-center font-[family-name:var(--font-body)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]">
+          <h3 className="text-center font-[family-name:var(--font-display)] text-[clamp(1.5rem,4vw,2.5rem)] font-semibold leading-tight tracking-[-0.02em] text-[#e6ddd0]">
             Frequently Asked Questions
           </h3>
           <FaqAccordion items={faqItems} />

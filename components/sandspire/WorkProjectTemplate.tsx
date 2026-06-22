@@ -211,7 +211,7 @@ export function WorkProjectTemplate({
           <div className="mx-auto w-full max-w-[1220px] px-6 lg:px-10">
             <div className="mx-auto flex w-full max-w-[773px] flex-col gap-[72px] md:gap-[88px]">
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]">
+                <h2 className="shrink-0 font-[family-name:var(--font-display)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:text-[32px] md:leading-[1.2]">
                   {challengeTitle}
                 </h2>
                 <p className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]">
@@ -263,7 +263,7 @@ export function WorkProjectTemplate({
               </div>
 
               <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-[72px] lg:gap-[116px]">
-                <h2 className="shrink-0 font-[family-name:var(--font-body)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]">
+                <h2 className="shrink-0 font-[family-name:var(--font-display)] text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] md:w-[232px] md:text-[32px] md:leading-[1.2]">
                   {solutionTitle}
                 </h2>
                 <p className="max-w-[397px] font-[family-name:var(--font-body)] text-[17px] leading-[1.67] tracking-[0] text-[#171513] md:text-[18px] md:leading-[30px]">

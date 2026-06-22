@@ -46,7 +46,7 @@ export default async function AboutPage() {
               </div>
 
               <div>
-                <h1 className="max-w-[720px] font-[family-name:var(--font-body)] text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-[#faf3e8]">
+                <h1 className="max-w-[720px] font-[family-name:var(--font-display)] text-[clamp(2rem,5vw,3rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-[#faf3e8]">
                   {content.headline}
                 </h1>
               </div>
@@ -56,7 +56,7 @@ export default async function AboutPage() {
           <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-2 lg:gap-20">
             <ScrollReveal delay={0.08}>
               <section>
-                <h2 className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]">
+                <h2 className="font-[family-name:var(--font-display)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]">
                   {content.section1Title}
                 </h2>
                 <p className="mt-4 text-[16px] font-normal leading-[1.6] tracking-[0] text-[#c9c2b8] lg:text-[17px]">
@@ -66,7 +66,7 @@ export default async function AboutPage() {
             </ScrollReveal>
             <ScrollReveal delay={0.14}>
               <section>
-                <h2 className="font-[family-name:var(--font-body)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]">
+                <h2 className="font-[family-name:var(--font-display)] text-[24px] font-semibold leading-[1.12] tracking-[-0.02em] lg:text-[28px]">
                   {content.section2Title}
                 </h2>
                 <p className="mt-4 text-[16px] font-normal leading-[1.6] tracking-[0] text-[#c9c2b8] lg:text-[17px]">

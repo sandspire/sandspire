@@ -104,7 +104,7 @@ export function WorkProjectGrid({
     <>
       <section className="mx-auto w-full max-w-[995px] px-0 sm:px-0">
         <div className="w-full">
-          <h1 className="text-center font-[family-name:var(--font-body)] text-[30px] font-semibold leading-[1.05] text-[#FAF3E8] sm:text-[36px] md:text-[40px]">
+          <h1 className="text-center font-[family-name:var(--font-display)] text-[30px] font-semibold leading-[1.05] text-[#FAF3E8] sm:text-[36px] md:text-[40px]">
             {headline}
           </h1>
           <p className="mx-auto mt-3 max-w-[560px] px-1 text-center text-[16px] leading-[1.4] text-[#919191] sm:mt-4 sm:text-[17px] md:text-[18px]">

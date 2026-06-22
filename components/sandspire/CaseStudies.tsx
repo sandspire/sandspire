@@ -21,7 +21,7 @@ export function CaseStudies({
     >
       <div className="mx-auto flex w-full max-w-[1016px] flex-col items-center gap-14 lg:gap-[4.5rem]">
         <ScrollReveal className="w-full">
-          <h2 className="text-center font-[family-name:var(--font-body)] text-[clamp(1.65rem,3.4vw,2.45rem)] font-light leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]">
+          <h2 className="text-center font-[family-name:var(--font-display)] text-[clamp(1.65rem,3.4vw,2.45rem)] font-light leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]">
             {title}
           </h2>
         </ScrollReveal>
@@ -49,7 +49,7 @@ export function CaseStudies({
                   </div>
 
                   <div className="flex flex-col justify-center gap-3 px-1 lg:px-0">
-                    <h3 className="font-[family-name:var(--font-body)] text-[clamp(1.35rem,2.5vw,1.75rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]">
+                    <h3 className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,2.5vw,1.75rem)] font-medium leading-[1.15] tracking-[-0.02em] text-[#0d0d0d]">
                       {c.title}
                     </h3>
                     <p className="max-w-[420px] text-[15px] font-normal leading-[1.55] text-[#0d0d0d]/75 lg:text-[16px]">

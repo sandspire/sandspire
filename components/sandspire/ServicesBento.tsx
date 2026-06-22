@@ -67,7 +67,7 @@ export function ServicesBento({
         <p className="text-xs font-normal uppercase tracking-[0.14px] text-[#ff5e00]">
           {eyebrow}
         </p>
-        <h2 className="mt-3 font-[family-name:var(--font-body)] not-italic text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[32px]">
+        <h2 className="mt-3 font-[family-name:var(--font-display)] not-italic text-[30px] font-light leading-[1.05] tracking-[-0.02em] text-[#faf3e8] lg:text-[32px]">
           {title}
         </h2>
 
@@ -186,7 +186,7 @@ export function ServicesBento({
                 <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
                   {webCard?.priceLine ?? "Starting from AED 5,000"}
                 </p>
-                <h3 className="mt-1 font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
+                <h3 className="mt-1 font-[family-name:var(--font-display)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
                   {webCard?.title ?? "Web Design"}
                 </h3>
               </div>
@@ -255,7 +255,7 @@ function MobileServiceTile({
           "linear-gradient(140deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
       }}
     >
-      <h3 className="font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.45] text-[#faf3e8] sm:text-[12px]">
+      <h3 className="font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.45] text-[#faf3e8] sm:text-[12px]">
         {title.replace("\n", " ")}
       </h3>
       {priceLine ? (
@@ -284,7 +284,7 @@ function MobileAnalyticsCard({
         <div className="absolute bottom-0 left-1/2 aspect-square w-[155%] -translate-x-1/2 translate-y-[50%] rounded-full bg-gradient-to-t from-[#e63b12] via-[#ff7a18] to-[#ffd23f]" />
       </div>
       <div className="absolute inset-x-0 top-2 z-10 px-[11px]">
-        <h3 className="font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+        <h3 className="font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
           {titleLines.map((line, i) => (
             <span key={i}>
               {line}
@@ -364,7 +364,7 @@ function MobileWebDesignCard({
             {priceLine}
           </p>
         ) : null}
-        <h3 className="mt-0.5 font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+        <h3 className="mt-0.5 font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
           {title}
         </h3>
       </div>
@@ -401,7 +401,7 @@ function MobileSocialCard({
             {priceLine}
           </p>
         ) : null}
-        <h3 className="mt-0.5 font-[family-name:var(--font-body)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+        <h3 className="mt-0.5 font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
           {title.replace("\n", " ")}
         </h3>
       </div>
@@ -557,7 +557,7 @@ function ServiceInfoCard(props: {
           </p>
         ) : null}
         {title ? (
-          <h3 className="mt-1 font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
+          <h3 className="mt-1 font-[family-name:var(--font-display)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]">
             {title}
           </h3>
         ) : null}

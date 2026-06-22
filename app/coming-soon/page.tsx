@@ -17,7 +17,7 @@ export default function ComingSoonPage() {
         <p className="font-[family-name:var(--font-body)] text-sm font-normal tracking-[0] text-[#ff5e00]">
           Sandspire
         </p>
-        <h1 className="font-[family-name:var(--font-body)] text-3xl font-semibold tracking-[-0.02em] text-[#faf3e8]">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.02em] text-[#faf3e8]">
           Coming soon
         </h1>
         <p className="max-w-sm text-[17px] leading-[1.5] tracking-[0] text-[#919191]">
