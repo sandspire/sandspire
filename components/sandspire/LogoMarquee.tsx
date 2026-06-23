@@ -10,11 +10,10 @@ type LogoMarqueeProps = {
 
 export const LogoMarquee = ({ variant = "default", className, logos }: LogoMarqueeProps) => {
   const source = logos ?? siteContentDefaults.clientLogos;
-  const uniqueLogos = source.map((logo) => ({
-    src: logo.logoPath,
-    alt: logo.name,
-  }));
-  const logosForTrack = [...uniqueLogos, ...uniqueLogos];
+  const logosForTrack = source.flatMap((logo) => [
+    { src: logo.logoPath, alt: logo.name },
+    { src: logo.logoPath, alt: logo.name },
+  ]);
 
   const isHero = variant === "hero";
 

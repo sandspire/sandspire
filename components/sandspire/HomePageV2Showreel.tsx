@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
-import { RevealText } from "@/components/sandspire/RevealText";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { ScrollZoomIn } from "@/components/sandspire/ScrollZoomIn";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
@@ -42,15 +41,11 @@ export function HomePageV2Showreel({
 
   return (
     <>
-      <div className="text-center">
-        <RevealText
-          tag="h2"
-          variant="headline"
-          text={title}
-          textAlign="center"
-          className="home2-section-title font-display text-[clamp(2.25rem,5vw,3.45rem)] font-normal leading-tight text-white [text-shadow:0_4px_4px_rgba(0,0,0,0.55)]"
-        />
-      </div>
+      <ScrollReveal className="text-center">
+        <h2 className="home2-section-title font-display text-[clamp(2.25rem,5vw,3.45rem)] font-normal leading-tight text-white [text-shadow:0_4px_4px_rgba(0,0,0,0.55)]">
+          {title}
+        </h2>
+      </ScrollReveal>
       <ScrollReveal className="mt-10" delay={0.06}>
         <button
           type="button"

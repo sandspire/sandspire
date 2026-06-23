@@ -17,7 +17,7 @@ import {
 
 import { BRAND_LOGO_SRC } from "@/lib/brandAssets";
 import { client } from "../client";
-import { resolveCmsImageUrl, optimizeImageUrl, sanityImageUrl } from "../image";
+import { resolveCmsImageUrl } from "../image";
 
 const SANITY_FETCH_MS = 12_000;
 
@@ -59,7 +59,6 @@ function pickArray<T>(value: T[] | null | undefined, fallback: T[]): T[] {
 const SITE_SETTINGS_QUERY = `*[_type == "siteSettings" && _id == "siteSettings"][0]{
   siteTitle,
   siteDescription,
-  siteLogo,
   siteLogo,
   "siteLogoUrl": siteLogo.asset->url,
   phone,
@@ -167,8 +166,7 @@ const WORK_PAGE_SETTINGS_QUERY = `*[_type == "workPageSettings" && _id == "workP
 
 const CLIENT_LOGOS_QUERY = `*[_type == "clientLogo"] | order(order asc, name asc){
   name,
-  logoImage,
-  logoPath,
+  "logoPath": coalesce(logoImage.asset->url, logoPath),
   order
 }`;
 
@@ -240,13 +238,7 @@ async function getSiteSettingsImpl(): Promise<SiteSettingsContent> {
   return {
     siteTitle: pickString(doc.siteTitle as string, d.site.siteTitle),
     siteDescription: pickString(doc.siteDescription as string, d.site.siteDescription),
-    siteLogoPath: resolveCmsImageUrl(
-      doc.siteLogo as Parameters<typeof resolveCmsImageUrl>[0],
-      null,
-      pickString(doc.siteLogoUrl as string, BRAND_LOGO_SRC),
-      240,
-      "marquee",
-    ),
+    siteLogoPath: pickString(doc.siteLogoUrl as string, BRAND_LOGO_SRC),
     phone: pickString(doc.phone as string, d.site.phone),
     email: pickString(doc.email as string, d.site.email),
     nav: {
@@ -288,17 +280,7 @@ async function getHomepageContentImpl(): Promise<HomepageContent> {
   const webDesignImagesRaw =
     (doc.webDesignImages as Array<{ asset?: { url?: string } }> | undefined)
       ?.map((img) => img?.asset?.url)
-      .filter((u): u is string => Boolean(u))
-      .map((url) => optimizeImageUrl(url, 640)) ?? [];
-
-  const featuredCasesFromCms = (
-    doc.featuredCases as FeaturedCase[] | undefined
-  )?.map((item) => ({
-    ...item,
-    imagePath: item.imagePath?.startsWith("http")
-      ? optimizeImageUrl(item.imagePath, 800)
-      : item.imagePath,
-  }));
+      .filter((u): u is string => Boolean(u)) ?? [];
 
   return {
     heroEyebrow: pickString(doc.heroEyebrow as string, d.heroEyebrow),
@@ -322,7 +304,7 @@ async function getHomepageContentImpl(): Promise<HomepageContent> {
     servicesEyebrow: pickString(doc.servicesEyebrow as string, d.servicesEyebrow),
     servicesTitle: pickString(doc.servicesTitle as string, d.servicesTitle),
     caseStudiesTitle: pickString(doc.caseStudiesTitle as string, d.caseStudiesTitle),
-    featuredCases: pickArray(featuredCasesFromCms, [...d.featuredCases]),
+    featuredCases: pickArray(doc.featuredCases as FeaturedCase[], [...d.featuredCases]),
     serviceCards: pickArray(doc.serviceCards as ServiceCardContent[], [...d.serviceCards]),
     webDesignImages: webDesignImagesRaw.length ? webDesignImagesRaw : [...d.webDesignImages],
     serviceFlowDiagramImagePath: resolveCmsImageUrl(
@@ -363,8 +345,7 @@ async function getHomepageV2ContentImpl(): Promise<HomepageV2Content> {
   const brandStrategyImagesRaw =
     (doc.brandStrategyImages as Array<{ asset?: { url?: string } }> | undefined)
       ?.map((img) => img?.asset?.url)
-      .filter((u): u is string => Boolean(u))
-      .map((url) => optimizeImageUrl(url, 720)) ?? [];
+      .filter((u): u is string => Boolean(u)) ?? [];
   const brandStrategyDefaults = [
     "/images/bento/top-1.webp",
     "/images/bento/top-2.webp",
@@ -467,43 +448,8 @@ async function getWorkPageSettingsImpl(): Promise<WorkPageSettingsContent> {
 }
 
 async function getClientLogosImpl(): Promise<ClientLogo[]> {
-  type ClientLogoRow = {
-    name: string;
-    logoImage?: Parameters<typeof sanityImageUrl>[0];
-    logoPath?: string;
-    order?: number;
-  };
-
-  const rows = await fetchWithTimeout<ClientLogoRow[]>(CLIENT_LOGOS_QUERY);
-  if (!rows?.length) {
-    return [...siteContentDefaults.clientLogos];
-  }
-
-  return rows.map((row, index) => {
-    const fallback = siteContentDefaults.clientLogos[index];
-    const pathFromCms = row.logoPath?.trim();
-    let logoPath = fallback?.logoPath ?? pathFromCms ?? "";
-
-    if (row.logoImage) {
-      try {
-        logoPath = sanityImageUrl(row.logoImage, { preset: "marquee" });
-      } catch {
-        logoPath = pathFromCms
-          ? optimizeImageUrl(pathFromCms, 320)
-          : logoPath;
-      }
-    } else if (pathFromCms?.startsWith("http")) {
-      logoPath = optimizeImageUrl(pathFromCms, 320);
-    } else if (pathFromCms) {
-      logoPath = pathFromCms;
-    }
-
-    return {
-      name: row.name || fallback?.name || "Client",
-      logoPath,
-      order: row.order ?? fallback?.order ?? index,
-    };
-  });
+  const doc = await fetchWithTimeout<ClientLogo[]>(CLIENT_LOGOS_QUERY);
+  return pickArray(doc ?? undefined, [...siteContentDefaults.clientLogos]);
 }
 
 export type { AboutPageContent, HomepageV2Content, WorkPageSettingsContent };

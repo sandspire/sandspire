@@ -4,7 +4,7 @@ import { cache } from "react";
 import { getWorkProjectFallback, WORK_PROJECTS } from "@/lib/workProjectDefaults";
 
 import { client } from "../client";
-import { optimizeImageUrl, sanityImageUrl } from "../image";
+import { urlFor } from "../image";
 
 export type WorkIndexListRow = {
   slug: string;
@@ -54,12 +54,13 @@ function publicPath(value: string | undefined | null) {
 function imageUrl(
   image: SanityImageSource | undefined | null,
   fallback: string,
+  width = 1200,
 ) {
-  if (!image) return optimizeImageUrl(fallback, 800);
+  if (!image) return fallback;
   try {
-    return sanityImageUrl(image, { preset: "card" });
+    return urlFor(image).width(width).quality(90).url();
   } catch {
-    return optimizeImageUrl(fallback, 800);
+    return fallback;
   }
 }
 
@@ -73,13 +74,13 @@ function cardImageFromRow(
     return imageUrl(row.listingImage, fallbackImg) || fallbackImg;
   }
   const listPath = publicPath(row.listingImagePath);
-  if (listPath) return listPath.startsWith("http") ? optimizeImageUrl(listPath, 800) : listPath;
+  if (listPath) return listPath;
   if (row.heroImage) {
-    return imageUrl(row.heroImage, fallbackImg) || optimizeImageUrl(fallbackImg, 800);
+    return imageUrl(row.heroImage, fallbackImg) || fallbackImg;
   }
   const heroPath = publicPath(row.heroImagePath);
-  if (heroPath) return heroPath.startsWith("http") ? optimizeImageUrl(heroPath, 800) : heroPath;
-  return optimizeImageUrl(fallbackImg, 800);
+  if (heroPath) return heroPath;
+  return fallbackImg;
 }
 
 type RowWithLegacyType = WorkIndexListRow & { _type?: string };
@@ -184,8 +185,5 @@ export const getWorkIndexCards = cache(async (): Promise<WorkIndexCard[]> => {
       );
     }
   }
-  return fallbackCardsFromCode().map((card) => ({
-    ...card,
-    imageSrc: optimizeImageUrl(card.imageSrc, 800),
-  }));
+  return fallbackCardsFromCode();
 });

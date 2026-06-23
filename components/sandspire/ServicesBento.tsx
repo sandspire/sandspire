@@ -2,40 +2,14 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
 import { HomePageV2ServiceFlowDiagram } from "@/components/sandspire/HomePageV2ServiceFlowDiagram";
-import { SandspireBorderGlow } from "@/components/sandspire/SandspireBorderGlow";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { WebDesignPortfolioCascade } from "@/components/sandspire/WebDesignPortfolioCascade";
 import type { ServiceCardContent } from "@/lib/siteContentDefaults";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
 import { cn } from "@/lib/utils";
 
-const socialBentoGradientBg = "/images/bento/social-media-gradient-bg.png";
-
-const bentoMobileInner =
-  "relative h-[120px] overflow-hidden rounded-[inherit]";
-
-function BentoGlow({
-  children,
-  backgroundColor,
-  borderRadius = 14,
-  className,
-}: {
-  children: ReactNode;
-  backgroundColor: string;
-  borderRadius?: number;
-  className?: string;
-}) {
-  return (
-    <SandspireBorderGlow
-      borderRadius={borderRadius}
-      backgroundColor={backgroundColor}
-      className={cn("h-full min-h-0", className)}
-      fillOpacity={0.4}
-    >
-      {children}
-    </SandspireBorderGlow>
-  );
-}
+const bentoMobileClass =
+  "relative h-[120px] overflow-hidden rounded-[14px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25)]";
 
 function webDesignImageRows(images: string[]) {
   if (images.length >= 9) {
@@ -116,6 +90,8 @@ export function ServicesBento({
           <MobileSocialCard
             title={socialCard?.title ?? "Social Media Marketing"}
             priceLine={socialCard?.priceLine ?? "From AED 5,000"}
+            analyticsVideoPath={analyticsVideoPath}
+            analyticsVideoPosterPath={analyticsVideoPosterPath}
           />
 
           <MobileServiceTile
@@ -177,6 +153,7 @@ export function ServicesBento({
                 className="h-full min-h-[320px] md:min-h-[380px]"
                 title={aiCard?.title ?? "AI Automation"}
                 priceLine={aiCard?.priceLine ?? "Starting from AED 10,000"}
+                showPattern
               >
                 <Image
                   src={diagramSrc}
@@ -189,23 +166,17 @@ export function ServicesBento({
               </ServiceInfoCard>
             </div>
 
-            <SandspireBorderGlow
-              borderRadius={24}
-              backgroundColor="#141414"
-              className="flex min-h-[400px] flex-1 flex-col md:min-h-[460px]"
-              fillOpacity={0.35}
+            <div
+              className="relative flex min-h-[400px] flex-1 flex-col overflow-hidden rounded-[24px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25)] md:min-h-[460px]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(158deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
+              }}
             >
-              <div
-                className="relative flex h-full min-h-[inherit] flex-1 flex-col overflow-hidden rounded-[inherit]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(158deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
-                }}
-              >
               {/* Full-bleed website cascade — fills the whole card, no empty spots */}
               <WebDesignPortfolioCascade
                 images={webDesignImages}
-                className="absolute inset-0 pt-[120px]"
+                className="absolute inset-0 pt-[70px]"
                 rows={3}
                 maxPerRow={3}
               />
@@ -219,19 +190,32 @@ export function ServicesBento({
                   {webCard?.title ?? "Web Design"}
                 </h3>
               </div>
-              </div>
-            </SandspireBorderGlow>
+            </div>
           </div>
 
           <ServiceMediaCard
             className="h-full min-h-[480px] w-full xl:min-h-[720px]"
-            backgroundImageSrc={socialBentoGradientBg}
             title={socialCard?.title ?? "Social Media Marketing"}
             priceLine={socialCard?.priceLine ?? "Starting from AED 5,000"}
+            accent="from-[#1c0c08]/25 via-[#2a100a]/35 to-[#140505]/50"
             titleClassName="font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.15] tracking-[-0.02em] text-white md:text-[24px]"
+            glassPanel
+            vibrantFullBleed
             footerBleed
           >
             <div className="relative z-[1] flex w-full min-h-0 flex-1 flex-col items-center justify-center overflow-hidden pb-0 pt-2">
+              <div
+                className="pointer-events-none absolute -left-[22%] bottom-[-18%] h-[78%] w-[162%] opacity-55 md:bottom-[-12%]"
+                aria-hidden
+              >
+                <div className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,94,0,0.45)_0%,transparent_68%)] blur-[2px]" />
+              </div>
+              <div
+                className="pointer-events-none absolute -left-[18%] bottom-[-8%] h-[72%] w-[155%] opacity-40 md:opacity-45"
+                aria-hidden
+              >
+                <div className="absolute inset-0 rounded-full bg-[radial-gradient(ellipse_at_40%_60%,rgba(163,31,17,0.5)_0%,transparent_65%)]" />
+              </div>
               <DeferredVideo
                 className="relative z-[1] mx-auto h-[min(360px,42vh)] w-[min(100%,100%)] max-w-[min(400px,92vw)] shrink-0 rounded-[20px] object-cover object-bottom shadow-[0_3px_12px_rgba(0,0,0,0.44)] sm:max-w-[min(420px,90%)] md:h-[560px] md:max-w-none md:w-[280px]"
                 src={analyticsVideoPath}
@@ -260,17 +244,17 @@ function MobileServiceTile({
   className?: string;
 }) {
   return (
-    <BentoGlow backgroundColor="#141414" className={className}>
-      <article
-        className={cn(
-          bentoMobileInner,
-          "flex flex-col justify-between bg-[#141414] p-[11px]",
-        )}
-        style={{
-          backgroundImage:
-            "linear-gradient(140deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
-        }}
-      >
+    <article
+      className={cn(
+        bentoMobileClass,
+        "flex flex-col justify-between bg-[#141414] p-[11px]",
+        className,
+      )}
+      style={{
+        backgroundImage:
+          "linear-gradient(140deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
+      }}
+    >
       <h3 className="font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.45] text-[#faf3e8] sm:text-[12px]">
         {title.replace("\n", " ")}
       </h3>
@@ -279,8 +263,7 @@ function MobileServiceTile({
           {priceLine}
         </p>
       ) : null}
-      </article>
-    </BentoGlow>
+    </article>
   );
 }
 
@@ -296,10 +279,9 @@ function MobileAnalyticsCard({
   className?: string;
 }) {
   return (
-    <BentoGlow backgroundColor="#141414" className={className}>
-      <article className={cn(bentoMobileInner, "bg-[#141414]")}>
+    <article className={cn(bentoMobileClass, "bg-[#141414]", className)}>
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute bottom-0 left-1/2 aspect-square w-[72%] -translate-x-1/2 translate-y-[58%] rounded-full bg-gradient-to-t from-[#e63b12] via-[#ff7a18] to-[#ffd23f]" />
+        <div className="absolute bottom-0 left-1/2 aspect-square w-[155%] -translate-x-1/2 translate-y-[50%] rounded-full bg-gradient-to-t from-[#e63b12] via-[#ff7a18] to-[#ffd23f]" />
       </div>
       <div className="absolute inset-x-0 top-2 z-10 px-[11px]">
         <h3 className="font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
@@ -311,9 +293,9 @@ function MobileAnalyticsCard({
           ))}
         </h3>
       </div>
-      <div className="absolute inset-x-0 top-8 bottom-0 z-10 flex items-end justify-end pb-0 pr-0">
+      <div className="absolute inset-x-0 top-8 bottom-0 z-10">
         <DeferredVideo
-          className="h-[109px] w-[101px] -translate-x-[30px] rounded-t-[14px] rounded-b-none object-cover object-top shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
+          className="absolute bottom-0 left-1/2 h-[95px] w-[88px] -translate-x-1/2 rounded-t-[14px] rounded-b-none object-cover object-top shadow-[0_8px_24px_rgba(0,0,0,0.35)]"
           src={analyticsVideoPath}
           poster={analyticsVideoPosterPath}
           autoPlay
@@ -323,8 +305,7 @@ function MobileAnalyticsCard({
           loadStrategy="visible"
         />
       </div>
-      </article>
-    </BentoGlow>
+    </article>
   );
 }
 
@@ -336,8 +317,13 @@ function MobileDiagramCard({
   className?: string;
 }) {
   return (
-    <BentoGlow backgroundColor="#0b1013" className={className}>
-      <article className={cn(bentoMobileInner, "flex items-center justify-center bg-[#0b1013] px-[5px]")}>
+    <article
+      className={cn(
+        bentoMobileClass,
+        "flex items-center justify-center bg-[#0b1013] px-[5px]",
+        className,
+      )}
+    >
       <div
         className="pointer-events-none absolute inset-0 opacity-40 mix-blend-lighten"
         aria-hidden
@@ -347,8 +333,7 @@ function MobileDiagramCard({
         }}
       />
       <HomePageV2ServiceFlowDiagram diagramSrc={diagramSrc} className="relative z-10 h-[60px] sm:h-[64px]" />
-      </article>
-    </BentoGlow>
+    </article>
   );
 }
 
@@ -364,15 +349,13 @@ function MobileWebDesignCard({
   className?: string;
 }) {
   return (
-    <BentoGlow backgroundColor="#e07725" className={className}>
-      <article className={cn(bentoMobileInner, "bg-[#e07725]")}>
+    <article className={cn(bentoMobileClass, "bg-[#e07725]", className)}>
       <WebDesignPortfolioCascade
         imageRows={imageRows}
-        className="absolute inset-x-0 bottom-0 top-[32px]"
+        className="absolute inset-0"
         rows={3}
         maxPerRow={3}
         variant="compact"
-        fitMobileBento
       />
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-12 bg-gradient-to-b from-black/75 to-transparent" />
       <div className="relative z-[2] p-[11px]">
@@ -385,38 +368,56 @@ function MobileWebDesignCard({
           {title}
         </h3>
       </div>
-      </article>
-    </BentoGlow>
+    </article>
   );
 }
 
 function MobileSocialCard({
   title,
   priceLine,
+  analyticsVideoPath,
+  analyticsVideoPosterPath,
   className,
 }: {
   title: string;
   priceLine?: string;
+  analyticsVideoPath: string;
+  analyticsVideoPosterPath: string;
   className?: string;
 }) {
   return (
-    <BentoGlow backgroundColor="#0d0d0d" className={className}>
-      <article className={cn(bentoMobileInner, "flex flex-col bg-[#0d0d0d] p-[11px]")}>
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute bottom-[-42%] left-1/2 aspect-square w-[88%] -translate-x-1/2 rounded-full bg-gradient-to-t from-[#e63b12] via-[#ff7a18] to-[#ffd23f]" />
-      </div>
-      <div className="relative z-10">
-        <h3 className="font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
+    <article className={cn(bentoMobileClass, "bg-[#140505]", className)}>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(122deg, rgba(255,252,252,0.12) 2.12%, rgba(255,120,70,0.14) 42%, rgba(16,16,16,0.18) 97.84%)",
+        }}
+      />
+      <div className="pointer-events-none absolute -left-[28%] -top-[20%] h-[125%] w-[135%] bg-[radial-gradient(ellipse_58%_56%_at_42%_92%,rgba(255,100,45,0.72)_0%,rgba(195,45,22,0.48)_38%,transparent_72%)]" />
+      <div className="absolute inset-x-0 top-2 z-10 px-[11px]">
+        {priceLine ? (
+          <p className="font-[family-name:var(--font-body)] text-[10px] font-normal text-white/90 sm:text-[11px]">
+            {priceLine}
+          </p>
+        ) : null}
+        <h3 className="mt-0.5 font-[family-name:var(--font-display)] text-[11px] font-medium leading-[1.35] text-white sm:text-[12px]">
           {title.replace("\n", " ")}
         </h3>
       </div>
-      {priceLine ? (
-        <p className="relative z-10 mt-auto font-[family-name:var(--font-body)] text-[10px] font-normal text-white/90 sm:text-[11px]">
-          {priceLine}
-        </p>
-      ) : null}
-      </article>
-    </BentoGlow>
+      <div className="absolute inset-x-0 bottom-0 top-10 z-[1] flex items-end justify-center overflow-hidden pb-1">
+        <DeferredVideo
+          className="h-[78px] w-[56px] rounded-[12px] object-cover object-bottom shadow-[0_3px_12px_rgba(0,0,0,0.44)]"
+          src={analyticsVideoPath}
+          poster={analyticsVideoPosterPath}
+          autoPlay
+          muted
+          loop
+          playsInline
+          loadStrategy="visible"
+        />
+      </div>
+    </article>
   );
 }
 
@@ -430,8 +431,6 @@ function ServiceMediaCard(props: {
   glassPanel?: boolean;
   /** Brighter glass + warm radial glow across the full card (Figma 153:1948). */
   vibrantFullBleed?: boolean;
-  /** Full-card background image (e.g. social bento gradient). */
-  backgroundImageSrc?: string;
   /** Net −10px bottom padding vs default `p-6` (14px bottom). */
   contentClassName?: string;
   /** Use flex column so footer children can `mt-auto` to the card bottom. */
@@ -447,30 +446,15 @@ function ServiceMediaCard(props: {
     titleClassName = "font-[family-name:var(--font-body)] text-[22px] font-light leading-[1.1] tracking-[-0.02em] text-white md:text-[24px]",
     glassPanel,
     vibrantFullBleed,
-    backgroundImageSrc,
     contentClassName = "",
     footerBleed,
     children,
   } = props;
 
   return (
-    <SandspireBorderGlow
-      borderRadius={24}
-      backgroundColor="#141414"
-      className={cn("h-full", className)}
-      fillOpacity={0.35}
+    <div
+      className={`relative overflow-hidden rounded-[24px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25)] ${className}`}
     >
-      <div className="relative h-full min-h-[inherit] overflow-hidden rounded-[inherit]">
-      {backgroundImageSrc ? (
-        <Image
-          src={backgroundImageSrc}
-          alt=""
-          fill
-          className="object-cover object-bottom"
-          sizes="(max-width: 1024px) 100vw, 380px"
-        />
-      ) : (
-        <>
       <div className={`absolute inset-0 bg-gradient-to-br ${accent}`} />
       {vibrantFullBleed ? (
         <>
@@ -504,8 +488,6 @@ function ServiceMediaCard(props: {
       <div
         className={`absolute inset-0 ${glassPanel ? (vibrantFullBleed ? "bg-black/5" : "bg-black/10") : "bg-black/20"}`}
       />
-        </>
-      )}
       <div
         className={`relative flex h-full min-h-0 flex-col p-5 pt-8 md:pt-9 ${footerBleed ? "min-h-[inherit] pb-0" : ""} ${contentClassName}`}
       >
@@ -521,8 +503,7 @@ function ServiceMediaCard(props: {
         ) : null}
         {children}
       </div>
-      </div>
-    </SandspireBorderGlow>
+    </div>
   );
 }
 
@@ -530,18 +511,45 @@ function ServiceInfoCard(props: {
   className?: string;
   title: string;
   priceLine: string;
+  showPattern?: boolean;
   children?: React.ReactNode;
 }) {
-  const { className = "", title, priceLine, children } = props;
+  const { className = "", title, priceLine, showPattern, children } = props;
 
   return (
-    <SandspireBorderGlow
-      borderRadius={24}
-      backgroundColor="#141414"
-      className={cn("h-full", className)}
-      fillOpacity={0.35}
+    <div
+      className={`relative overflow-hidden rounded-[24px] border border-[#818181]/75 shadow-[0_3px_3px_rgba(0,0,0,0.25)] ${className}`}
+      style={{
+        backgroundImage:
+          "linear-gradient(140deg, rgba(255,252,252,0.05) 2.12%, rgba(16,16,16,0.26) 97.84%)",
+      }}
     >
-      <div className="relative h-full min-h-[inherit] overflow-hidden rounded-[inherit] bg-transparent">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.12),transparent_48%)]" />
+      {showPattern ? (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className="absolute"
+            style={{
+              left: "74%",
+              top: "64%",
+              width: "240%",
+              height: "145%",
+              transform: "translate(-50%, -50%) scaleY(-1) rotate(180deg)",
+            }}
+          >
+            <div
+              className="h-full w-full opacity-70 mix-blend-lighten"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.48) 1px, transparent 0)",
+                backgroundSize: "13px 13px",
+                maskImage:
+                  "radial-gradient(ellipse at center, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.55) 44%, transparent 72%)",
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
       <div className="relative flex h-full flex-col p-5 pt-8 md:pt-9">
         {priceLine ? (
           <p className="font-[family-name:var(--font-body)] text-[12px] font-normal text-white/90 md:text-[13px]">
@@ -557,7 +565,6 @@ function ServiceInfoCard(props: {
           {children}
         </div>
       </div>
-      </div>
-    </SandspireBorderGlow>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
-import { SiteNavBar } from "@/components/sandspire/SiteNavBar";
+import { SandspireNavBar } from "@/components/sandspire/SandspireNavBar";
 
 export const sandspireNavLinks = siteContentDefaults.nav.links;
 
@@ -11,6 +11,12 @@ type SandspireHeaderProps = {
   logoSrc?: string;
 };
 
+/**
+ * Site header. Now renders the premium global `SandspireNavBar` (fixed,
+ * transparent-over-hero → dark-glass-on-scroll). Kept as a thin wrapper so the
+ * inner pages that already import `SandspireHeader` pick up the new nav with no
+ * changes.
+ */
 export function SandspireHeader({
   ctaHref,
   ctaLabel,
@@ -19,12 +25,12 @@ export function SandspireHeader({
 }: SandspireHeaderProps = {}) {
   const nav = siteContentDefaults.nav;
   return (
-    <SiteNavBar
+    <SandspireNavBar
       ctaHref={ctaHref ?? nav.ctaHref}
       ctaLabel={ctaLabel ?? nav.ctaLabel}
       links={links ?? nav.links}
       logoSrc={logoSrc}
-      className="sticky top-0 z-30 h-[54px] bg-gradient-to-b from-[#141414]/75 to-[#0d0d0d]/65 px-5 backdrop-blur-[6px] lg:px-7"
+      logoLoading="eager"
     />
   );
 }

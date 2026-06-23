@@ -36,8 +36,7 @@ const workProjectProjection = `{
   resultImageWide,
   resultImageWidePath,
   resultImageTall,
-  resultImageTallPath,
-  listingImage
+  resultImageTallPath
 }`;
 
 export const WORK_PROJECT_BY_SLUG_QUERY =
@@ -74,7 +73,6 @@ export type WorkProjectDocumentFields = {
   resultImageWidePath?: string | null;
   resultImageTall?: SanityImageSource;
   resultImageTallPath?: string | null;
-  listingImage?: SanityImageSource;
 };
 
 export type WorkProjectDocument = WorkProjectDocumentFields | null;

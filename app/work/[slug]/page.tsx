@@ -46,5 +46,5 @@ export default async function WorkProjectPage({ params }: Props) {
   const props = buildWorkProjectPageProps(slug, doc, d);
   if (!props) notFound();
 
-  return <WorkProjectTemplate {...props} site={site} slug={slug} />;
+  return <WorkProjectTemplate {...props} site={site} />;
 }

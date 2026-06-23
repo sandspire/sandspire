@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 
 import { StickyScrollShell } from "@/components/ui/sticky-scroll-shell";

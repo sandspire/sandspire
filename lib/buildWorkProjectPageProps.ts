@@ -3,12 +3,7 @@ import type { SanityImageSource } from "@sanity/image-url";
 import type { WorkProjectContentProps } from "@/components/sandspire/WorkProjectTemplate";
 import type { WorkProjectDefaults } from "@/lib/workProjectDefaults";
 import type { WorkProjectDocumentFields } from "@/sanity/lib/queries/workProject";
-import {
-  isSvgImageSource,
-  optimizeImageUrl,
-  sanityImageUrl,
-  urlFor,
-} from "@/sanity/lib/image";
+import { urlFor } from "@/sanity/lib/image";
 
 export function publicPath(value: string | undefined | null) {
   const normalized = value?.trim();
@@ -34,140 +29,61 @@ export function usableProjectUrl(value: string | undefined | null) {
 function imageUrl(
   image: SanityImageSource | undefined | null,
   fallback: string,
-  preset: "hero" | "gallery" | "card" = "hero",
+  width = 2000,
 ) {
-  if (!image) return optimizeImageUrl(fallback, preset === "card" ? 800 : preset === "gallery" ? 1200 : 1600);
+  if (!image) return fallback;
   try {
-    return sanityImageUrl(image, { preset });
+    return urlFor(image).width(width).quality(90).url();
   } catch {
-    return optimizeImageUrl(fallback, preset === "card" ? 800 : preset === "gallery" ? 1200 : 1600);
+    return fallback;
   }
-}
-
-/** Local `/images/projects/` paths are seed fallbacks; files are not shipped in `public/`. */
-function isMissingPublicProjectPath(value: string | null) {
-  return value?.startsWith("/images/projects/") ?? false;
-}
-
-function resolveStaticOrCdnUrl(
-  value: string | undefined | null,
-  preset: "hero" | "gallery" | "card",
-): string | null {
-  const trimmed = value?.trim();
-  if (!trimmed) return null;
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
-    return optimizeImageUrl(
-      trimmed,
-      preset === "card" ? 800 : preset === "gallery" ? 1200 : 1600,
-    );
-  }
-  const path = publicPath(trimmed);
-  if (path && !isMissingPublicProjectPath(path)) return path;
-  return null;
 }
 
 function imageSrc({
   docPath,
   docImage,
   fallback,
-  secondaryFallback,
-  preset = "hero",
+  width,
 }: {
   docPath?: string | null;
   docImage?: SanityImageSource | null;
   fallback: string;
-  secondaryFallback?: string;
-  preset?: "hero" | "gallery" | "card";
+  width?: number;
 }) {
-  if (docImage) return imageUrl(docImage, fallback, preset);
-  const fromDoc = resolveStaticOrCdnUrl(docPath, preset);
-  if (fromDoc) return fromDoc;
-  const fromFallback = resolveStaticOrCdnUrl(fallback, preset);
-  if (fromFallback) return fromFallback;
-  const fromSecondary = resolveStaticOrCdnUrl(secondaryFallback, preset);
-  if (fromSecondary) return fromSecondary;
-  return optimizeImageUrl(fallback, preset === "card" ? 800 : preset === "gallery" ? 1200 : 1600);
+  if (docImage) return imageUrl(docImage, fallback, width);
+  const preferredPath = publicPath(docPath);
+  if (preferredPath) return preferredPath;
+  return fallback;
 }
 
 function optionalImageSrc({
   docPath,
   docImage,
   fallback,
-  preset = "gallery",
+  width,
 }: {
   docPath?: string | null;
   docImage?: SanityImageSource | null;
   fallback: string | null;
-  preset?: "hero" | "gallery" | "card";
+  width?: number;
 }) {
-  if (docImage) return imageUrl(docImage, fallback ?? "", preset);
+  if (docImage) return imageUrl(docImage, fallback ?? "", width);
   const preferredPath = publicPath(docPath);
-  if (preferredPath && !isMissingPublicProjectPath(preferredPath)) {
-    return preferredPath;
-  }
-  return fallback && !isMissingPublicProjectPath(fallback)
-    ? optimizeImageUrl(fallback, preset === "card" ? 800 : 1200)
-    : null;
-}
-
-function getImageAssetRef(image: SanityImageSource | undefined | null): string | null {
-  if (!image || typeof image !== "object") return null;
-  if (
-    "asset" in image &&
-    image.asset &&
-    typeof image.asset === "object" &&
-    "_ref" in image.asset
-  ) {
-    return String(image.asset._ref);
-  }
-  if ("_ref" in image && typeof image._ref === "string") return image._ref;
-  return null;
-}
-
-/** Brand-detail slot: never reuse the listing/card image when a dedicated accent is missing. */
-function resultTallDocImage(doc: WorkProjectDocumentFields | null | undefined) {
-  if (!doc) return null;
-  if (doc.resultImageTall) return doc.resultImageTall;
-
-  const wideRef = getImageAssetRef(doc.resultImageWide);
-  const listingRef = getImageAssetRef(doc.listingImage);
-
-  if (doc.resultImageWide && wideRef && listingRef && wideRef !== listingRef) {
-    return doc.resultImageWide;
-  }
-
-  if (doc.heroImage) return doc.heroImage;
-
-  return doc.resultImageWide ?? null;
+  if (preferredPath) return preferredPath;
+  return fallback;
 }
 
 function logoSrcComputed(
   docPath: string | undefined | null,
   docImage: SanityImageSource | undefined | null,
   fallbackPath: string | null,
-  slug?: string,
 ) {
-  const fallbackStaticPath = publicPath(fallbackPath);
-
-  // Sanity export for Bordo Mavi was missing "MAVI"; keep the corrected local file.
-  if (slug === "bordo-mavi" && fallbackStaticPath === "/logos/bordomavi.svg") {
-    return fallbackStaticPath;
-  }
-
+  const preferredPath = publicPath(docPath);
+  if (preferredPath) return preferredPath;
   if (docImage) {
-    try {
-      if (isSvgImageSource(docImage)) {
-        return urlFor(docImage).url();
-      }
-      return sanityImageUrl(docImage, { preset: "logo" });
-    } catch {
-      /* fall through to static paths */
-    }
+    return imageUrl(docImage, fallbackPath ?? "", 400) || fallbackPath || null;
   }
-
-  const docStaticPath = publicPath(docPath);
-  if (docStaticPath) return docStaticPath;
-  if (fallbackStaticPath) return fallbackStaticPath;
+  if (fallbackPath) return fallbackPath;
   return null;
 }
 
@@ -188,7 +104,6 @@ function buildDocOnlyProps(
     docPath: doc.heroImagePath,
     docImage: doc.heroImage,
     fallback: heroFallback,
-    preset: "hero",
   });
   if (!hero) return null;
 
@@ -217,14 +132,13 @@ function buildDocOnlyProps(
         : true,
     heroSrc: hero,
     heroAlt: `${base} — hero`,
-    logoSrc: logoSrcComputed(doc.clientLogoPath, doc.clientLogo, null, slug),
+    logoSrc: logoSrcComputed(doc.clientLogoPath, doc.clientLogo, null),
     logoAlt: base,
     wordmarkTitle: doc.internalTitle ?? base,
     galleryStackTopSrc: imageSrc({
       docPath: doc.galleryStackTopPath,
       docImage: doc.galleryStackTop,
       fallback: hero,
-      preset: "gallery",
     }),
     galleryStackTopAlt: `${base} — gallery`,
     galleryStackBottomSrc:
@@ -233,7 +147,6 @@ function buildDocOnlyProps(
             docPath: doc.galleryStackBottomPath,
             docImage: doc.galleryStackBottom,
             fallback: null,
-            preset: "gallery",
           })
         : null,
     galleryStackBottomAlt: `${base} — gallery`,
@@ -241,14 +154,12 @@ function buildDocOnlyProps(
       docPath: doc.galleryHeroTallPath,
       docImage: doc.galleryHeroTall,
       fallback: hero,
-      preset: "gallery",
     }),
     galleryHeroTallAlt: `${base} — gallery`,
     resultTallSrc: imageSrc({
       docPath: doc.resultImageTallPath,
-      docImage: resultTallDocImage(doc),
+      docImage: doc.resultImageTall,
       fallback: hero,
-      preset: "gallery",
     }),
     resultTallAlt: `${base} — result`,
   };
@@ -283,7 +194,7 @@ export function buildWorkProjectPageProps(
   const solutionTitle = doc?.solutionTitle ?? d.solutionTitle;
   const solutionBody = doc?.solutionBody ?? d.solutionBody;
   const invertLogo =
-    doc?.invertClientLogo !== undefined && doc.invertClientLogo !== null
+    doc?.invertClientLogo !== undefined && doc?.invertClientLogo !== null
       ? Boolean(doc.invertClientLogo)
       : d.invertClientLogo;
 
@@ -291,7 +202,6 @@ export function buildWorkProjectPageProps(
     doc?.clientLogoPath,
     doc?.clientLogo,
     d.clientLogoPath,
-    slug,
   );
 
   const galleryStackBottomSrc =
@@ -300,7 +210,6 @@ export function buildWorkProjectPageProps(
           docPath: doc?.galleryStackBottomPath,
           docImage: doc?.galleryStackBottom,
           fallback: d.images.galleryStackBottom,
-          preset: "gallery",
         })
       : null;
 
@@ -322,7 +231,6 @@ export function buildWorkProjectPageProps(
       docPath: doc?.heroImagePath,
       docImage: doc?.heroImage,
       fallback: d.images.hero,
-      preset: "hero",
     }),
     heroAlt: d.alts.hero,
     logoSrc,
@@ -332,7 +240,6 @@ export function buildWorkProjectPageProps(
       docPath: doc?.galleryStackTopPath,
       docImage: doc?.galleryStackTop,
       fallback: d.images.galleryStackTop,
-      preset: "gallery",
     }),
     galleryStackTopAlt: d.alts.galleryStackTop,
     galleryStackBottomSrc,
@@ -341,15 +248,12 @@ export function buildWorkProjectPageProps(
       docPath: doc?.galleryHeroTallPath,
       docImage: doc?.galleryHeroTall,
       fallback: d.images.galleryHeroTall,
-      preset: "gallery",
     }),
     galleryHeroTallAlt: d.alts.galleryHeroTall,
     resultTallSrc: imageSrc({
       docPath: doc?.resultImageTallPath,
-      docImage: resultTallDocImage(doc),
+      docImage: doc?.resultImageTall,
       fallback: d.images.resultTall,
-      secondaryFallback: d.images.hero,
-      preset: "gallery",
     }),
     resultTallAlt: d.alts.resultTall,
   };

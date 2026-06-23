@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useState } from "react";
-import { SandspireBorderGlow } from "@/components/sandspire/SandspireBorderGlow";
 import { cn } from "@/lib/utils";
 
 const labelClass = "text-[12px] font-medium tracking-[0] text-[#d4cdc0]";
@@ -273,32 +272,25 @@ export function ContactForm({
           </span>
         </label>
 
-        <SandspireBorderGlow
-          borderRadius={16}
-          backgroundColor="#ff5e00"
-          glowRadius={22}
-          fillOpacity={0.45}
-          className="mt-1 w-full"
-          innerClassName=""
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className={cn(
+            "mt-1 flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl bg-[#ff5e00] text-[13px] font-semibold tracking-[-0.02em] text-[#faf3e8] transition-all duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-70",
+            flatSubmit
+              ? "hover:brightness-105 active:scale-[0.99] disabled:hover:brightness-100"
+              : "shadow-[0_6px_28px_rgba(255,94,0,0.32)] hover:-translate-y-0.5 hover:shadow-[0_10px_36px_rgba(255,94,0,0.42)] active:translate-y-0 active:scale-[0.99] disabled:translate-y-0 disabled:shadow-none disabled:hover:brightness-100",
+          )}
         >
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className={cn(
-              "flex h-[52px] w-full items-center justify-center gap-2 text-[13px] font-semibold tracking-[-0.02em] text-[#faf3e8] disabled:cursor-not-allowed disabled:opacity-70",
-              !flatSubmit && "shadow-[0_6px_28px_rgba(255,94,0,0.32)]",
-            )}
-          >
-            {status === "loading" ? (
-              <>
-                <span className="inline-block size-4 animate-spin rounded-full border-2 border-[#faf3e8]/30 border-t-[#faf3e8]" aria-hidden />
-                Sending…
-              </>
-            ) : (
-              "Send message"
-            )}
-          </button>
-        </SandspireBorderGlow>
+          {status === "loading" ? (
+            <>
+              <span className="inline-block size-4 animate-spin rounded-full border-2 border-[#faf3e8]/30 border-t-[#faf3e8]" aria-hidden />
+              Sending…
+            </>
+          ) : (
+            "Send message"
+          )}
+        </button>
       </div>
 
       {status === "success" ? (

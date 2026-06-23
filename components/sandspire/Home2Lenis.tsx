@@ -1,12 +1,19 @@
+"use client";
+
+import { ReactLenis } from "lenis/react";
 import type { ReactNode } from "react";
 
-import { SiteLenis } from "@/components/sandspire/SiteLenis";
+import "lenis/dist/lenis.css";
 
 type Home2LenisProps = {
   children: ReactNode;
 };
 
-/** Kept for `/home-2` layout — smooth scroll now lives in the root layout via `SiteLenis`. */
+/** Smooth scroll for `/home-2` so sticky work cards feel closer to the reference demo. */
 export function Home2Lenis({ children }: Home2LenisProps) {
-  return children;
+  return (
+    <ReactLenis root options={{ lerp: 0.08, smoothWheel: true }}>
+      {children}
+    </ReactLenis>
+  );
 }

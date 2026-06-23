@@ -207,7 +207,7 @@ export const WORK_PROJECTS: WorkProjectDefaults[] = [
       {
         header: "Bordomavi Header.png",
         phone: "Bordomavi Phone Mockup.png",
-        accent: "Bordomavi Header.png",
+        accent: "Bordomavi Accent.png",
         website: "Bordomavi Website.png",
         card: "bordomavi_img.png",
       },

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
 import { HomePageV2FlippableServiceCard } from "@/components/sandspire/HomePageV2FlippableServiceCard";
 import { HomePageV2ServiceFlowDiagram } from "@/components/sandspire/HomePageV2ServiceFlowDiagram";
-import { RevealText } from "@/components/sandspire/RevealText";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { WebDesignPortfolioCascade } from "@/components/sandspire/WebDesignPortfolioCascade";
 import { cn } from "@/lib/utils";
@@ -217,15 +216,11 @@ export function HomePageV2ServiceSuite({
   return (
     <section id="services" className="relative py-16 min-[554px]:px-6 lg:px-8 lg:py-24">
       <div className="px-6 min-[554px]:px-0">
-        <div className="mx-auto max-w-[938px] text-center">
-          <RevealText
-            tag="h2"
-            variant="headline"
-            text={title}
-            textAlign="center"
-            className="home2-section-title font-display text-[clamp(2.25rem,5vw,3.45rem)] font-normal leading-tight text-white not-italic [text-shadow:0_4px_4px_rgba(0,0,0,0.55)]"
-          />
-        </div>
+        <ScrollReveal className="mx-auto max-w-[938px] text-center">
+          <h2 className="home2-section-title font-display text-[clamp(2.25rem,5vw,3.45rem)] font-normal leading-tight text-white not-italic [text-shadow:0_4px_4px_rgba(0,0,0,0.55)]">
+            {title}
+          </h2>
+        </ScrollReveal>
       </div>
 
       {/* Mobile — Figma iPhone layout: 3-column bento below 554px only */}
