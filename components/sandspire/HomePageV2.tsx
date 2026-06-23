@@ -10,7 +10,7 @@ import { HomePageV2WorkScroll } from "@/components/sandspire/HomePageV2WorkScrol
 import { LogoMarquee } from "@/components/sandspire/LogoMarquee";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { SiteFooter } from "@/components/sandspire/SiteFooter";
-import { SiteNavBar } from "@/components/sandspire/SiteNavBar";
+import { SandspireNavBar } from "@/components/sandspire/SandspireNavBar";
 import type { ClientLogo, HomepageV2Content } from "@/lib/siteContentDefaults";
 import { homepageV2ImageFallbacks, siteContentDefaults } from "@/lib/siteContentDefaults";
 import type { SiteSettingsContent } from "@/sanity/lib/queries/siteContent";
@@ -53,8 +53,7 @@ export function HomePageV2({
 
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-[#faf3e8]">
-      <SiteNavBar
-        className="sticky top-0 z-50 h-[54px] border-b border-white/[0.06] bg-[#141414]/85 px-5 backdrop-blur-[10px] lg:px-7"
+      <SandspireNavBar
         ctaHref={nav.ctaHref}
         ctaLabel={nav.ctaLabel}
         links={nav.links}
@@ -63,7 +62,7 @@ export function HomePageV2({
         logoLoading="eager"
       />
 
-      <header className="relative -mt-[54px] overflow-hidden pt-[54px]">
+      <header className="relative overflow-hidden">
         <div className="relative isolate flex h-[100dvh] flex-col overflow-hidden rounded-b-[32px] bg-[#0d0d0d] opacity-[0.98] lg:rounded-b-[48px]">
           <div className="relative min-h-0 flex-1 overflow-hidden rounded-b-[32px] lg:rounded-b-[48px]">
             <div className="absolute inset-0 overflow-hidden rounded-b-[32px] lg:rounded-b-[48px]">

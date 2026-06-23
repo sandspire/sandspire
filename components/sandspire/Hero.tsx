@@ -1,7 +1,7 @@
 import { LogoMarquee } from "@/components/sandspire/LogoMarquee";
 import { DeferredVideo } from "@/components/sandspire/DeferredVideo";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
-import { SiteNavBar } from "@/components/sandspire/SiteNavBar";
+import { SandspireNavBar } from "@/components/sandspire/SandspireNavBar";
 import type { ClientLogo } from "@/lib/siteContentDefaults";
 import { siteContentDefaults } from "@/lib/siteContentDefaults";
 import type { HomepageContent } from "@/sanity/lib/queries/siteContent";
@@ -38,7 +38,15 @@ export function Hero({
   const bodyTitleLines = content.heroBodyTitle.split("\n");
 
   return (
-    <header className="relative overflow-hidden bg-black">
+    <>
+      <SandspireNavBar
+        links={navLinks}
+        ctaHref={ctaHref}
+        ctaLabel={ctaLabel}
+        logoSrc={logoSrc}
+        logoLoading="eager"
+      />
+      <header className="relative overflow-hidden bg-black">
       <div className="relative w-full overflow-hidden">
         <div className="relative isolate h-[93vh] min-h-[680px] overflow-hidden rounded-b-[42px] [transform:translateZ(0)]">
           <div className="absolute inset-0 z-0">
@@ -54,15 +62,6 @@ export function Hero({
             />
           </div>
           <div className="absolute bottom-0 right-0 z-[1] h-full w-full bg-gradient-to-b from-black/72 via-black/48 to-black/20" />
-
-          <SiteNavBar
-            className="sticky top-0 z-30 h-[50px] bg-gradient-to-b from-[#141414]/65 to-[#0d0d0d]/55 px-5 backdrop-blur-[6px] lg:px-7"
-            ctaHref={ctaHref}
-            ctaLabel={ctaLabel}
-            links={navLinks}
-            logoSrc={logoSrc}
-            logoLoading="eager"
-          />
 
           <div className="relative z-10 mx-auto flex h-full max-w-[1220px] flex-col justify-end px-4 pb-10 sm:px-6 sm:pb-12 lg:px-6 lg:pb-16">
             <ScrollReveal className="w-full" y={24} delay={0.04}>
@@ -114,6 +113,7 @@ export function Hero({
           <LogoMarquee logos={logos} />
         </ScrollReveal>
       </div>
-    </header>
+      </header>
+    </>
   );
 }

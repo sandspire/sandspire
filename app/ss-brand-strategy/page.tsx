@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Sandspire — Brand Strategy",
   description:
-    "Internal brand strategy: Sandspire as a social-media content studio for hospitality and lifestyle brands.",
+    "Internal brand strategy: Sandspire as a social-media content studio for the UAE brands people check before they visit — hospitality first, then gyms, salons, hotels and retail.",
   robots: { index: false, follow: false },
 };
 
@@ -29,12 +29,12 @@ const PRIMARY_SERVICES = [
   {
     title: "Reels & short-form video",
     role: "Flagship",
-    body: "Shooting and editing scroll-stopping reels — the product Sandspire leads with.",
+    body: "Shooting and editing short-form video that earns attention — the product Sandspire leads with.",
   },
   {
-    title: "Brand & food photography",
+    title: "Brand & product photography",
     role: "Core",
-    body: "Photos that make a place look as good online as it does in person.",
+    body: "Photos that make a place look as good online as it does in person — food, interiors, product, people.",
   },
   {
     title: "Social media management",
@@ -70,11 +70,11 @@ const PROOF_BRANDS = [
 const HOMEPAGE_STEPS = [
   {
     label: "Hero headline",
-    body: "One promise — reels and social content that make hospitality brands worth following. Lead with motion, not a website.",
+    body: "One promise — reels and social content that make any brand worth following. Lead with motion, not a website. Live hero line: If it's worth visiting, it's worth filming.",
   },
   {
     label: "Hero subheadline",
-    body: "Name the medium (reels + photos), the audience (restaurants & lifestyle brands), and the relief (a consistent feed, no in-house team).",
+    body: "Name the medium (reels + photos), the audience (visit-driven brands — hospitality first), and the relief (a consistent feed, no in-house team).",
   },
   {
     label: "Hero visual",
@@ -118,7 +118,7 @@ const NEEDS = [
   { item: "Testimonials from those brands", priority: "High" },
   { item: "Social retainer packages & pricing", priority: "High" },
   { item: "Live social handles to link (3.fils, eatkanji, slrp.ramen, …)", priority: "High" },
-  { item: "Scope of the photography offer (food only, or product/interiors too)", priority: "Medium" },
+  { item: "Scope of the photography offer (food, product, interiors, people)", priority: "Medium" },
   { item: "Who's behind the camera — founder / team story", priority: "Medium" },
   { item: "How hard to demote web/AI (own page vs. one mention)", priority: "Medium" },
 ];
@@ -234,7 +234,7 @@ const COMPETITORS = [
 const PRICING = [
   { label: "Social management retainer", value: "AED 5–15k / mo", note: "Agency tier. Below AED 3k reads as freelancer." },
   { label: "Reels (standalone)", value: "AED 1.5–7k each", note: "One shoot day → 5–10 assets is the margin lever." },
-  { label: "Commercial food photography", value: "from AED 2,500", note: "Bundles into the same shoot day." },
+  { label: "Commercial photography", value: "from AED 2,500", note: "Food, product or interiors — bundles into the same shoot day." },
 ];
 
 const PROOF_KEEP = [
@@ -257,13 +257,14 @@ const PROOF_ADD = [
   "Consistency you can count on (the unclaimed wedge)",
   "Transparent, deliverable-based packages",
   "UAE-local virality — reach that walks people through the door",
+  "First non-hospitality case study (gym / salon / hotel) to open the next vertical",
 ];
 
 const IMPLICATIONS = [
-  { area: "Hero", body: "Lead with consistency + craft, restaurant-specific, a reel playing — not “Web & AI,” not “scroll-stopping.”" },
+  { area: "Hero", body: "Lead with consistency + craft, a reel playing — pitched broad (visit-driven brands), with hospitality as the lead example. Not “Web & AI,” not “scroll-stopping.”" },
   { area: "Services", body: "Reels → Photography → Social/UGC primary; web + AI a quiet “we can also.” Package as shoot-day → month-of-content." },
   { area: "Proof", body: "A reel proof-wall: each brand with a view count + one-line result + quote. Preempt red flags (approval, no lock-in)." },
-  { area: "CTA", body: "Keep WhatsApp; add a substance offer — “Send your venue, we'll send 3 reel ideas we'd shoot first.”" },
+  { area: "CTA", body: "Keep WhatsApp; invite a real conversation — “Show us your brand; let's talk about what we'd shoot” → a plan and a quote. No free concept work." },
 ];
 
 const DIAGNOSIS_R = [
@@ -290,20 +291,20 @@ const LOCK_TOC = [
 const TAGLINES = [
   {
     kind: "Primary · functional",
-    line: "Reels and photos for restaurants, every week.",
-    why: "Says what we do, for whom, and the rhythm (consistency) in 7 words. Reads cleanly in a hero; replaces the web-led “Web & AI.”",
+    line: "Reels, photos and social — every week.",
+    why: "Says what we do and the rhythm (consistency) without nailing us to one industry. Reads cleanly in a hero; replaces the web-led “Web & AI.”",
   },
   {
     kind: "Secondary · emotional",
-    line: "Look as good online as you do in person.",
-    why: "Names the exact gap owners feel — the room's energy never reaching the feed. Human, no luxury fluff; complements the functional line.",
+    line: "If it's worth visiting, it's worth filming.",
+    why: "The live /home-3 hero. States the belief in a way that fits any visit-driven brand — a gym, a salon, a hotel, not just a restaurant — and broadens past the food-only “Make them hungry.” (“Look as good online as you do in person” still works as a softer alternate.)",
   },
 ];
 
 const COMMUNITY = {
   line: "Make them hungry.",
   type: "Rallying phrase / brand belief",
-  why: "Food-native and dual-meaning — hungry for the dish and to visit. A verb, on the client's side, in the quietly-witty house voice. Works as a sign-off, a caption stamp, and an internal north star.",
+  why: "Reads food-native, but we use it figuratively — hungry to try it, book it, tell a friend. Kept as the rallying sign-off and caption stamp (and the big brand moment + footer on /home-3); the broader hero line now carries the literal, vertical-neutral positioning. A verb, on the client's side, in the quietly-witty house voice.",
 };
 
 const VOICE_USE = [
@@ -358,12 +359,12 @@ const THEMES = [
   { wk: 8, name: "Real Reels, Real Venues", purpose: "Proof — the five named brands", visual: "Reel proof-wall with view counts (3 Fils, Brix, Slrp, Bordo Mavi)" },
   { wk: 9, name: "Numbers That Matter", purpose: "Proof — attributed, honest results", visual: "Clean data cards tying a named reel to a booking line" },
   { wk: 10, name: "Reach That Walks In", purpose: "Differentiate — UAE-local virality", visual: "Dubai geotags turning into people at the door; orange route lines" },
-  { wk: 11, name: "Send Your Venue", purpose: "Convert — the substance offer", visual: "“3 reel ideas we'd shoot first” mockup; cream CTA, orange button" },
+  { wk: 11, name: "Show Us Your Brand", purpose: "Convert — start a conversation", visual: "“Let's talk about what we'd shoot” → plan + quote; cream CTA, orange button" },
   { wk: 12, name: "The Sandspire Table", purpose: "Community / retention", visual: "Client logos plated like a menu; “Make them hungry.” sign-off" },
 ];
 
 const DIAGNOSIS_LOCK = [
-  { k: "Stands for", v: "The reels-and-photography studio that keeps UAE restaurants' feeds consistently full of content worth watching — tied to real bookings, not vanity metrics." },
+  { k: "Stands for", v: "The reels-and-photography studio that keeps UAE places-worth-visiting consistently full of content worth watching — hospitality first, then gyms, salons, hotels and retail — tied to real visits, not vanity metrics." },
   { k: "Stop saying", v: "“Web & AI” as the headline, AI Automation as a priced flagship, web-led pricing, and the clichés “scroll-stopping / drool-worthy” + unattributed “200% growth.”" },
   { k: "Own in the market", v: "Named client + real reel + real number, “a month of content in one shoot day,” and provable consistency — the combination no UAE rival executes." },
   { k: "Visual direction", v: "Warm editorial: cream + ink canvas, signature orange, brass for premium detail, Geist over Plus Jakarta — and real reels as the hero medium, not website mockups." },
@@ -438,8 +439,9 @@ export default function BrandStrategyPage() {
           <em className="font-[family-name:var(--font-body)] text-[#ff5e00] not-italic">
             reels and photos
           </em>{" "}
-          that make hospitality and lifestyle brands worth following — and runs
-          the feeds so they don&apos;t have to.
+          that make a brand worth following — and runs the feeds so they
+          don&apos;t have to. Hospitality is where we start; the same playbook
+          fits any place people check before they visit.
         </p>
 
         <div className="reveal mt-10 flex flex-wrap gap-x-10 gap-y-4 font-[family-name:var(--font-body)] text-[13px] font-medium text-[#0d0d0d]/55">
@@ -447,7 +449,7 @@ export default function BrandStrategyPage() {
             <span className="text-[#0d0d0d]">Focus</span> · Social content first
           </span>
           <span>
-            <span className="text-[#0d0d0d]">Niche</span> · UAE hospitality &amp; F&amp;B
+            <span className="text-[#0d0d0d]">Beachhead</span> · UAE hospitality → gyms, salons, hotels
           </span>
           <span>
             <span className="text-[#0d0d0d]">Secondary</span> · Web &amp; AI
@@ -556,8 +558,10 @@ export default function BrandStrategyPage() {
             <blockquote className="font-[family-name:var(--font-display)] text-[clamp(1.5rem,3.4vw,2.4rem)] font-medium leading-[1.2] tracking-[-0.01em] text-[#0d0d0d]">
               <span className="text-[#ff5e00]">“</span>Sandspire is a UAE
               social-media content studio — we shoot the reels and photos that
-              make hospitality and lifestyle brands worth following, and we run
-              the feeds so you don&apos;t have to.<span className="text-[#ff5e00]">”</span>
+              make a brand worth following, and we run the feeds so you
+              don&apos;t have to. We start with hospitality, where our proof is,
+              and the same playbook fits any place people check before they
+              visit.<span className="text-[#ff5e00]">”</span>
             </blockquote>
           </section>
 
@@ -575,10 +579,11 @@ export default function BrandStrategyPage() {
                   social-media content studio
                 </span>{" "}
                 for{" "}
-                <span className="text-[#ff7a3d]">UAE hospitality &amp; lifestyle brands</span>{" "}
-                who want{" "}
-                <span className="text-[#ff7a3d]">scroll-stopping reels and photography</span>{" "}
-                — and a feed that stays consistent — without{" "}
+                <span className="text-[#ff7a3d]">the UAE brands people check before they visit</span>{" "}
+                — hospitality first, then gyms, salons, hotels and retail — who
+                want{" "}
+                <span className="text-[#ff7a3d]">reels and photography that earn attention</span>{" "}
+                and a feed that stays consistent, without{" "}
                 <span className="text-[#ff7a3d]">hiring an in-house content team</span>.
               </p>
             </div>
@@ -636,8 +641,9 @@ export default function BrandStrategyPage() {
             <SectionLabel n="05" title="Who it's for" />
             <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
               <p className="font-[family-name:var(--font-body)] text-[clamp(1.1rem,2vw,1.35rem)] font-normal leading-[1.5] text-[#0d0d0d]/80">
-                Restaurant owners, F&amp;B marketing managers, and hospitality
-                founders who need a steady stream of reels and photos — and
+                Owners and marketing leads at any brand people check before they
+                visit — restaurants first, then gyms, clinics, salons, hotels and
+                boutiques — who need a steady stream of reels and photos, and
                 don&apos;t want to hire a videographer, an editor, and a social
                 manager separately.
               </p>
@@ -646,10 +652,11 @@ export default function BrandStrategyPage() {
                   The problem we solve
                 </p>
                 <p className="mt-3 font-[family-name:var(--font-body)] text-[15px] leading-[1.55] text-[#0d0d0d]/75">
-                  Hospitality brands look great in person but flat online. The
+                  Plenty of places look great in person but flat online. The
                   energy of the place never makes it to the feed, posting is
                   inconsistent, and an in-house team is expensive. Sandspire is
-                  the outsourced content engine that keeps it coming.
+                  the outsourced content engine that keeps it coming — wherever
+                  the doors are.
                 </p>
               </div>
             </div>
@@ -657,7 +664,13 @@ export default function BrandStrategyPage() {
 
           {/* 06 — PROOF */}
           <section id="proof" className="scroll-mt-10">
-            <SectionLabel n="06" title="Proof — social content for five brands" />
+            <SectionLabel n="06" title="Proof — the hospitality beachhead" />
+            <p className="mb-7 max-w-[68ch] font-[family-name:var(--font-body)] text-[15px] leading-[1.6] text-[#0d0d0d]/70">
+              Our first proof lives in hospitality — five UAE F&amp;B brands.
+              They&apos;re the beachhead, not the boundary: the same
+              reels-and-photos engine maps straight onto gyms, salons, hotels and
+              retail next.
+            </p>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {PROOF_BRANDS.map((b) => (
                 <div
@@ -718,8 +731,8 @@ export default function BrandStrategyPage() {
                   ))}
                 </div>
                 <p className="mt-4 font-[family-name:var(--font-body)] text-[13px] leading-[1.5] text-[#0d0d0d]/60">
-                  Warm and appetite-friendly — works better for a food-content
-                  studio than for a web agency. Keep it.
+                  Warm and appetite-friendly — it suits a content studio (and the
+                  hospitality beachhead) far better than a web agency. Keep it.
                 </p>
               </div>
 
@@ -836,7 +849,8 @@ export default function BrandStrategyPage() {
                 to the only story fixes the two-identity problem and tightens the
                 niche to something genuinely ownable:{" "}
                 <span className="text-[#ff7a3d]">
-                  the reels-and-photos studio for UAE hospitality brands.
+                  the reels-and-photos studio for the UAE places people check
+                  before they visit — hospitality first.
                 </span>{" "}
                 The one thing standing between this and a believable site is
                 proof in the right medium — get the reels and view counts from
@@ -859,7 +873,11 @@ export default function BrandStrategyPage() {
               Real, cited evidence — from community forums, competitor sites,
               UAE pricing data, and industry research — used to validate and
               sharpen the strategy above. Sources are linked throughout. Where
-              UAE-specific data was missing, it&apos;s flagged honestly.
+              UAE-specific data was missing, it&apos;s flagged honestly. It&apos;s
+              hospitality-specific by design — that&apos;s the beachhead we enter
+              first — but the pains it surfaces (inconsistent posting, vanity
+              metrics, look-alike agencies) recur in every visit-driven category,
+              which is what makes the expansion credible.
             </p>
           </div>
 
@@ -1150,11 +1168,11 @@ export default function BrandStrategyPage() {
               </p>
               <p className="mt-6 font-[family-name:var(--font-display)] text-[clamp(1.3rem,2.8vw,2rem)] font-normal leading-[1.35]">
                 The reels-and-photography content studio for{" "}
-                <span className="text-[#ff7a3d]">UAE restaurants &amp; hospitality brands</span>{" "}
-                who want a{" "}
+                <span className="text-[#ff7a3d]">the UAE brands people check before they visit</span>{" "}
+                — hospitality first — who want a{" "}
                 <span className="text-[#ff7a3d]">consistently full feed</span> and{" "}
-                <span className="text-[#ff7a3d]">reels tied to real bookings</span> — without the{" "}
-                <span className="text-[#ff7a3d]">vanity metrics, vague retainers, and templated work</span>{" "}
+                <span className="text-[#ff7a3d]">content tied to real visits, not vanity metrics</span> — without the{" "}
+                <span className="text-[#ff7a3d]">vague retainers and templated work</span>{" "}
                 other agencies deliver.
               </p>
             </div>
@@ -1249,14 +1267,14 @@ export default function BrandStrategyPage() {
               </p>
               <p className="mt-6 font-[family-name:var(--font-display)] text-[clamp(1.3rem,2.8vw,2rem)] font-normal leading-[1.35]">
                 For{" "}
-                <span className="text-[#ff7a3d]">UAE restaurants and cafés</span>{" "}
-                whose kitchens are too busy to keep the feed alive,{" "}
+                <span className="text-[#ff7a3d]">UAE brands whose teams are too busy to keep the feed alive</span>{" "}
+                — restaurants first, then gyms, salons, hotels and shops —{" "}
                 <span className="text-[#ff7a3d]">Sandspire</span> is the{" "}
                 <span className="underline decoration-[#ff5e00] decoration-2 underline-offset-[6px]">
                   reels-and-photography studio
                 </span>{" "}
                 that shoots a month of content in one day — and ties it to{" "}
-                <span className="text-[#ff7a3d]">real bookings, not just views</span>.
+                <span className="text-[#ff7a3d]">real visits, not just views</span>.
               </p>
             </div>
           </section>
@@ -1351,8 +1369,9 @@ export default function BrandStrategyPage() {
                   In a text message
                 </p>
                 <p className="mt-3 font-[family-name:var(--font-body)] text-[15px] leading-[1.5] text-[#faf3e8]/90">
-                  “Sent you 3 reel ideas we'd shoot first — want to jump on a
-                  quick call this week?”
+                  “Had a proper look at your spot — got a few directions
+                  we&apos;d love to shoot. Want to jump on a quick call this
+                  week?”
                 </p>
               </div>
               <div className="rounded-[18px] border border-[#0d0d0d]/12 bg-white/40 p-6">
@@ -1362,8 +1381,9 @@ export default function BrandStrategyPage() {
                   named reel or real number; preempt distrust (approval workflow,
                   no lock-in).{" "}
                   <span className="font-semibold text-[#0d0d0d]">On social:</span>{" "}
-                  looser and funnier, food-first — let the work do the bragging.
-                  A caption is a hook plus one human line, never a press release.
+                  looser and funnier, native to whatever vertical the brand lives
+                  in — let the work do the bragging. A caption is a hook plus one
+                  human line, never a press release.
                 </p>
               </div>
             </div>
@@ -1483,7 +1503,10 @@ export default function BrandStrategyPage() {
             <p className="mt-4 font-[family-name:var(--font-body)] text-[12px] leading-[1.5] text-[#0d0d0d]/45">
               Sequenced: problem awareness → category education → trust →
               differentiation → proof → conversion → community. Every theme ties
-              to the locked problem and positioning above.
+              to the locked problem and positioning above. Written for the
+              hospitality beachhead; the same twelve-beat arc re-skins onto any
+              vertical we expand into (swap “tables” for “class spots,” “chairs,”
+              or “rooms”).
             </p>
           </section>
 

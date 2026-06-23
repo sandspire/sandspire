@@ -144,7 +144,7 @@ export function WorkProjectTemplate({
             />
           </div>
 
-          <div className="relative mx-auto w-full max-w-[1220px] px-6 pb-0 pt-8 md:pt-12 lg:px-10">
+          <div className="relative mx-auto w-full max-w-[1220px] px-6 pb-0 pt-24 md:pt-28 lg:px-10">
             <div className="mx-auto flex max-w-[1100px] flex-col-reverse items-center gap-10 lg:flex-row lg:justify-center lg:gap-[72px] xl:gap-[100px]">
               <div className="w-full max-w-[418px] shrink-0 rounded-t-[28px] bg-[rgba(217,217,217,0.2)] px-2 pb-0 pt-1 transition-[box-shadow,transform] duration-300 ease-out lg:hover:-translate-y-0.5 lg:hover:shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
                 <div className="relative w-full overflow-hidden rounded-t-[24px] bg-[#1f1f1f]">

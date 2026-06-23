@@ -49,3 +49,6 @@ next-env.d.ts
 
 # ShipStudio metadata
 .shipstudio/
+
+# Playwright MCP QA screenshots/scratch
+.playwright-mcp/

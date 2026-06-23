@@ -103,7 +103,7 @@ export const siteContentDefaults = {
   },
   nav: {
     links: [
-      { label: "Services", href: "/#services" },
+      { label: "Services", href: "/services" },
       { label: "Work", href: "/work" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
