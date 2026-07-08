@@ -24,8 +24,27 @@ type WorkerEnv = {
 };
 
 // OpenNext default export: `{ fetch }` (same shape the Worker runtime expects)
-const inner = openNext as {
+const openNextHandler = openNext as {
   fetch: (req: Request, env: WorkerEnv, ctx: { waitUntil: (p: Promise<unknown>) => void; passThroughOnException: () => void }) => Response | Promise<Response>;
+};
+
+// Canonical host: 308-redirect www.sandspire.co → sandspire.co (preserving path + query).
+// Handled here at the Worker edge because OpenNext does not apply Next.js
+// `has: [{ type: "host" }]` redirects from next.config. Both hostnames are attached
+// to this Worker as custom domains, so without this www would serve a duplicate origin.
+const inner = {
+  fetch: (
+    req: Request,
+    env: WorkerEnv,
+    ctx: { waitUntil: (p: Promise<unknown>) => void; passThroughOnException: () => void },
+  ) => {
+    const url = new URL(req.url);
+    if (url.hostname === "www.sandspire.co") {
+      url.hostname = "sandspire.co";
+      return Response.redirect(url.toString(), 308);
+    }
+    return openNextHandler.fetch(req, env, ctx);
+  },
 };
 
 export default Sentry.withSentry(
