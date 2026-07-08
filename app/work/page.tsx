@@ -6,7 +6,7 @@ import { SandspireFooter } from "@/components/sandspire/SandspireFooter";
 import { ScrollReveal } from "@/components/sandspire/ScrollReveal";
 import { Magnetic } from "@/components/sandspire/Magnetic";
 import { WorkHero } from "@/components/sandspire/work/WorkHero";
-import { WorkGallery } from "@/components/sandspire/work/WorkGallery";
+import { WorkCardFan } from "@/components/sandspire/work/WorkCardFan";
 
 export const metadata: Metadata = {
   title: "Work — Sandspire | Reels & social for UAE brands",
@@ -57,8 +57,8 @@ export default function WorkPage() {
         </div>
       </section>
 
-      {/* THE ARCHIVE — filters, featured lead, staggered reel gallery */}
-      <WorkGallery />
+      {/* THE ARCHIVE — project posters dealt out as an interactive card fan */}
+      <WorkCardFan />
 
       {/* CLOSING BRAND MOMENT + CTA */}
       <section className="relative flex min-h-[82vh] items-center overflow-hidden bg-[#0a0604] py-28 text-[#FAF3E8]">

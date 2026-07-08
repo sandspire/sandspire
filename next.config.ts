@@ -8,6 +8,19 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["motion"],
   },
+  // Canonical host: send www.sandspire.co → sandspire.co (308, preserves path + method).
+  // Both hostnames are attached to the Worker as custom domains; this makes the bare
+  // domain the single canonical origin for SEO. Runs at the routing layer (OpenNext honors it).
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.sandspire.co" }],
+        destination: "https://sandspire.co/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

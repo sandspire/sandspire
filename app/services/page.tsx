@@ -193,7 +193,7 @@ export default function ServicesPage() {
 
       {/* FOOTER — premium global closing moment */}
       <SandspireFooter
-        headline={["Reels, photos, social,", "web and AI — handled."]}
+        headline={["Reels to AI —", "all handled."]}
         blurb="A UAE creative studio for the brands people actually follow. Reels, photos, social, websites and AI, from one team."
       />
     </div>

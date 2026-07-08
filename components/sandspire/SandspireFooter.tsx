@@ -226,9 +226,6 @@ export function SandspireFooter({
             <p className="mt-3 font-[family-name:var(--font-body)] text-[12.5px] uppercase tracking-[0.14em] text-[#FAF3E8]/45">
               <DubaiClock />
             </p>
-            <p className="mt-4 max-w-[26ch] font-[family-name:var(--font-body)] text-[14px] leading-[1.55] text-[#FAF3E8]/45">
-              New work, select brands. Tell us where you are and what you do.
-            </p>
           </div>
         </ScrollReveal>
 

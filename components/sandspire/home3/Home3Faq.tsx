@@ -23,10 +23,6 @@ const FAQS = [
     q: "Do I have to sign a long contract?",
     a: "No lock-in. You approve everything before it goes live, and you can pause or stop between shoot cycles. We'd rather keep you because the work's good.",
   },
-  {
-    q: "What does it cost?",
-    a: "Reels start around AED 1,500 each, photography from AED 2,500, and full social management runs AED 5–15k a month depending on volume. Tell us about your brand and we'll quote the exact mix.",
-  },
 ];
 
 export function Home3Faq() {
