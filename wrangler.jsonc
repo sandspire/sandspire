@@ -12,6 +12,9 @@
 	},
 	"main": "cf-worker-sentry.ts",
 	"name": "sandspire",
+	// urbanpixel.io Cloudflare account — set so `npm run deploy` picks the right
+	// account non-interactively when multiple accounts are logged in.
+	"account_id": "0436a7faa9a6e18914a54ba841be4cb9",
 	"compatibility_date": "2026-04-23",
 	"compatibility_flags": [
 		"nodejs_compat",
