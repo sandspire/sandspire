@@ -5,8 +5,6 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { ContactForm } from "@/components/sandspire/ContactForm";
 
-type SocialLink = { label: string; href: string };
-
 type Channel = {
   label: string;
   value: string;
@@ -35,16 +33,6 @@ function PhoneGlyph() {
     </svg>
   );
 }
-function InstagramGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" aria-hidden>
-      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" />
-    </svg>
-  );
-}
-
 function ArrowGlyph() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -58,18 +46,14 @@ export function ContactStudio({
   intro,
   phone,
   whatsappHref,
-  socialLinks,
 }: {
   headline: string;
   intro: string;
   phone: string;
   whatsappHref: string;
-  socialLinks: SocialLink[];
 }) {
   const reduce = useReducedMotion() ?? false;
   const cardRef = useRef<HTMLDivElement>(null);
-
-  const instagram = socialLinks.find((s) => s.label.toLowerCase().includes("instagram"));
 
   const channels: Channel[] = [
     {
@@ -84,16 +68,6 @@ export function ContactStudio({
       href: `tel:${phone.replace(/\s/g, "")}`,
       icon: <PhoneGlyph />,
     },
-    ...(instagram
-      ? [
-          {
-            label: "DM on Instagram",
-            value: "Slide into the DMs",
-            href: instagram.href,
-            icon: <InstagramGlyph />,
-          } as Channel,
-        ]
-      : []),
   ];
 
   // Pointer-tracked glow behind the form card (no re-renders; mutate CSS vars).

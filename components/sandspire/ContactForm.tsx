@@ -239,7 +239,7 @@ export function ContactForm({
             aria-describedby={hWa}
           />
           <span className={hintClass} id={hWa}>
-            Include country code (e.g. <span className="whitespace-nowrap text-[#b5aea3]">+971 56 198 0747</span>).
+            Include country code (e.g. <span className="whitespace-nowrap text-[#b5aea3]">+971 56 111 5586</span>).
             {fieldErrors.whatsapp ? (
               <span className="ml-1 text-rose-400/90" role="alert">
                 {fieldErrors.whatsapp}

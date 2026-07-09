@@ -43,7 +43,6 @@ export default async function ContactPage() {
         intro="Tell us what you do, where you are, and what you're trying to grow. We'll come back with a plan, a quote, and the ideas we'd shoot first. The form takes a minute. WhatsApp is faster."
         phone={site.phone}
         whatsappHref={whatsappHref}
-        socialLinks={site.footer.socialLinks}
       />
 
       {/* FAQ */}

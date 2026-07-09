@@ -13,6 +13,7 @@ type FooterLinkItem = { label: string; href: string };
 
 export type SandspireFooterProps = {
   navLinks?: FooterLinkItem[];
+  /** Accepted for API compatibility; the footer no longer renders a Follow column. */
   socialLinks?: FooterLinkItem[];
   ctaLabel?: string;
   ctaHref?: string;
@@ -101,7 +102,6 @@ function DubaiClock() {
 
 export function SandspireFooter({
   navLinks = siteContentDefaults.nav.links,
-  socialLinks = siteContentDefaults.footer.socialLinks,
   ctaLabel = "Start a project",
   ctaHref = "/contact",
   secondaryLabel = "See the work",
@@ -204,18 +204,6 @@ export function SandspireFooter({
               ))}
             </ul>
           </nav>
-
-          {/* Follow */}
-          <div className="lg:col-span-2">
-            <ColHeader>Follow</ColHeader>
-            <ul className="mt-4 flex flex-col items-start">
-              {socialLinks.map((l) => (
-                <li key={l.label}>
-                  <RollLink {...l} />
-                </li>
-              ))}
-            </ul>
-          </div>
 
           {/* Studio */}
           <div className="col-span-2 lg:col-span-3">

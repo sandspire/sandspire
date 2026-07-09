@@ -98,7 +98,7 @@ export const siteContentDefaults = {
     siteTitle: "Sandspire",
     siteDescription:
       "Sandspire is a creative studio in the UAE. We design websites, run social, and build AI that handles the busywork.",
-    phone: "+971 56 198 0747",
+    phone: "+971 56 111 5586",
     email: "",
   },
   nav: {
